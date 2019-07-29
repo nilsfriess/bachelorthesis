@@ -1,0 +1,86 @@
+\documentclass[
+11pt, 
+%oneside,
+english,
+onehalfspacing,
+nolistspacing, 
+%liststotoc, 
+%toctotoc, 
+parskip,
+headsepline,
+%chapterinoneline,
+consistentlayout,
+]{MastersDoctoralThesis}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc} 
+
+\usepackage{mathpazo} 
+
+\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex}
+\addbibresource{example.bib}
+
+\usepackage[autostyle=true]{csquotes}
+
+%------------------------------------------------------
+%	MARGIN SETTINGS
+%------------------------------------------------------
+
+\geometry{
+	paper=a4paper, 
+	inner=2.5cm,
+	outer=3.8cm,
+	bindingoffset=.5cm, 
+	top=1.5cm,
+	bottom=1.5cm,
+	%showframe,
+}
+
+%------------------------------------------------------
+%	THESIS INFORMATION
+%------------------------------------------------------
+
+\thesistitle{{Accelerating the Rayleigh quotient iteration with complex initial values\\ \rule{.3\linewidth}{.6pt} \\ Beschleunigen der Rayleigh-Quotient-Methode durch komplexe Startwerte}}
+\supervisor{Prof.~Dr.~Robert \textsc{Scheichl}}
+\author{Nils \textsc{Friess}}
+\university{Ruprecht-Karls-Universität Heidelberg\\Faculty of mathematics and computer science\\Institute of applied mathematics}
+
+\AtBeginDocument{
+\hypersetup{pdftitle=\ttitle}
+\hypersetup{pdfauthor=\authorname}
+\hypersetup{colorlinks=false}
+}
+
+\include{preamble}
+\include{mathsetup}
+
+\begin{document}
+
+\frontmatter
+
+\pagestyle{plain}
+
+\include{titlepage}
+\include{declaration}
+
+\cleardoublepage
+
+\include{abstract}
+
+\tableofcontents 
+\listoffigures 
+\listoftables
+
+\mainmatter%
+
+\pagestyle{thesis}
+
+\include{Chapters/Chapter1}
+
+
+\appendix 
+\include{Appendices/AppendixA}
+
+\printbibliography[heading=bibintoc]
+
+\end{document}  
