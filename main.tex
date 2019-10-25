@@ -4,21 +4,20 @@
 english,
 onehalfspacing,
 nolistspacing, 
-%liststotoc, 
-%toctotoc, 
+liststotoc, 
+toctotoc, 
 parskip,
 headsepline,
-%chapterinoneline,
+chapterinoneline,
 consistentlayout,
+%draft
 ]{MastersDoctoralThesis}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} 
 
-\usepackage{mathpazo} 
-
-\usepackage[backend=bibtex,style=authoryear,natbib=true]{biblatex}
-\addbibresource{example.bib}
+\usepackage[backend=bibtex,style=alphabetic,citestyle=alphabetic]{biblatex}
+\addbibresource{bibliography.bib}
 
 \usepackage[autostyle=true]{csquotes}
 
@@ -40,7 +39,7 @@ consistentlayout,
 %	THESIS INFORMATION
 %------------------------------------------------------
 
-\thesistitle{{Accelerating the Rayleigh quotient iteration with complex initial values\\ \rule{.3\linewidth}{.6pt} \\ Beschleunigen der Rayleigh-Quotient-Methode durch komplexe Startwerte}}
+\thesistitle{Rayleigh Quotient iteration with imaginary shifts}
 \supervisor{Prof.~Dr.~Robert \textsc{Scheichl}}
 \author{Nils \textsc{Friess}}
 \university{Ruprecht-Karls-Universität Heidelberg\\Faculty of mathematics and computer science\\Institute of applied mathematics}
@@ -49,6 +48,7 @@ consistentlayout,
 \hypersetup{pdftitle=\ttitle}
 \hypersetup{pdfauthor=\authorname}
 \hypersetup{colorlinks=false}
+\hypersetup{hidelinks=true}
 }
 
 \include{preamble}
@@ -68,15 +68,12 @@ consistentlayout,
 \include{abstract}
 
 \tableofcontents 
-\listoffigures 
-\listoftables
 
 \mainmatter%
 
 \pagestyle{thesis}
 
-\include{Chapters/Chapter1}
-
+\include{Chapters/Introduction}
 
 \appendix 
 \include{Appendices/AppendixA}
