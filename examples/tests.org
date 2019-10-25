@@ -1,0 +1,13 @@
+#+TITLE: Tests
+
+* TODO Close shift but bad initial vector
+  + Could use standard inverse iteration for a few steps (guaranteed to converge independent of initial vec)
+
+* TODO Bad shift but good initial vector
+  + Replace shift by Rayleigh quotient and either use standard inverse iteration or "normal" RQI
+
+* TODO Perturb vector by white noise
+
+* TODO Shift \lambda in between two eigenvalues
+
+* TODO Finite difference discretization of 2D Laplacian

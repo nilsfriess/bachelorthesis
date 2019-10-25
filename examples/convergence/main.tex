@@ -1,0 +1,84 @@
+\documentclass[12pt,a4paper, parskip=full]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage[light]{kpfonts}
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+\usepackage{float}
+\usepackage{booktabs}
+ 
+\include{mathsetup}
+
+\addtokomafont{section}{\rmfamily\scshape}
+
+\newcommand{\ie}{i.\,e.\ }
+\newcommand{\eg}{e.\,g.\ }
+
+\begin{document}
+\begin{example}
+  Consider the following real symmetric positive definite $4 \times 4$
+  matrix
+  \[
+    \mat{A} = 25 \cdot \diag(-1,2,-1) =
+    \begin{pmatrix}
+      50 & -25 &   0 &   0  \\
+      -25 &  50 & -25 &   0  \\
+      0  & -25 &  50 & -25  \\
+      0  &   0 & -25 &  50 \\
+    \end{pmatrix}
+  \]
+  that arises, for example, when discretizing a 1D Laplacian by finte
+  differences.
+
+  Suppose we want to numerically compute a specific eigenpair of
+  $\mat{A}$ using the Rayleigh-Quotient iteration.
+
+  The eigenpairs $(\lambda_i, \vec{v}_i)$, $i = 1, \dotsc, 4$, of
+  $\mat{A}$ can be computed analytically. The eigenvalues in
+  increasing order of magnitude are
+  \begin{equation}
+    \label{eq:eigenvals}
+    \lambda_1 = 9.549, \quad \lambda_2 = 34.5492, \quad \lambda_3 = 65.4508, \quad \lambda_4 = 90.4508
+  \end{equation}
+  with associated normalised eigenvectors such that $\norm{v_i}_2 = 1$
+  \begin{equation}
+    \label{eq:eigvecs}
+    \vec{v}_1 = \begin{pmatrix} 0.3717 \\ 0.6015 \\ 0.6015 \\ 0.3717 \end{pmatrix}, \quad
+    \vec{v}_2 = \begin{pmatrix} 0.6015 \\ 0.3717 \\ -0.3717 \\ -0.6015 \end{pmatrix}, \quad
+    \vec{v}_3 = \begin{pmatrix} 0.6015 \\ -0.3717 \\ -0.3717 \\ 0.6015 \end{pmatrix}, \quad
+    \vec{v}_4 = \begin{pmatrix} 0.3717 \\ -0.6015 \\ 0.6015 \\ -0.3717 \end{pmatrix} \,.
+  \end{equation}
+  Now consider the Rayleigh quotient iteration. Suppose we want to
+  compute the second eigenpair but we only have an approximation of
+  the eigenvalue but not of the eigenvector. If we chose $\sigma = 35$
+  as the initial shift and $x = (0.5 \ 0.5 \ 0.5 \ 0.5)^\tp$ we get
+  the following results after the first four iterations:
+  \begin{table}[H]
+    \centering
+    \begin{tabular}{ccc}
+      Iteration & Eigenvalue approx.  & Eigenvector approx. \\ \toprule
+      0         & $35$                & $(0.5 , 0.5 , 0.5 , 0.5)^\tp$ \\
+      1         & $11.6438$           & $(-0.2483 , -0.6621 , -0.6621 , -0.2483)^\tp$ \\
+      2         & $9.5524$            & $(0.3764 , 0.5986 , 0.5986 , 0.3764)^\tp$ \\
+      3         & $9.5492$            & $( -0.3717 , -0.6015 , -0.6015 , -0.3717)^\tp$ \\
+      4         & $9.5492$            & $(0.3717 , 0.6015 , 0.6015 , 0.3717)^\tp$
+    \end{tabular}
+  \end{table}
+  Even tough the initial eigenvalue aproximation was very good the
+  algorithm converges to a different eigenvector. This is due to the
+  fact, that the initial eigenvalue approximation is very good
+  already.
+\end{example}
+
+Ideas:
+\begin{itemize}
+\item Plot unit circle
+\item Plot random rqi initvecs and color them by eigenvalue the converged to
+\end{itemize}
+
+\end{document}

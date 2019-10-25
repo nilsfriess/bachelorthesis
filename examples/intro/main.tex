@@ -1,0 +1,160 @@
+
+\documentclass[12pt,a4paper, parskip=full]{scrartcl}
+
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{microtype}
+\usepackage[light]{kpfonts}
+
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{bm}
+
+\theoremstyle{definition}
+\newtheorem{example}{Example} 
+
+\include{mathsetup}
+
+\addtokomafont{section}{\rmfamily\scshape}
+
+\newcommand{\ie}{i.\,e.\ }
+\newcommand{\eg}{e.\,g.\ }
+
+\begin{document}
+
+\section*{Introduction}
+We consider the symmetric eigenvalue problem, \ie given a symmetric
+matrix $A \in \R^{n \times n}$ we want to find $0 \neq x \in \R^{n}$
+and $\lambda \in \R$ such that
+\begin{equation}
+  \label{eq:eigenproblem}
+  Ax = \lambda x \,.
+\end{equation}
+We assume that $A$ is positive definite which implies, since $A$ is
+also symmetric, that all eigenvalues of $A$ are positive. In the
+following we are especially interested in finding \emph{interior}
+eigenvalues of $A$. By this we mean that if the eigenvalues of $A$ are
+labeled in decreasing order of magnitude
+$\abs{\lambda_1} \ge \abs{\lambda_2} \ge \dotsc \ge \abs{\lambda_n}$ we are
+looking for $\lambda_k$ where $1 < k < n$.
+
+\begin{example}[Structural mechanics, discretization of PDEs]
+  This example describes an eigenvalue problem that naturally arises
+  in the investigation of resonance frequencies\footnote{This example is
+  taken from~\cite{}}. We consider the
+  oscillations of a string of unit length.
+
+  Consider the Poisson
+  equation
+  \begin{equation}
+    \label{eq:poisson}
+    - \Delta u = f \quad \text{in } \Omega, \qquad u = 0 \quad \text{on } \partial \Omega \,,
+  \end{equation}
+  posed on a domain $\Omega \subset \R^n$. We will now consider the
+  one-dimensional case, \ie $n = 1$, with $\Omega =
+  (0,1)$. Equation~\eqref{eq:poisson} then simplifies to
+  \begin{equation}
+    \label{eq:poisson:1D}
+    \begin{aligned}
+      -u^{\prime \prime}(x) &= f(x) \qquad \text{ for all } x \in (0,1) \,, \\
+      u(0) = u(1) &= 0 \,.
+    \end{aligned}
+  \end{equation}
+  Taylor expansion of $u$ around some $x \in (0,1)$ yields the
+  \emph{central finite difference quotient}
+  \[
+    u^{\prime \prime}(x) = \frac{u(x+h) - 2u(x) + u(x-h)}{h^2} +
+    \mathcal{O}(h^2).
+  \]
+  If we only consider~\eqref{eq:poisson:1D} in the discrete mesh
+  points $x_i = ih$, $i = 1, \dotsc, m-1$, for $h = m^{-1}$ and
+  neglect the $\mathcal{O}(h^2)$ term in the approximation of
+  $u^{\prime \prime}$ we can approximate~\eqref{eq:poisson:1D} by
+  \begin{equation}
+    \label{eq:poisson:approx}
+    \frac{1}{h^2}(-u_{i-1} + 2u_i - u_{i+1}) = f(x_i)\,,
+  \end{equation}
+  where $u_i \coloneqq u(x_i)$ and $u_0 = u_m = 0$. This leads to the
+  following system of linear equations
+  \begin{equation}
+    \label{eq:poisson:sle}
+    \mat{A}u \coloneqq \frac{1}{h^2}
+    \begin{pmatrix}
+      2      & -1     & 0      & \dotsm & \dotsm & 0 \\
+      -1     &  2     & -1     & 0      & \dotsm & 0 \\
+      0      & -1     & 2      & \ddots & \ddots & \vdots \\
+      \vdots & \ddots & \ddots & \ddots & 2      & -1 \\
+      0 & \dotsm & \dotsm & 0 & -1 & 2
+    \end{pmatrix}
+    \begin{pmatrix}
+      u_1 \\ u_2 \\ \vdots \\ u_{m-2} \\ u_{m-1}
+    \end{pmatrix}
+    =
+    \begin{pmatrix}
+      b_1 \\ b_2 \\ \vdots \\ b_{m-2} \\ b_{m-1}
+    \end{pmatrix}
+    \coloneqq
+    \begin{pmatrix}
+      f(x_1) \\ f(x_2) \\ \vdots \\ f(x_{m-2}) \\ f(x_{m-1})
+    \end{pmatrix} \,.
+  \end{equation}
+  Obviously $\mat{A}$ is symmetric. Since it is also strictly
+  diagonally dominant with positive entries on the diagonal it follows
+  that it is positive definite.
+\end{example}
+
+% \subsection*{Inverse iteration}
+% We start by revisiting the idea of the inverse iteration algorithm.
+% This method allows us to compute arbitrary eigenvalues of $A$. Assume
+% for a moment that $A$ is non-singular. Then $\lambda$ is an eigenvalue
+% of $A$ if and only if $\lambda^{-1}$ is an eigenvalue of $A^{-1}$,
+% since for all $\lambda \in \R \setminus \{0\}$ and $x \in \R^n$
+% \begin{equation}
+%   \label{eq:eigenvalue:inverse}
+%   Ax = \lambda x \iff x = \lambda A^{-1}x \iff \lambda^{-1} x = A^{-1}
+%   x \,.
+% \end{equation}
+% From this fact it follows immediatly that the power method applied to
+% $A^{-1}$ should yield a sequence of vectors converging to the
+% eigenvalue in modulus if
+% \[
+%   \abs{\lambda_1} < \abs{\lambda_2} \le \dotsc \le \abs{\lambda_n} \,.
+% \]
+% To compute arbitrary eigenvalues we introduce a \emph{shift parameter}
+% $\sigma \in \R$ and consider the matrix $A - \sigma \I$, where we
+% denote by $\I$ the identity matrix. If we consider its eigenvalues we
+% observe that they are ``shifted'', \ie
+% \[
+%   Ax = \lambda x \iff (A - \sigma \I)x = (\lambda - \sigma)x \qquad
+%   \text{for all } \sigma \in \R,\ x \in \R^n \,.
+% \]
+% Together with~\eqref{eq:eigenvalue:inverse} this yields
+% \[
+%   Ax = \lambda x \iff \frac{1}{\lambda - \sigma} x = (A - \sigma
+%   \I)^{-1} x \qquad \lambda \in \R \setminus \{ \sigma \},\ x \in \R^n
+%   \,.
+% \]
+% To compute interior eigenvalues of $A$ we can use this by applying the
+% power iteration to the inverse of the matrix $A - \sigma \I$. If
+% instead of using a constant shift parameter we instead use an
+% approximation gained by the \emph{Rayleigh quotient} we arrive at the
+% following algorithm.
+
+% \subsection*{Rayleigh quotient iteration}
+% The Rayleigh quotient iteration is based on the inverse iteration
+% discussed above.  However, instead of using a constant shift we
+% introduce the \emph{Rayleigh quotient}
+% \[
+%   \mathcal{R}_A(x) \coloneqq \mathcal{R}(x) \coloneqq
+%   \frac{x^\intercal A x}{x^\intercal x}
+% \]
+% and use its value as a shift parameter in every step, where $x$ is the
+% current approximated eigenvector. This is justified by the fact that if
+% $x$ is an eigenvector if $A$ we have
+% \[
+%   \mathcal{R}(x) = \frac{x^\intercal A x }{x^\intercal x} = \frac{x^\intercal \lambda x}{x^\intercal x} = \lambda \,,
+% \]
+% and even if $x$ is not an eigenvector it can be shown that $\mathcal{R}(x)$ is a unique solution to the least squares problem $\mathcal{R}(x) = \argmin_{\mu \in \R} \norm{Ax - \mu x}^2$.
+
+\end{document}
