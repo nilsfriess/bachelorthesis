@@ -1,83 +1,34 @@
 \documentclass[
-11pt, 
-%oneside,
-english,
-onehalfspacing,
-nolistspacing, 
-liststotoc, 
-toctotoc, 
-parskip,
-headsepline,
-chapterinoneline,
-consistentlayout,
-%draft
-]{MastersDoctoralThesis}
+fontsize=12pt,
+paper=a4,
+BCOR = 5mm,
+DIV = calc,
+numbers=noenddot,
+headsepline
+]{scrreprt}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc} 
 
-\usepackage[backend=bibtex,style=alphabetic,citestyle=alphabetic]{biblatex}
-\addbibresource{bibliography.bib}
+\usepackage[backend=bibtex,style=alphabetic]{biblatex}
+\addbibresource{bibliography.bib} 
 
-\usepackage[autostyle=true]{csquotes}
-
-%------------------------------------------------------
-%	MARGIN SETTINGS
-%------------------------------------------------------
-
-\geometry{
-	paper=a4paper, 
-	inner=2.5cm,
-	outer=3.8cm,
-	bindingoffset=.5cm, 
-	top=1.5cm,
-	bottom=1.5cm,
-	%showframe,
-}
-
-%------------------------------------------------------
-%	THESIS INFORMATION
-%------------------------------------------------------
-
-\thesistitle{Rayleigh Quotient iteration with imaginary shifts}
-\supervisor{Prof.~Dr.~Robert \textsc{Scheichl}}
-\author{Nils \textsc{Friess}}
-\university{Ruprecht-Karls-Universität Heidelberg\\Faculty of mathematics and computer science\\Institute of applied mathematics}
-
-\AtBeginDocument{
-\hypersetup{pdftitle=\ttitle}
-\hypersetup{pdfauthor=\authorname}
-\hypersetup{colorlinks=false}
-\hypersetup{hidelinks=true}
-}
-
+\include{meta}
 \include{preamble}
 \include{mathsetup}
 
+\pagestyle{scrheadings}
+
 \begin{document}
 
-\frontmatter
-
-\pagestyle{plain}
-
 \include{titlepage}
-\include{declaration}
+%\include{abstract}
 
-\cleardoublepage
-
-\include{abstract}
-
-\tableofcontents 
-
-\mainmatter%
-
-\pagestyle{thesis}
-
+%\tableofcontents 
 \include{Chapters/Introduction}
 
-\appendix 
+\appendix  
 \include{Appendices/AppendixA}
 
-\printbibliography[heading=bibintoc]
-
+\printbibliography%
 \end{document}  

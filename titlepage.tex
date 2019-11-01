@@ -1,34 +1,16 @@
 
 \begin{titlepage}
-\begin{center}
-
-\vspace*{.06\textheight}
-{\scshape\large \univname\par}\vspace{1.5cm}
-\textsc{\Large Bachelor thesis}\\[0.5cm]
-
-\HRule \\[0.4cm]
-{\huge \bfseries \ttitle\par}\vspace{0.4cm} 
-\HRule \\[1.5cm] 
- 
-\begin{minipage}[t]{0.4\textwidth}
-\begin{flushleft} \large
-\emph{Author:}\\
-\authorname
-\end{flushleft}
-\end{minipage}
-\begin{minipage}[t]{0.4\textwidth}
-\begin{flushright} \large
-\emph{Supervisor:} \\
-\supname
-\end{flushright}
-\end{minipage}\\[3cm]
- 
-\vfill
-
-{\large \today}\\[4cm]
- 
-\vfill
-\end{center}
+  \raggedleft
+  \rule{1pt}{\textheight} % Vertical line
+  \hspace{0.05\textwidth} % Whitespace between the vertical line and title page text
+  \parbox[b]{0.85\textwidth}{
+    {\scshape \university\par}\vspace{2.5cm}
+    {\Large\bfseries \thesistitle}\\[2\baselineskip] % Title
+    {\emph{Bachelor Thesis}}\\[6.5cm]
+    {Author: \scshape\thesisauthor}\\[0.5\baselineskip]
+    {Supervisor: \scshape\supervisor}\\[1.5\baselineskip]
+    {Submitted: \today}\\[0.7cm]
+  }
 \end{titlepage}
 %%% Local Variables:
 %%% mode: latex

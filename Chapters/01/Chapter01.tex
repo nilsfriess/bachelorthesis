@@ -1,0 +1,109 @@
+\chapter{Introduction}
+In this chapter, we introduce the general problem by discussing an
+example that naturally arises in different physical applications. We
+will then define that basic notion of the Rayleigh quotient and derive
+the Rayleigh quotient iteration (RQI) algorithm. Finally, we provide
+an overview of the historic developments of RQI and give a summary of
+important results concerning the numerical analysis of RQI.
+\section{Motivation}
+
+\section{General problem}
+We will now formulate the abstract problem that was derived in the
+last section. To that end, we will give a few basics facts and
+definitions from linear algebra.
+\begin{definition}
+  Let $\mat{A} \in \R^{n \times n}$ be a real matrix. A scalar
+  $\lambda \in \C$ is called \emph{eigenvalue} of $\mat{A}$ if there
+  exists a nonzero vector $v \in \C^n$ such that
+  \begin{equation}
+    \label{eq:eigvalproblem}
+    \mat{A}\vec{v} = \lambda \vec{v}\,.
+  \end{equation}
+  The vector $\vec{v}$ is called an \emph{eigenvector} of $\mat{A}$
+  associated with $\lambda$. The tuple $(\lambda, \vec{v})$ is called
+  an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
+  called the \emph{spectrum} and is denoted by $\sigma(\mat{A})$.
+\end{definition}
+In the following proposition we combine some basic facts on
+eigenvalues and eigenvectors of symmetric matrices.
+\begin{proposition}
+  Let $\mat{A} \in \R^{n \times n}$ be a symmetric matrix. Denote by
+  $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the eigenvalues of
+  $\mat{A}$ with associated eigenvectors
+  $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \begin{enumerate}[label=(\arabic*)]
+  \item All eigenvalues of $\mat{A}$ are real.
+  \item Eigenvectors of $\mat{A}$ form a basis of $\R^n$. Eigenvectors
+    $\vec{v}_i$ and $\vec{v}_j$ to two distinct eigenvalues
+    $\lambda_i$ and $\lambda_j$ are orthogonal. Hence, after
+    normalisation, we can choose eigenvectors of $\mat{A}$ that form
+    an orthonormal basis of $\R^n$.
+  \item If $\mat{A}$ is non-singular the eigenvalues of $\mat{A}^{-1}$
+    are given by $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with
+    eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \item Let $\sigma \in \R$ an arbitrary scalar. Then the eigenvalues
+    of $\mat{A} - \sigma \mat{I}$ are $\lambda_i - \sigma$ with
+    eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \end{enumerate}
+\end{proposition}
+The eigenvalues $\lambda_1$ and $\lambda_n$ are called \emph{extreme}
+eigenvalues. The remaining eigenvalues
+($\lambda_2, \dotsc, \lambda_{n-1}$) are called \emph{interior}
+eigenvalues.
+
+A well-known fact from linear algebra states that all eigenvalues
+$\{\lambda_1, \lambda_2, \dotsc, \lambda_n\}$ of symmetric matrices,
+\ie $\mat{A} = \mat{A}^\tp$, are real and that there exist
+eigenvectors $\{\vec{v}_1, \vec{v}_2, \dotsc, \vec{v}_n\}$ that form
+an orthogonal basis of $\R^n$.
+
+We will often make the assumption that $\mat{A}$ is positive definite,
+denoted by $\mat{A} > 0$, which implies that all eigenvalues are
+positive. Usually, the eigenvalues will be labeled in ascending order
+of magnitude, \ie if $\mat{A} > 0$ holds then
+\[
+  0 < \lambda_1 \le \lambda_2 \le \dotsc \le \lambda_n \,.
+\]
+
+\section{Iterative methods for eigenvalue problems}
+In this section we introduce the \emph{power method}, one of the most
+simple methods to compute eigenpairs of symmetric matrices. By simply
+altering the initial matrix $\mat{A}$ in the power method we arrive at
+the \emph{inverse iteration} that allows us to compute eigenvalues
+close to a given value. This will then directly lead us to the
+\emph{Rayleigh Quotient Iteration} (or \emph{RQI}, for short).
+\subsection{Power method}
+% Troughout the entire thesis we will follow the notation
+% from~\cite{Parlett1998}.
+The power method is based on generating the sequence
+$\mat{A}^k \vec{v}_0$ where $\vec{v}_0$ is a non-zero unit vector. Of
+course, $\mat{A}^k$ does not have to be computed explicitly since
+\[
+  \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
+  \vec{x})\dotsc))\,.
+\]
+The sequence $\vec{v}_k$ as generated in
+Algorithm~\ref{alg:power:method} convergences to the eigenvector
+associated with the eigenvalue $\lambda_n$ (under the assumption that
+$\lambda_n$ is the unique dominant eigenvalue, cf.~\cite[Theorem
+4.2.1]{Parlett1998}). 
+\begin{algorithm}
+  \DontPrintSemicolon%
+  \KwData{Nonzero unit vector $\vec{v}_0$}
+  \For{$k = 1,2, \dotsc$ until convergence}{
+    $\vec{\tilde{v}}_k \gets \mat{A} \vec{v}_{k-1}$\;
+    $\vec{v}_k \gets \vec{\tilde{v}}_k / \norm{\vec{\tilde{v}}_k}$\;
+  } 
+  \caption{Power method}\label{alg:power:method}
+\end{algorithm}
+
+\subsection{Inverse Iteration}
+To compute the eigenvector associated to the smallest eigenvalue $\lambda_1$
+
+\section{History}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:

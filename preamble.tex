@@ -1,20 +1,47 @@
-% \usepackage[light]{kpfonts}
+\usepackage{newpxtext}
+\usepackage[euler-digits]{eulervm}
+\usepackage{microtype}
+\recalctypearea
+
+\usepackage[automark]{scrlayer-scrpage}
+\usepackage{setspace}
+\onehalfspacing
+
+%------------------------------------------------------
+%	LAYOUT
+% -----------------------------------------------------
+\automark[section]{chapter}
+
+\usepackage[hidelinks]{hyperref}  
+\hypersetup{pdftitle={Rayleigh Quotient Iteration}}
+\hypersetup{pdfauthor={Nils Friess}}
+\hypersetup{colorlinks=false}
+
+% MATH PACKAGES
 \usepackage{mathtools}
 \usepackage{amsthm}
 \usepackage{amssymb}
-
-\usepackage{newpxtext,newpxmath}
-\usepackage{microtype}
-
-\usepackage{mathrsfs}
-\newcommand{\bmmax}{2}
 \usepackage{bm}
 
+% OTHER PACKAGES
 \usepackage{todonotes}
 \usepackage[ruled,vlined,resetcount,algochapter]{algorithm2e}
+\SetKwInput{KwData}{Input}
 
+\usepackage{enumitem}
+
+% NEW DEFINITIONS AND OTHER SETUP
+\newcommand{\HRule}{\rule{.9\linewidth}{.6pt}}
+
+\addtokomafont{disposition}{\rmfamily}
+
+%------------------------------------------------------
+%	ABBREVIATIONS
+% -----------------------------------------------------
 \newcommand{\ie}{i.\,e.\ }
 \newcommand{\eg}{e.\,g.\ }
+\newcommand{\wrt}{w.\,r.\,t.\ }
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main" 
