@@ -1,0 +1,86 @@
+\section{The Rayleigh Quotient}
+Recall the general problem: Given approximations of an eigenvector of
+a symmetric matrix $\mat{A} = \mat{A}^\tp \in \R^{n \times n}$ we want
+to compute the exact eigenvector and associated eigenvalue. In
+Section~\ref{sec:iterative_algorithms} we briefly introduced iterative
+methods for computing eigenpairs, including the Rayleigh Quotient
+Iteration. There, we defined the \emph{Rayleigh Quotient} (\wrt the
+matrix $\mat{A}$) as a function that maps a vector $\vec{x} \in \R^n$
+to the scalar
+\[
+  \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}} \,,
+\]
+to replace the fixed shift in the shifted inverse iteration. This is
+motivated by the following fact.
+\begin{lemma}
+  Let $\vec{x} \in \R^n \setminus \{ \vec{0} \}$ and define the
+  function $f : \R \rightarrow \R$ by
+  \[
+    f(\lambda) := \norm{(\mat{A} - \lambda \mat {I}) \vec{x}}_2^2 \,.
+  \]
+  The function $f$ becomes minimal for
+  $\lambda = \mathcal{R}_{\mat{A}}(x)$ with value
+  \begin{equation}
+    \label{eq:minmal_function_value}
+    f(\mathcal{R}_{\mat{A}}(x)) = \norm{\mat{A} \vec{x}}_2^2 -
+    {\mathcal{R}_{\mat{A}}(x)}^2 \norm{x}_2^2 \,.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  First, note that
+  \[
+    f(\lambda) = \norm{\mat{A}\vec{x} - \lambda \vec{x}}_2^2 =
+    \norm{\mat{A}\vec{x}}_2^2 - 2 \lambda \vec{x}^\tp\mat{A}\vec{x} +
+    \lambda^2\norm{x}_2^2 \,.
+  \]
+  Differentiating this function gives
+  \[
+    f^\prime(\lambda) = -2 \vec{x}^\tp \mat{A} \vec{v} + 2 \lambda
+    \norm{x}_2^2
+  \]
+  and letting $f^\prime(\lambda) = 0$ we obtain the only root
+  \[
+    \lambda = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\norm{x}_2^2} =
+    \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}} =
+    \mathcal{R}_{\mat{A}}(\vec{x}) \,.
+  \]
+  Since $f^{\prime \prime}(\lambda) = 2 \norm{\vec{x}}_2^2 > 0$ this
+  is a minimum and inserting it into $f$ yields the value as given
+  in~\eqref{eq:minmal_function_value}.
+\end{proof}
+
+This motivates us to interpret the Rayleigh Quotient as the value that
+``acts most like an eigenvalue'' for $\vec{x}$ in the sense of
+minimizing $\norm{\mat{A}\vec{x} - \lambda \vec{x}}_2$. To make this
+claim more quantitative, first notice that if $\vec{x}$ is an
+eigenvector, then $\mathcal{R}_{\mat{A}}(\vec{x}) = \lambda$ is the
+corresponding eigenvalue. Taylor expansion of $\mathcal{R}_{\mat{A}}$
+around $\vec{x} = \vec{v}_j$, where $\vec{v}_j$ is the eigenvector
+associated with the $j$-th eigenvalue, yields
+\begin{equation}
+  \label{eq:rq:taylor}
+  \mathcal{R}_{\mat{A}}(\vec{x}) = \mathcal{R}_{\mat{A}}(\vec{q}_j) + {(\vec{x} - \vec{q}_j)}^\tp \nabla \mathcal{R}_{\mat{A}}(\vec{q}_j) + \O(\norm{\vec{x} - \vec{q}_j}^2_2) \,.
+\end{equation}
+To compute the gradient $\nabla \mathcal{R}_{\mat{A}}(\vec{x})$ we
+compute the partial derivatives \wrt to the coordinates $\vec{x}_i$,
+$i = 1, \dotsc, n$, of $\vec{x}$ using the quotient rule
+\[
+  \partial_i \mathcal{R}_{\mat{A}}(\vec{x}) = \partial_i \left(
+    \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}} \right) =
+  \frac{\partial_i (\vec{x}^\tp \mat{A} \vec{x}) \vec{x}^\tp \vec{x} -
+    \vec{x}^\tp \mat{A} \vec{x} \, \partial_i \left( \vec{x}^\tp
+      \vec{x} \right)}{{\left( \vec{x}^\tp \vec{x} \right)}^2} \,,
+\]
+where we used the abbreviation
+$\partial_i = \frac{\partial}{\partial \vec{x}_i}$. The first part of
+the nominator can be computed using the product rule
+\begin{align*}
+  \partial_i \left( \vec{x}^\tp \mat{A} \vec{x} \right) &= \partial_i \left( \vec{x}^\tp  \right) \, \mat{A}\vec{x} + \vec{x}^\tp \partial_i \left( \mat{A} \vec{x} \right) \\
+                                                        &= \vec{e}_i^\tp \mat{A}\vec{x} + \vec{x}^\tp \mat{A} \vec{e}_i \\
+                                                        &= \vec{e}_i \mat{A} \vec{x} + \mat{A}^\tp \vec{x} \vec{e}_i \\
+                                                        &= 2 \mat{A} \vec{x} \vec{e}_i = 2 {(\mat{A} \vec{x})}_i \,.
+\end{align*}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:

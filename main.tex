@@ -2,13 +2,15 @@
 fontsize=12pt,
 paper=a4,
 BCOR = 5mm,
-DIV = calc,
+DIV = 9,
 numbers=noenddot,
-headsepline
+headsepline,
+parskip=half,
+%draft
 ]{scrreprt}
 
 \usepackage[utf8]{inputenc}
-\usepackage[T1]{fontenc} 
+\usepackage[T1]{fontenc}
 
 \usepackage[backend=bibtex,style=alphabetic]{biblatex}
 \addbibresource{bibliography.bib} 
@@ -19,13 +21,21 @@ headsepline
 
 \pagestyle{scrheadings}
 
+% DRAFT PACKAGES
+\usepackage{showlabels}
+
 \begin{document}
 
 \include{titlepage}
-%\include{abstract}
+% \include{abstract}
+
+\cleardoublepage
+\tableofcontents
 
 %\tableofcontents 
-\include{Chapters/Introduction}
+\include{Chapters/01/Chapter01}
+\include{Chapters/02/Chapter02}
+\include{Chapters/03/Chapter03}
 
 \appendix  
 \include{Appendices/AppendixA}
