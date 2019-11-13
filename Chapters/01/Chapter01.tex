@@ -23,6 +23,12 @@ definitions from linear algebra.
   an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
   called the \emph{spectrum} and is denoted by $\sigma(\mat{A})$.
 \end{definition}
+Rewriting~\eqref{eq:eigvalproblem} gives
+$\mat{A}\vec{v} - \lambda \vec{v} = 0$ or
+$(\mat{A} - \lambda \mat{I}) \vec{v} = 0$. That is, $\lambda$ is an
+eigenvalue of $\mat{A}$ if, and only if, the matrix
+$\mat{A} - \lambda \mat{I}$ is signular.
+
 In the following proposition we combine some basic facts on
 eigenvalues and eigenvectors. The results are shown under the
 assumption that $\mat{A} \in \C^{n \times n}$ is a complex Hermitian
@@ -34,8 +40,13 @@ particular for real symmetric matrices.
   \label{prop:eigval:facts}
   Let $\mat{A} = \overline{\mat{A}}^\tp \in \C^{n \times n}$ be a
   Hermitian matrix. Denote by
-  $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the eigenvalues of
-  $\mat{A}$ with associated eigenvectors
+  $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the
+  eigenvalues\footnote{Of course, the eigenvalues need not to be
+    distinct. But since the eigenvalues of $\mat{A}$ are the roots of
+    the $n$-degree polynomial $\det(\mat{A} - t \mat{I})$, when
+    counting these roots with their multiplicity, this polynomial has
+    $n$ roots over $\C$. Thus, we can label the eigenvalues from $1$
+    to $n$.} of $\mat{A}$ with associated eigenvectors
   $\vec{v}_1, \dotsc, \vec{v}_n$.
   \begin{enumerate}[label=(\roman*)]
   \item All eigenvalues of $\mat{A}$ are real.
@@ -107,7 +118,7 @@ Given an eigenvalue $\lambda$ and an associated eigenvector $\vec{v}$
 we then have
 \[
   \lambda = \vec{v}^\tp \lambda \vec{v} = \vec{v}^\tp \mat{A} \vec{v}
-  > 0 \,.
+  > 0 \,,
 \]
 \ie eigenvalues of symmetric positive definite matrices are positive.
 
@@ -177,22 +188,46 @@ each step. We summarise the results in Algorithm~\ref{alg:sii}.
   } 
   \caption{Shifted inverse iteration}\label{alg:sii}
 \end{algorithm}
+This algorithm will always converge to the eigenvector that
+corresponds to the eigenvalue closest to $\sigma$ and convergence is
+also quadratic.
+
+\begin{example}
+  Consider the matrix
+  \[
+    \mat{A} =
+    \begin{pmatrix}
+      1 & 2 & 3 \\
+      2 & 4 & 6 \\
+      3 & 6 & 8
+    \end{pmatrix}.
+  \]
+  \todo{Example of Power method and inverse iteration}
+\end{example}
+Since at each step, better approximations for the target eigenvector
+are computed, one could try to obtain approximations to associated
+eigenvalue and replace the initial shift with this approximations.
+
+One way to obtain such eigenvalue approximations are introduced in the
+next section.
 
 \subsection{Rayleigh Quotient Iteration}
-
+Here, we only briefly introduce the Rayleigh quotient and the Rayleigh
+Quotient Iteration. A rigorous motivation and study is given in
+Chapter~\ref{chapter:rqi}.
 \begin{definition}[Rayleigh quotient]
-  Let $\mat{A} \in \R^{n \times n}$. The mapping
+  Let $\mat{A} \in \C^{n \times n}$. The mapping
   \[
-    \mathcal{R}_{\mat{A}} : \R^n \setminus \{\vec{0}\} \rightarrow \R,
-    \qquad \vec{x} \mapsto \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp
-      \vec{x}}
+    \mathcal{R}_{\mat{A}} : \C^n \setminus \{\vec{0}\} \rightarrow \C,
+    \qquad \vec{x} \mapsto \frac{\vec{x}^H \mat{A}
+      \vec{x}}{\vec{x}^H \vec{x}}
   \]
   is called the \emph{Rayleigh quotient} corresponding to the matrix
   $\mat{A}$.
 \end{definition}
 
 \section{History}
-In this section we present several publications that contributed towards the Rayleigh Quotient iteration.\todo{Formulierung}
+In this section we present several publications that contributed towards the Rayleigh Quotient iteration.
 
 
 %%% Local Variables:

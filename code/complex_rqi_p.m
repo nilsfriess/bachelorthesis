@@ -1,4 +1,4 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi(a,x,sigma,gamma,tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi_p(a,x,sigma,gamma,tolerance)
 % complex_rqi   Computes an eigenpair of a using the complex Rayleigh 
 % quotient iteration
 %
@@ -29,7 +29,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi(
     iterations = 0;
 
     while gamma >= tolerance
-        x = (a - (sigma - gamma*1i)*eye(m)) \ x;
+        x = (a - (sigma + gamma*1i)*eye(m)) \ x;
         x = x / norm(x);
         % x = real(x);
         sigma = x' * a * x;

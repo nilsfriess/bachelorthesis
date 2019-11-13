@@ -1,1 +1,110 @@
 \chapter{Complex Rayleigh Quotient Iteration}
+Recall, that since the eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$ of
+$\mat{A}$ form an orthonormal basis of $\R^n$, we can write every
+$\vec{u} \in \R^n$ as
+\[
+  \vec{u} = \sum_{i=1}^n \alpha_i \vec{v}_i
+\]
+for certain $\alpha_1, \dotsc, \alpha_n \in \R$. Suppose now, that
+$\vec{u}$ is a good approximation for one of the eigenvectors, say for
+$\vec{v}_k$, \ie
+\[
+  \alpha_k \approx 1 \qquad \text{and} \qquad \alpha_j \approx 0 \
+  \text{for } j \neq k \,.
+\]
+Hence, due to the pairwise orthogonality of the eigenvectors
+\begin{equation}
+  \label{eq:guess_orthogonal}
+  \vec{u}^\tp \vec{v}_j \approx
+  \begin{cases}
+    0 & \text{ if } j \neq k \,, \\
+    1 & \text{ if } j = k \,.
+  \end{cases}
+\end{equation}
+As we have seen before, even good approximations of eigenvectors can
+lead to convergence to the wrong eigenpair when the gap between the
+wanted eigenvalue and eigenvalues nearby is very small.
+% used as an initial guess in the classic Rayleigh Quotient Iteration.
+We can use~\eqref{eq:guess_orthogonal} to alter the spectrum of
+$\mat{A}$ in such a way that the eigenvalue of $\mat{A}$ corresponding
+to $\vec{v}_k$ is ``raised'' out of the spectrum, increasing the
+distance to adjacent eigenvalues.
+
+% Recall, that all eigenvalues of $\mat{A}$ are real since $\mat{A}$
+% is symmetric.
+First, observe that given a vector $\vec{x}$, the projection of
+$\vec{x}$ onto than span of a unit vector $\vec{u}$ is
+\[
+  (\vec{u}^\tp \vec{x})\vec{u} = \vec{u}(\vec{u}^\tp \vec{x})=(\vec{u}
+  \vec{u}^\tp) \vec{x}\,,
+\]
+Hence the orthogonal complement is
+\[
+  \vec{x} - (\vec{u}^\tp \vec{x}) \vec{u} = \vec{x} - (\vec{u}
+  \vec{u}^\tp) \vec{x} = (\mat{I} - \vec{u} \vec{u}^\tp) \vec{x} \,.
+\]
+Now, consider the matrix
+$\tilde{\mat{A}} \coloneqq \mat{A} - \gamma i ( \mat{I} - \vec{u}
+\vec{u}^\tp)$ where $\gamma > 0$ is an arbitrary real number and $i$
+denotes the imaginary unit. If $\vec{u} = \vec{v}_k$ was an
+eigenvector of $\mat{A}$ we would have
+\begin{align*}
+  \tilde{\mat{A}}\vec{v}_j &= \left(  \mat{A} - \gamma i ( \mat{I} - \vec{v}_k
+                             \vec{v}_k^\tp) \right) \vec{v}_j \\
+                           &= \mat{A} \vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \vec{v}_k^\tp \vec{v}_j \\
+                           &= (\lambda_j - \gamma i)\vec{v}_j + \gamma i \delta_{kj} \vec{v}_k \,,
+\end{align*}
+where $\delta_{kj}$ denotes the Kronecker delta. In other words, if
+$j \neq k$, we have
+\[
+  \tilde{\mat{A}} \vec{v}_j = (\lambda_j - \gamma i)\vec{v}_j
+\]
+and if $j = k$ we have
+\[
+  \tilde{\mat{A}} \vec{v}_j = \tilde{\mat{A}} \vec{v}_k = (\lambda_k -
+  \gamma i) \vec{v}_k - \gamma i \vec{u} = \lambda_k \vec{v}_k \,.
+\]
+Therefore, if $\vec{u}$ is not just an approximation of an eigenvector
+but we have $\vec{u} = \vec{v}_k$ for some $k$ we can conclude that
+$\tilde{\mat{A}}$ has the same set of eigenvectors as $\mat{A}$ with
+corresponding eigenvalues $\lambda_j - \gamma i$ if $j \neq k$ and
+$\lambda_j$ if $j = k$. In other words, we ``raised'' all eigenvalues
+corresponding to eigenvectors that are orthogonal to $\vec{u}$ from
+the real line into the complex plane such that their imaginary parts
+are equal to $\gamma$.
+
+
+
+\begin{lemma}
+  Let $\mat{A} \in \R^{n \times n}$ be a real symmetric matrix and let
+  $\vec{u} \in \R^n$ an arbitrary unit vector.  We define the matrices
+  \begin{equation}
+    \label{eq:rayleigh_quotient_complex}
+    \mat{B} \coloneqq {\left(\mat{A} - (\sigma - \gamma i) \mat{I} \right)}
+  \end{equation}
+  and
+  \begin{equation}
+    \label{eq:rayleigh_quotient_proj}
+    \mat{C} \coloneqq {\left( \mat{A} - \sigma \mat{I} + \gamma i( \mat{I} - \vec{u} \vec{u}^\tp) \right)}
+  \end{equation}
+  where $i$ is the imaginary unit and $\sigma, \gamma > 0$ are
+  arbitrary positive real numbers. Then
+  \[
+    \mathcal{R}_{\mat{A}}(\mat{B}^{-1}\vec{u}) =
+    \mathcal{R}_{\mat{A}}(\mat{C}^{-1}\vec{u}) \,,
+  \]
+  given that the inverses exist.
+\end{lemma}
+\begin{proof}
+  Without loss of generality, we can assume $\sigma = 0$. Otherwise,
+  set $\tilde{\mat{A}} = \mat{A} - \sigma \mat{I}$ and use this matrix
+  instead of $\mat{A}$ ($\tilde{\mat{A}}$ is obviously still real and
+  symmetric).
+\end{proof}
+
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
+ 
