@@ -1,0 +1,307 @@
+\section{Results from Linear Algebra}
+In this section we introduce the definitions and results from linear
+algebra that will be needed later. We also introduce the most basic
+iterative eigenvalue algorithms.
+
+\subsection{The Symmetric Eigenvalue Problem}%
+\label{sec:symmetric:eigenproblem}
+In Example~\ref{ex:modelproblem} a problem of the form
+\[
+  \text{``Find $\vec{v} \in \R^n,\, \lambda \in \R$, such that
+    $ \mat{A}\vec{v} = \lambda \vec{v}$ ''}
+\]
+arised, where $\mat{A}$ was a real symmetric matrix. This problem is
+referred to as the \emph{symmetric eigenvalue problem}. A more general
+definition is given in the following.
+\begin{definition}
+  Let $\mat{A} \in \C^{n \times n}$ be a matrix. A scalar
+  $\lambda \in \C$ is called \emph{eigenvalue} of $\mat{A}$ if there
+  exists a nonzero vector $\vec{v} \in \C^n$ such that
+  \begin{equation}
+    \label{eq:eigvalproblem} 
+    \mat{A}\vec{v} = \lambda \vec{v}\,.
+  \end{equation}
+  The vector $\vec{v}$ is called an \emph{eigenvector} of $\mat{A}$
+  associated with $\lambda$. The tuple $(\lambda, \vec{v})$ is called
+  an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
+  called the \emph{spectrum} and is denoted by $\sigma(\mat{A})$.
+\end{definition}
+\todo{Too often ``is called''} Computing eigenpairs is a non-trivial
+task.  Rewriting~\eqref{eq:eigvalproblem} gives
+$\mat{A}\vec{v} - \lambda \vec{v} = \vec{0}$ or
+$(\mat{A} - \lambda \mat{I}) \vec{v} = \vec{0}$, where $\mat{I}$ is
+the identity matrix of appropriate size. That is, $\lambda$ is an
+eigenvalue of $\mat{A}$ if and only if the matrix
+$\mat{A} - \lambda \mat{I}$ is singular. It follows, that the
+eigenvalues of $\mat{A}$ are the roots of the \emph{characteristic
+  polynomial}
+\[
+  \chi_{\mat{A}}(t) \coloneqq \chi(t) \coloneqq \det(\mat{A} - t
+  \mat{I}) \,.
+\]
+This fact, however, cannot be used to calculate eigenvalues
+numerically since the computation of the coefficients of the
+polynomial is not stable~\cite[37]{golub2000eigenvalue}. And even if
+it were, it is well-known that even small perturbations in the
+coefficients of $\chi_{\mat{A}}(t)$ can lead to devastating errors in
+the roots. In other words, finding the roots of a polynomial is an
+ill-conditioned task~\cite[cf.][190]{trefethen1997}. Thus, other
+methods are necessary to solve~\eqref{eq:eigvalproblem} which gave
+rise to iterative algorithms. These methods date back to 1846 when
+Jacobi published a pioneering paper on a method to compute eigenvalues
+of symmetric matrices~\cite{jacobi1846}. Below we present essential
+facts from linear algebra preparing us for discussing such iterative
+methods in Section~\ref{sec:iterative:algorithms}.
+
+In the following proposition we collect some basic facts on
+eigenvalues and eigenvectors. The results are shown under the
+assumption that $\mat{A} \in \C^{n \times n}$ is a complex Hermitian
+matrix, \ie
+$\mat{A} = \mat{A}^\herm \coloneqq \overline{\mat{A}}^\tp$, where the
+bar denotes the complex conjugate. If $\mat{A}$ is a real matrix, we
+have $\overline{\mat{A}} = \mat{A}$ and thus the following facts hold
+in particular for real symmetric matrices.
+\begin{proposition}%
+  \label{prop:eigval:facts}
+  Let $\mat{A} = \mat{A}^\herm \in \C^{n \times n}$ be a Hermitian
+  matrix. Denote by $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the
+  eigenvalues\footnote{Of course, the eigenvalues need not be
+    distinct. But since the eigenvalues of $\mat{A}$ are the roots of
+    the $n$-degree polynomial $\det(\mat{A} - t \mat{I})$, when
+    counting these roots with their multiplicity, this polynomial has
+    $n$ roots over $\C$. Thus, we can label the eigenvalues from $1$
+    to $n$.} of $\mat{A}$ with associated eigenvectors
+  $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \begin{enumerate}[label=(\roman*)]
+  \item All eigenvalues of $\mat{A}$ are real.
+  \item There exists an orthonormal basis of $\C^n$ consisting of
+    eigenvectors of $\mat{A}$. If $\mat{A}$ is a real symmetric
+    matrix, the eigenvectors form an orthonormal basis of $\R^n$.
+    % $\vec{v}_i$ and $\vec{v}_j$ to two distinct eigenvalues
+    % $\lambda_i$ and $\lambda_j$ are orthogonal. Hence, after
+    % normalisation, we can choose eigenvectors of $\mat{A}$ that form
+    % an orthonormal basis of $\R^n$.
+  \item If $\mat{A}$ is non-singular the eigenvalues of $\mat{A}^{-1}$
+    are given by $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with
+    eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \item Let $\mu \in \R$ an arbitrary scalar. Then the eigenvalues of
+    $\mat{A} - \mu \mat{I}$ are $\lambda_i - \mu$ with eigenvectors
+    $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  The proofs for (i) and (ii) can be found in most standard linear
+  algebra literature (see for example~\cite[Theorem 18 and Corollary,
+  p.~314]{hoffmanlinalg}).
+  \begin{enumerate}
+  \item[(iii)] Suppose $\mat{A}$ is invertible and let
+    $(\lambda, \vec{v})$ be an eigenpair of $\mat{A}$ (note that since
+    $\mat{A}$ is non-singular we have $\lambda \neq 0$). Then
+    \begin{gather*}
+      \mat{A} \vec{v} = \lambda \vec{v} \quad \Leftrightarrow \quad
+      \mat{A}^{-1} \mat{A} \vec{v} = \lambda \mat{A}^{-1} \vec{v}
+      \quad \Leftrightarrow \quad \lambda^{-1} \vec{v} = \mat{A}^{-1}
+      \vec{v} \,,
+    \end{gather*}
+    \ie $(\lambda^{-1}, \vec{v})$ is an eigenpair of $\mat{A}^{-1}$.
+
+  \item[(iv)] For $\mu \in \R$ and $(\lambda, \vec{v})$ an eigenpair
+    we have
+    \begin{gather*}
+      \mat{A}\vec{v} = \lambda \vec{v} \quad \Leftrightarrow \quad
+      \mat{A}\vec{v} - \mu \vec{v} = \lambda \vec{v} - \mu \vec{v}
+      \quad \Leftrightarrow \quad (\mat{A} - \mu \mat{I}) \vec{v} =
+      (\lambda - \mu) \vec{v} \,,
+    \end{gather*}
+    \ie $(\lambda - \mu, \vec{v})$ is an eigenpair of
+    $\mat{A} - \mu \mat{I}$.
+  \end{enumerate}
+\end{proof}
+In the following we restrict our attention to the \emph{symmetric
+  eigenvalue problem}, \ie we want to find solutions of
+equation~\eqref{eq:eigvalproblem} given $\mat{A} \in \R^{n \times n}$
+is a real symmetric matrix. The (real) eigenvalues and associated
+(real) eigenvectors of $\mat{A}$ are denoted by
+$\lambda_1, \dotsc, \lambda_n$ and $\vec{v}_1, \dotsc, \vec{v}_n$,
+respectively. We assume that the eigenvalues are normalised \wrt the
+Euclidean norm, \ie
+\[
+  \norm{\vec{v}_i} = \norm{\vec{v}_i}_2 = \sqrt{ \vec{v}_i^\tp
+    \vec{v}_i } = 1 \quad \text{ for all } i = 1, \dotsc, n\,.
+\]
+Note, that due to Proposition~\ref{prop:eigval:facts} (ii) we have
+\[
+  \inp{\vec{v}_i}{\vec{v}_j} = \vec{v}_i^\tp \vec{v}_j = 0 \quad
+  \text{ for } i \neq j\,,
+\]
+where $\inp{\cdot}{\cdot}$ denotes the Euclidean inner product on
+$\R^n$. Since all eigenvalues are real we can label them in increasing
+order of magnitude
+\[
+  \abs{\lambda_1} \le \abs{\lambda_2} \le \dotsc \le \abs{\lambda_n}
+  \,.
+\]
+The eigenvalues $\lambda_1$ and $\lambda_n$ are called \emph{extreme}
+eigenvalues. The remaining eigenvalues
+$\lambda_2, \dotsc, \lambda_{n-1}$ are called \emph{interior}
+eigenvalues. Sometimes we will make the assumption that $\mat{A}$ is
+positive definite, \ie that
+\[
+  x^\tp A x > 0 \quad \text{ for all } x \in \R^n \setminus \{ \vec{0}
+  \}.
+\]
+Given an eigenvalue $\lambda$ and an associated normalised eigenvector
+$\vec{v}$ we then have
+\[
+  \lambda = \vec{v}^\tp \lambda \vec{v} = \vec{v}^\tp \mat{A} \vec{v}
+  > 0 \,,
+\]
+\ie eigenvalues of symmetric positive definite matrices are positive.
+
+To indicate that eigenvalues belong to a particular matrix $\mat{M}$
+we sometimes write $\lambda(\mat{M})$ or $\lambda_j(\mat{M})$. If not
+stated otherwise, for the remainder of the thesis $\mat{A}$ denotes a
+symmetric $n \times n$ matrix with eigenvalues
+$\lambda_j(\mat{A}) = \lambda_j$ and corresponding eigenvectors
+$\vec{v}_j$ for $j = 1, \dotsc, n$.
+
+\subsection{Iterative methods for eigenvalue problems}%
+\label{sec:iterative:algorithms}
+With the necessary facts from linear algebra at hand we can introduce
+some simple iterative methods for computing eigenpairs of symmetric
+matrices.
+
+% This is not done in the order of the time they were first used but
+% from simpler methods to more complicated ones. An overview of the
+% historic developments of these methods is given in the next
+% section.\todo{Rewrite (only overview of rqi is given in next sec)}
+
+\subsubsection{Power method}
+The power method is based on generating the sequence
+$\mat{A}^k \vec{x}^{(0)}$ where $\vec{x}^{(0)}$ is a non-zero unit
+vector. Of course, $\mat{A}^k$ does not have to be computed explicitly
+since
+\[
+  \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
+  \vec{x})\dotsc))\,.
+\]
+When combined with some sort of normalisation step we arrive at
+Algorithm~\ref{alg:power:method}. There we normalise by ensuring that
+the largest component of the current approximation is equal to one as
+proposed in~\cite{saad2011}. It is of course also possible to
+normalise \wrt the Euclidean norm~\cite[75]{Parlett1998}. The sequence
+$\vec{x}^{(k)}$ converges to the eigenvector associated with the
+eigenvalue $\lambda_n$ (under the assumptions that $\lambda_n$ is
+semi-simple\todo{Define semi-simple} and that $\vec{x}^{(0)}$ is not
+orthogonal to $\vec{v}_n$, cf.~\cite[Theorem 4.1,
+p.~86]{saad2011}). The proof of the theorem also shows that the
+sequence $\alpha^{(k)}$ converges to the eigenvalue $\lambda_n$ and
+that the method converges linearly with convergence factor
+\begin{equation}
+  \label{eq:convergence:power}
+  \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
+\end{equation}
+Thus, the method can be very slow if the distance between the
+eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small.
+
+\begin{algorithm}[htpb]
+  \DontPrintSemicolon
+  \Begin{ Choose nonzero initial vector $\vec{x}^{(0)}$\;
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      $\displaystyle \vec{x}^{(k)} =
+      \frac{1}{\alpha^{(k)}}\mat{A}\vec{x}^{(k-1)}$\; \tcc{$\alpha^{(k)}$ is the component of $\mat{A}\vec{x}^{(k-1)}$ with the maximum modulus}
+    }
+  }
+  \caption{Power method}\label{alg:power:method}
+\end{algorithm}
+
+Besides the possible slow convergence rate, the power method only
+allows to compute the extreme eigenvalue and associated
+eigenvector. In many applications, however, one already has a good
+approximation of an eigenvalue and wants to compute the eigenvector
+it belongs to. The following method overcomes both of these drawpacks
+(at least partly).
+
+\subsubsection{(Shifted) Inverse Iteration}
+The \emph{inverse iteration} is the power method applied to
+$\mat{A}^{-1}$ (provided that $\mat{A}$ is non-singular). Due to
+Proposition~\ref{prop:eigval:facts} (iii) this will produce a sequence
+of vectors $\vec{v}_k$ converging to the eigenvector associated to the
+smallest eigenvalue $\lambda_1$. Combining this idea with
+Proposition~\ref{prop:eigval:facts} (iv) produces the \emph{shifted
+  inverse iteration}.\footnote{Note that some authors call this the
+  inverse iteration and do not make a distinction of a shift being
+  used or not.} There, the iterates are defined by
+\[
+  \vec{v}_k = {\left( \mat{A} - \sigma \mat{I} \right)}^{-1}
+  \vec{v}_{k-1}\,,
+\]
+where we omitted the normalisation step. The scalar $\sigma \in \R$ is
+often called the \emph{shift} since it shifts the eigenvalues of
+$\mat{A}^{-1}$ by $\sigma$ on the real axis. Of course, we do not have
+to compute the inverse explicitly. Instead, before the loop we can
+compute the $\mat{LU}$ decomposition of $\mat{A} - \sigma \mat{I}$ and
+solve the system
+\[
+  {\left( \mat{A} - \sigma \mat{I} \right)} \vec{v}_k = \vec{v}_{k-1}
+\]
+for $\vec{v}_k$ reducing the complexity from $\O(n^3)$ to $\O(n^2)$ at
+each step. We summarise the results in Algorithm~\ref{alg:sii} (there,
+we normalise \wrt the Euclidean norm such that at every step
+$\norm{\vec{v}^{(k)}} = 1$ holds).
+
+\begin{algorithm}[htbp]
+  \DontPrintSemicolon%
+  \KwData{Nonzero unit vector $\vec{x}^{(0)}$, shift $\sigma \in \R$}
+  Compute $\mat{LU}$ decomposition $\mat{A} - \sigma \mat{I} = \mat{LU}$\;
+  \For{$k = 1,2, \dotsc$ until convergence}{
+    Solve ${\left( \mat{A} - \sigma \mat{I}\right)} \vec{\tilde{x}}^{(k)} = \vec{x}^{(k-1)}$ for $\vec{\tilde{x}}^{(k)}$\;
+    $\vec{x}^{(k)} \gets \vec{\tilde{x}}^{(k)} / \norm{\vec{\tilde{x}}^{(k)}}$\;
+  } 
+  \caption{Shifted inverse iteration}\label{alg:sii}
+\end{algorithm}
+Since this is essentially the power method (applied to the inverse of
+$(\mat{A} - \sigma \mat{I})$) this algorithm still converges
+linearly. However, if we denote by $\mu_1$ the eigenvalue that is
+closest to the shift $\sigma$ and by $\mu_2$ the one that is the next
+closest one, the eigenvalue of largest modulus of
+${(\mat{A} - \sigma \mat{I})}^{-1}$ is $1 / (\mu_1 - \sigma)$
+and~\eqref{eq:convergence:power} suggests that the convergence factor
+is
+\[
+  \rho = \frac{\abs{\mu_1 - \sigma}}{\abs{\mu_2 - \sigma}} \,.
+\]
+Hence, the method can be very fast if the shift $\sigma$ is very close
+to the desired eigenvalue $\mu_1$. Therefore, the method is often used
+to compute an eigenvector of $\mat{A}$ if a good approximation of the
+corresponding eigenvalue is already available.
+
+We now give two examples for both the power method and the shifted
+inverse iteration.
+\begin{example}
+  Consider the matrix
+  \[
+    \mat{A} =
+    \begin{pmatrix}
+      1 & 2 & 3 \\
+      2 & 5 & 6 \\
+      3 & 6 & 8
+    \end{pmatrix}.
+  \]
+  \todo{Example of Power method and inverse iteration}
+\end{example}
+
+At each step in the shifted inverse iteration, better approximations
+for the target eigenvector are computed. One could try to use these
+approximations to replace occasionally the shift by an approximation
+of the corresponding eigenvalue. There are different techniques to
+obtain such estimates, \eg the \emph{Wielandt Shifted Inverse
+  Iteration} or the Rayleigh Quotient Iteration which is rigorously
+studied in the next chapter. For further discussion on the
+variants and developments of these so called \emph{shift and invert}
+techniques see, \eg~\cite{ipsenhistory, tapia2018, golub2000eigenvalue}.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:

@@ -1,21 +1,21 @@
 \documentclass[
-fontsize=12pt,
-paper=a4,
-BCOR = 5mm,
-DIV = 9,
-numbers=noenddot,
-headsepline,
-parskip=half,
-%draft
+fontsize     = 11pt,
+paper        = a4,
+BCOR         = 5mm,
+DIV          = 11,
+numbers      = noenddot,
+parskip      = half,
+headsepline
 ]{scrreprt}
 
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 
-\usepackage[backend=bibtex,style=alphabetic]{biblatex}
-\addbibresource{bibliography.bib} 
+\usepackage[backend=biber,style=numeric-comp]{biblatex}
+\addbibresource{bibliography.bib}
 
-\include{meta}
+
+\include{meta}  
 \include{preamble}
 \include{mathsetup}
 
@@ -27,12 +27,11 @@ parskip=half,
 \begin{document}
 
 \include{titlepage}
-% \include{abstract}
+\include{abstract}
 
 \cleardoublepage
 \tableofcontents
 
-%\tableofcontents 
 \include{Chapters/01/Chapter01}
 \include{Chapters/02/Chapter02}
 \include{Chapters/03/Chapter03}
@@ -40,5 +39,11 @@ parskip=half,
 \appendix  
 \include{Appendices/AppendixA}
 
-\printbibliography%
-\end{document}  
+\printbibliography[heading=bibintoc]
+\end{document}
+
+ 
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

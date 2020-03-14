@@ -1,4 +1,4 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = classic_rqi(a, x, sigma, tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = classic_rqi(a, x, sigma, tolerance)
 % CLASSIC_RQI   Computes an eigenpair of a using the Rayleigh quotient
 % iteration
 %   [x, sigma, iterations, eigval_iterates, eigvec_iterates] = CLASSIC_RQI(a, x, sigma) 
@@ -31,20 +31,14 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     eigval_iterates = [sigma];  % save the approximations for debugging,
     eigvec_iterates = [x];      % plotting or convergence analysis
     
-    res = norm((a - sigma*speye(m))*x);
-    residuals = [res];
-    
     iterations = 0;
-    while res > tolerance
-       x = (a - sigma * speye(m)) \ x;    % solve linear system
+    while norm((a - sigma*eye(m))*x) > tolerance
+       x = (a - sigma * eye(m)) \ x;    % solve linear system
        x = x / norm(x);                 % normalise iterate
        sigma = x' * a * x;              % compute Rayleigh quotient
        
-       res = norm((a - sigma*speye(m))*x);
-       
        eigval_iterates = [eigval_iterates, sigma]; %append current iterates
        eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
-       residuals = [residuals, res];       
        
        iterations = iterations + 1;
     end

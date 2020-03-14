@@ -1,0 +1,120 @@
+Using the Rayleigh quotient to replace the shift in inverse iteration
+is justified by the following fact.
+\begin{lemma}[Minimal residual]
+  Let $\vec{x} \in \R^n \setminus \{ \vec{0} \}$ and define the
+  function $f : \R \rightarrow \R$ by
+  \[
+    f(\lambda) := \norm{(\mat{A} - \lambda \mat {I}) \vec{x}}^2 \,,
+  \]
+  where $\norm{\cdot} = \norm{\cdot}_2$ denotes the Euclidean norm on
+  $\R^n$. The function $f$ becomes minimal for
+  $\lambda^\ast = \rq_{\mat{A}}(x)$ with value
+  \begin{equation}
+    \label{eq:minmal_function_value}
+    f(\lambda^\ast) = \norm{\mat{A} \vec{x}}^2 -
+    {(\lambda^\ast)}^2 \norm{\vec{x}}^2 \,.
+  \end{equation}
+\end{lemma}
+\begin{proof}
+  First, note that
+  \begin{align*}
+    f(\lambda) = \norm{\mat{A}\vec{x} - \lambda \vec{x}}^2 &= {(\mat{A}\vec{x} - \lambda \vec{x})}^\tp {(\mat{A}\vec{x} - \lambda \vec{x})} \\
+                                                           &= \left( {(\mat{A} \vec{x})}^\tp - \lambda \vec{x}^\tp \right) ( \mat{A} \vec{x} - \lambda \vec{x}) \\
+                                                           &= \norm{\mat{A}\vec{x}}^2 - 2 \lambda \vec{x}^\tp \mat{A}\vec{x} + \lambda^2 \norm{\vec{x}}^2 \,.
+  \end{align*}
+  Differentiating this function gives
+  \[
+    f^\prime(\lambda) = -2 \vec{x}^\tp \mat{A} \vec{v} + 2 \lambda
+    \norm{\vec{x}}^2
+  \]
+  and letting $f^\prime(\lambda^\ast) = 0$ we obtain the only root
+  \[
+    \lambda^\ast = \frac{\vec{x}^\tp \mat{A}
+      \vec{x}}{\norm{\vec{x}}^2} = \frac{\vec{x}^\tp \mat{A}
+      \vec{x}}{\vec{x}^\tp \vec{x}} = \rq_{\mat{A}}(\vec{x}) \,.
+  \]
+  Since $f^{\prime \prime}(\lambda) = 2 \norm{\vec{x}}^2 > 0$ this is
+  a minimum and inserting it into $f$ yields the value as given
+  in~\eqref{eq:minmal_function_value}.
+\end{proof}
+This Lemma states that for any vector $\vec{x} \in \R^n$ and scalar
+$\gamma \in \R$ it holds that
+\[
+  \norm{(\mat{A} - \gamma \mat{I}) \vec{x}} \ge \norm{(\mat{A} -
+    \rq_{\mat{A}}(\vec{x}) \mat{I})\vec{x}} \eqqcolon
+  \norm{\vec{r}_{\mat{A}}(\vec{x})} = \norm{\vec{r}(\vec{x})} \,,
+\]\todo{check again if squared or not}
+where $\vec{r}(\vec{x})$ is called the \emph{residual vector}. This
+motivates us to interpret the Rayleigh Quotient as the value that
+``acts most like an eigenvalue'' for $\vec{x}$ in the sense of
+minimizing $\norm{\mat{A}\vec{x} - \lambda \vec{x}}$. To make this
+claim more quantitative, first notice that if $\vec{x}$ is an
+eigenvector, then $\rq_{\mat{A}}(\vec{x}) = \lambda$ is the
+corresponding eigenvalue. Taylor expansion of $\rq_{\mat{A}}$ around
+$\vec{x} = \vec{v}_j$, where $\vec{v}_j$ is the eigenvector associated
+with the $j$-th eigenvalue, yields
+\begin{equation}
+  \label{eq:rq:taylor}
+  \rq_{\mat{A}}(\vec{x}) = \rq_{\mat{A}}(\vec{v}_j) + {(\vec{x} - \vec{v}_j)}^\tp \nabla \rq_{\mat{A}}(\vec{v}_j) + \O(\norm{\vec{x} - \vec{v}_j}^2) \,.
+\end{equation}
+To compute the gradient $\nabla \rq_{\mat{A}}(\vec{x})$ we compute the
+partial derivatives \wrt the coordinates $\vec{x}_i$,
+$i = 1, \dotsc, n$, of $\vec{x}$ using the quotient rule
+\begin{align*}
+  \partial_i \rq_{\mat{A}}(\vec{x}) = \partial_i \left(
+  \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}} \right) &=
+                                                                    \frac{\partial_i (\vec{x}^\tp \mat{A} \vec{x}) \vec{x}^\tp \vec{x} -
+                                                                    \vec{x}^\tp \mat{A} \vec{x} \, \partial_i \left( \vec{x}^\tp
+                                                                    \vec{x} \right)}{{\left( \vec{x}^\tp \vec{x} \right)}^2} \\
+                                                                  &= \frac{
+                                                                    \partial_i (\vec{x}^\tp \mat{A} \vec{x})}{\vec{x}^\tp \vec{x}} - \frac{\vec{x}^\tp \mat{A} \vec{x}\, \partial_i(\vec{x}^\tp \vec{x})}{{(\vec{x}^\tp \vec{x})}^2}\,,
+\end{align*}
+where we used the abbreviation
+$\partial_i = \frac{\partial}{\partial \vec{x}_i}$. The nominator of
+the first fraction can be computed using the product rule
+\begin{align*}
+  \partial_i \left( \vec{x}^\tp \mat{A} \vec{x} \right) &= \partial_i \left( \vec{x}^\tp  \right) \, \mat{A}\vec{x} + \vec{x}^\tp \partial_i \left( \mat{A} \vec{x} \right) \\
+                                                        &= \vec{e}_i^\tp \mat{A}\vec{x} + \vec{x}^\tp \mat{A} \vec{e}_i \\
+                                                        &= \vec{e}_i^\tp \mat{A} \vec{x} + \mat{A}^\tp \vec{x} \vec{e}_i = 2 {(\mat{A} \vec{x})}_i \,,
+\end{align*}
+where we used the symmetry of $\mat{A}$ in the last step. The
+derivative in the second part is
+$\partial_i \vec{x}^\tp \vec{x} = 2 \vec{x}_i$ and by collecting all
+the partial derivatives in the gradient we obtain
+\begin{equation}\label{eq:rq:gradient}
+  \begin{aligned}
+    \nabla \rq_{\mat{A}}(\vec{x}) &= \frac{2 \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}} - \frac{2 \vec{x}^\tp \mat{A} \vec{x} \vec{x}}{{(\vec{x}^\tp \vec{x})}^2} \\
+    &= \frac{2}{\vec{x}^\tp \vec{x}} \left( \mat{A} \vec{x} -
+      \rq_{\mat{A}}(\vec{x}) \vec{x} \right) \,.
+  \end{aligned}
+\end{equation}
+If $(\lambda, \vec{v})$ is an eigenpair of $\mat{A}$, we have
+\[
+  \nabla \rq_{\mat{A}}(\vec{v}) = \frac{2}{\vec{v}^\tp \vec{v}} \left(
+    \lambda \vec{v} - \lambda \vec{v}\right) = 0
+\]
+and inserting this into~\eqref{eq:rq:taylor} yields
+\[
+  \rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{q}_j) =
+  \mathcal{O}(\norm{\vec{x} - \vec{q}_j}^2) \,,
+\]
+\ie the Rayleigh quotient is a quadratically accurate estimate of an
+eigenvalue.
+\begin{remark*}
+  We have seen, that for an eigenvector $\vec{v}$ the gradient of the
+  Rayleigh quotient is zero. Conversely, if for a vector $\vec{x}$ it
+  holds $\nabla \rq_{\mat{A}}(\vec{x}) = 0$, then it follows
+  from~\eqref{eq:rq:gradient} that
+  \[
+    0 = \frac{2}{\vec{x}^\tp \vec{x}} ( \mat{A} \vec{x} -
+    \rq_{\mat{A}}(\vec{x}) \vec{x}) \,,
+  \]
+  \ie by multiplying by $\vec{x}^\tp \vec{x} / 2$
+  \[
+    \mat{A} \vec{x} = \rq_{\mat{A}}(\vec{x}) \vec{x}.
+  \]
+  Thus $\nabla \rq_{\mat{A}}(\vec{x})$ is zero if, and only if,
+  $\vec{x}$ is an eigenvector of $\mat{A}$.
+\end{remark*}
+\todo{Define Algorithm}
+test~\cite{boerm}.

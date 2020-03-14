@@ -26,6 +26,8 @@
 
 \def\O{\mathcal{O}}
 
+\def\rq{\mathrm{R}}
+
 % duality pairing
 \def\<{\langle}
 \def\>{\rangle}
@@ -54,6 +56,19 @@
   \raisebox{\depth}{$\m@th#1\intercal$}%
 }
 \makeatother
+
+\newcommand*{\herm}{\ast}
+
+% \makeatletter
+% \newcommand*{\herm}{%
+%   {\mathpalette\@hermitian{}}%
+% }
+% \newcommand*{\@hermitian}[2]{%
+%   % #1: math style
+%   % #2: unused
+%   \raisebox{\depth}{$\m@th#1{\mathrm{H}}$}%
+% }
+% \makeatother
 
 % vertical equals 
 \newcommand{\verteq}{\rotatebox{90}{$\,=$}}
@@ -87,7 +102,9 @@
 
 \theoremstyle{definition}
 \newtheorem{definition}[algocf]{Definition}
-\newtheorem{example}[algocf]{Example} 
+\newtheorem{example}[algocf]{Example}
+\newtheorem*{remark*}{Remark}
+\newtheorem{remark}[algocf]{Remark} 
  
 %%% Local Variables:
 %%% mode: latex

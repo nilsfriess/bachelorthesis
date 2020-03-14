@@ -263,3 +263,48 @@ product $\inp{\cdot}{\cdot}_2$.
   }
   \caption{Rayleigh quotient iteration}\label{alg:rqi}
 \end{algorithm}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$\mat{A}\vec{v} - \lambda \vec{v} = 0$ or
+$(\mat{A} - \lambda \mat{I}) \vec{v} = 0$. That is, $\lambda$ is an
+eigenvalue of $\mat{A}$ if, and only if, the matrix
+$\mat{A} - \lambda \mat{I}$ is singular. In other words the
+eigenvalues of $\mat{A}$ are the roots of the \emph{characteristic
+  polynomial}
+\[
+  \chi_{\mat{A}}(t) = \chi(t) = \det(\mat{A} - t \mat{I}) \,.
+\]
+This fact, however, cannot be used to compute eigenvalues numerically
+since the computation of the coefficients of the polynomial is
+unstable~\cite{golub2000eigenvalue}. Other methods are therefore
+necessary which gave rise to iterative methods to
+solve~\eqref{eq:eigvalproblem} that date back to 1846 when Jacobi
+published in~\cite{jacobi1846} a method to compute eigenvalues of
+symmetric matrices\footnote{Actually, Jacobi did not compute
+  eigenvalues of matrices since the formal notation of matrices was
+  not introduced until after Jacobi's death~\cite[9]{tapia2018}.}.
+An overview over iterative methods to compute eigenvalues is given
+in Section~\ref{sec:iterative:algorithms}.

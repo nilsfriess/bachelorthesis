@@ -1,11 +1,13 @@
 \usepackage{newpxtext}
 \usepackage[euler-digits]{eulervm}
-\usepackage{microtype}
+\usepackage[activate={true,nocompatibility},final,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
 \recalctypearea
 
 \usepackage[automark]{scrlayer-scrpage}
 \usepackage{setspace}
 \onehalfspacing
+
+\usepackage[ngerman,english]{babel}
 
 %------------------------------------------------------
 %	LAYOUT
@@ -16,6 +18,8 @@
 \hypersetup{pdftitle={Rayleigh Quotient Iteration}}
 \hypersetup{pdfauthor={Nils Friess}}
 \hypersetup{colorlinks=false}
+
+\RedeclareSectionCommand[beforeskip=0pt]{chapter}
 
 % MATH PACKAGES
 \usepackage{mathtools}
@@ -38,7 +42,7 @@
 %------------------------------------------------------
 %	ABBREVIATIONS
 % -----------------------------------------------------
-\newcommand{\ie}{i.\,e.\ }
+\newcommand{\ie}{i.\,e.,\ }
 \newcommand{\eg}{e.\,g.\ }
 \newcommand{\wrt}{w.\,r.\,t.\ }
 

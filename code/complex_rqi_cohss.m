@@ -1,4 +1,4 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2(a,x,sigma,gamma,tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi_cohss(a,x,sigma,gamma,tolerance)
 % complex_rqi   Computes an eigenpair of a using the complex Rayleigh 
 % quotient iteration
 %
@@ -20,30 +20,33 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     end
     
     if gamma == inf
-       res = norm((a - sigma*eye(m))*x);
-       gamma = res * res;
+       gamma = norm((a - sigma*speye(m))*x);
     end
+    res = gamma;
     
     eigval_iterates = [sigma];  % save the approximations for debugging,
     eigvec_iterates = [x];      % plotting or convergence analysis
-    residuals = [gamma];
+    residuals = [res];
     
-    iterations = 0;
+    I = speye(m);
 
+    iterations = 0;
+    
     while res >= tolerance
-        x = (a - (sigma - gamma*1i)*speye(m))\x;
+        A = a - (sigma + sqrt(res)*1i)*I;
+        x = cohss(A, x, 'POLY', 6, 'TOLERANCE', tolerance);
         x = x / norm(x);
         % x = real(x);
         sigma = x' * a * x;
-        res = norm((a - sigma*speye(m))*x);
-        gamma = res * res;
+        res = norm((a - sigma*I)*x);
         
-        eigval_iterates = [eigval_iterates, sigma]; %append current iterates
-        eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
-        residuals = [residuals, res];
+        %eigval_iterates = [eigval_iterates, sigma]; %append current iterates
+        %eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
+        %residuals = [residuals, res];
         
-        iterations = iterations + 1;
+        iterations = iterations + 1
     end
     x = real(x);
+    x = x / norm(x);
     sigma = real(sigma);
 end

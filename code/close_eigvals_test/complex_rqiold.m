@@ -25,16 +25,17 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi(
     
     eigval_iterates = [sigma];  % save the approximations for debugging,
     eigvec_iterates = [x];      % plotting or convergence analysis
-
+    
     iterations = 0;
-
-    while gamma >= tolerance
+    res = gamma;
+    while res >= tolerance
+        %x = (a - (sigma - gamma*1i)*eye(m)-x*x')\x;
         x = (a - (sigma - gamma*1i)*eye(m)) \ x;
         x = x / norm(x);
         % x = real(x);
         sigma = x' * a * x;
-        res = norm((a - sigma*eye(m))*x);
-        gamma = res;
+        res = norm(abs((a - sigma*eye(m))*x));
+        gamma = res * res;
         
         eigval_iterates = [eigval_iterates, sigma]; %append current iterates
         eigvec_iterates = [eigvec_iterates, x];     % to list of approx.

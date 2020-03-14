@@ -1,4 +1,4 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2(a,x,sigma,gamma,tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi_AMG(a,x,sigma,gamma,tolerance)
 % complex_rqi   Computes an eigenpair of a using the complex Rayleigh 
 % quotient iteration
 %
@@ -15,28 +15,38 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     m = size(a);
     x = x / norm(x);
     
+    I = speye(m);
+    
     if sigma == inf
        sigma =  x' * a * x;
     end
     
     if gamma == inf
-       res = norm((a - sigma*eye(m))*x);
-       gamma = res * res;
+       gamma = norm((a - sigma*I)*x);
     end
+    res = gamma;
     
     eigval_iterates = [sigma];  % save the approximations for debugging,
     eigvec_iterates = [x];      % plotting or convergence analysis
-    residuals = [gamma];
+    residuals = [res];
+
+    A = a - (sigma + res*res*1i)*I;
     
     iterations = 0;
-
+    
+    options.isdefinite = 1;
+    options = AMGinit(A, options);
+    [PREC, options] = AMGfactor(A, options)
+        
     while res >= tolerance
-        x = (a - (sigma - gamma*1i)*speye(m))\x;
+        A = a - (sigma + res*res*1i)*I;
+        options.restol = 10e-5;
+        [x,options] = AMGsolver(A, PREC, options, x, x); % last is initial guess
+
         x = x / norm(x);
         % x = real(x);
         sigma = x' * a * x;
-        res = norm((a - sigma*speye(m))*x);
-        gamma = res * res;
+        res = norm((a - sigma*I)*x);
         
         eigval_iterates = [eigval_iterates, sigma]; %append current iterates
         eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
@@ -45,5 +55,6 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
         iterations = iterations + 1;
     end
     x = real(x);
+    x = x / norm(x);
     sigma = real(sigma);
 end

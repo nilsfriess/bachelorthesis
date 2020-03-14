@@ -20,7 +20,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi_
     end
     
     if gamma == inf
-       gamma = norm((a - sigma*eye(m))*x);
+       gamma = norm((a - sigma*speye(m))*x);
     end
     
     eigval_iterates = [sigma];  % save the approximations for debugging,
@@ -29,11 +29,11 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates] = complex_rqi_
     iterations = 0;
 
     while gamma >= tolerance
-        x = (a - (sigma + gamma*1i)*eye(m)) \ x;
+        x = (a - (sigma + gamma*1i)*speye(m)) \ x;
         x = x / norm(x);
         % x = real(x);
         sigma = x' * a * x;
-        res = norm((a - sigma*eye(m))*x);
+        res = norm((a - sigma*speye(m))*x);
         gamma = res;
         
         eigval_iterates = [eigval_iterates, sigma]; %append current iterates
