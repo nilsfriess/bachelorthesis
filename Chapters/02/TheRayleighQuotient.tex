@@ -1,4 +1,4 @@
-\section{The Rayleigh Quotient}
+\section{The Rayleigh Quotient}\label{sec:rqi:rq}
 Recall the general problem: Given approximations of an eigenvector of
 a symmetric matrix $\mat{A} = \mat{A}^\tp \in \R^{n \times n}$ we want
 to compute the exact eigenvector and associated eigenvalue. In
@@ -162,7 +162,112 @@ will be also used later when analysing the convergence of RQI.
                                     }\,.
   \end{align*}
 \end{definition}
+According to Parlett the following result is the property to which
+``the phenomenal convergence rate [of RQI] can be
+attributed''~\cite[77]{Parlett1998}.
 
+\begin{lemma}[Eigenvalue estimate]
+  \label{lem:rq:quadestimate}
+  Let $\vec{x} \in \C^n$ be an approximation of an eigenvector
+  $\vec{v}$ of a normal\footnote{A matrix $\mat{A}$ is said to be
+    \emph{normal} if $\mat{A}^\herm \mat{A} = \mat{A}
+    \mat{A}^\herm$. Note that for complex Hermitian (or real
+    symmetric) matrices we have $\mat{A} = \mat{A}^{\herm}$, hence
+    Hermitian (and thus symmetric) matrices are normal.} matrix
+  $\mat{A}$ with corresponding eigenvalue $\lambda$. Then
+  \begin{equation*}
+    \abs{\rq_{\mat{A}}(\vec{x}) - \lambda}
+    \le
+    \norm{\mat{A} - \lambda \mat{I}} \sin^2 \angle(\vec{x}, \vec{v})
+    \le
+    \norm{\mat{A} - \lambda \mat{I}} {\left( \frac{
+          \norm{\vec{x} - \alpha \vec{v}}
+        }{
+          \norm{\vec{x}}
+        }\right)}^2 \quad \text{ for all } \alpha \in \C\,.
+  \end{equation*}
+\end{lemma}
+\begin{proof}[The proof is given in Appendix~\ref{AppendixProofs}]
+\end{proof}
+This result is often paraphrased as ``the Rayleigh Quotient is a
+\emph{quadratically accurate} estimate of an eigenvalue'' (see for
+example~\cite[204]{trefethen1997}) and is often presented in the
+following shorter form\todo{cite examples}
+\begin{equation*}
+  \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}}^2)\,.
+\end{equation*}
+If $\mat{A}$ is non-normal, the Rayleigh quotient is still an estimate
+of order one, \ie
+\begin{equation*}
+  \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}})\,.
+\end{equation*}
+We now have a method that allows us to obtain an estimation of an
+\emph{eigenvalue} from an \emph{eigenvector}. With the Shifted Inverse
+Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for
+obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
+estimate. Rayleigh Quotient Iteration is essentially a combination of
+those two methods where each step consits of one step of Shifted
+Inverse Iteration and the computation of the Rayleigh Quotient.
+
+\begin{algorithm}[htbp]
+  \DontPrintSemicolon%
+  \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
+  $\mu^{(0)} \gets {\left(\vec{x}^{(0)}\right)}^\ast \mat{A} \vec{x}^{(0)}$ \;
+  \For{$k = 1,2, \dotsc$ until convergence}{
+    Solve ${\left( \mat{A} - \mu^{(k)} \mat{I}\right)} \vec{\tilde{x}}^{(k)} = \vec{x}^{(k-1)}$ for $\vec{\tilde{x}}^{(k)}$\;
+    $\vec{x}^{(k)} \gets \vec{\tilde{x}}^{(k)} / \norm{\vec{\tilde{x}}^{(k)}}$\;
+    $\mu^{(k)} \gets {\left(\vec{x}^{(k)}\right)}^\ast \mat{A} \vec{x}^{(k)}$ \;
+  } 
+  \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
+\end{algorithm}
+
+We have yet to define what we mean by ``until convergence'' (cf. the
+algorithms persented in Section~\ref{sec:iterative:algorithms}). Now
+that we the defined the Rayleigh Quotient, we can define the following
+stopping criterion. Run the iteration until
+\begin{equation*}
+  \norm{\vec{r}^{(k)}} = \norm{\mat{A}\vec{x}^{(k)} - \mu^{(k)} \vec{x}^{(k)}} < \mathtt{tol}\,,
+\end{equation*}
+where
+$\vec{r}^{(k)} \coloneqq \mat{A}\vec{x}^{(k)} - \mu^{(k)}
+\vec{x}^{(k)}$ is called the \emph{residual vector} and $\mathtt{tol}$
+is a user-given error tolerance. Obviously, if for some $k$ the tuple
+$(\mu^{(k)}, \vec{x}^{(k)})$ is an eigenpair we have
+$\vec{r}^{(k)} = \vec{0}$. For approximate eigenpairs we expect a
+small residual to imply small errors in these approximations. A
+rigorous justfication is given in~\cite[59\psqq]{saad2011}. Here, we
+give only some important results without proof for the case when
+$\mat{A}$ is symmetric. A popular result, usually referred to as the
+\emph{Bauer-Fike theorem}~\cite{saad2011} \todo{page} states that
+there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
+\begin{equation}
+  \label{eq:bauer-fike}
+  \abs{\lambda - \mu^{(k)}} \le \kappa(\mat{Q}) \norm{\vec{r}}\,,
+\end{equation}
+where $\mat{Q}$ is a matrix that transforms $\mat{A}$ into diagonal
+form (\ie $\mat{Q}$ is such that $\mat{Q}^{-1}\mat{A}\mat{Q}$ is
+diagonal) and
+$\kappa(\mat{Q}) \coloneqq \norm{\mat{Q}}\norm{\mat{Q}^{(-1)}}$ is the
+\emph{condition number} of $\mat{Q}$. Such a matrix exists due to the
+\emph{spectral theorem}~\cite[Theorem 18 and Corollary,
+p.~314]{hoffmanlinalg}. Since $\mat{A}$ is real and symmetric
+$\mat{Q}$ is an \emph{orthogonal} matrix. In particular
+$\norm{\mat{Q}} = \norm{\mat{Q}^{-1}} = 1$ and thus
+\begin{equation*}
+  \abs{\lambda - \mu^{(k)}} \le \norm{\vec{r}}\,.
+\end{equation*}
+Therefore, if the stopping criterion is fulfilled, we have
+\begin{equation*}
+  \abs{\lambda - \mu^{(k)}} < \mathtt{tol}\,.
+\end{equation*}
+For the eigenvector one can show that the following bound holds
+\begin{equation*}
+  \sin \angle(\vec{u}^{(k)}, \vec{v}) \le \frac{
+    \norm{r}^{(k)}
+  }{
+    \delta
+  }
+\end{equation*}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

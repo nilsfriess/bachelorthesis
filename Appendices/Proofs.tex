@@ -1,0 +1,72 @@
+\chapter{Proofs}\label{AppendixProofs}
+\begin{proof}[Proof of Lemma~\ref{lem:rq:quadestimate}]
+  This proof is due to Börm~\cite[70]{boerm}.
+
+  Let $\alpha \in \C$. By using Lemma~\ref{lem:rq:properties} (ii) we
+  obtain
+  \begin{align*}
+    \abs{\rq_{\mat{A}}(\vec{x}) - \lambda}
+    &=
+      \abs{\rq_{\mat{A} - \lambda \mat{I}}(\vec{x})}\\
+    &=
+      \abs{
+      \frac{\langle \vec{x}, (\mat{A} - \lambda \mat{I}) \vec{x} \rangle}{\langle \vec{x}, \vec{x} \rangle}
+      }\\
+    &=
+      \frac{
+      \abs{
+      \langle \vec{x}, (\mat{A} - \lambda \mat{I})(\vec{x} - \alpha \vec{v}) \rangle
+      }
+      }{
+      \norm{x}^2
+      }
+    \\
+    &=
+      \frac{
+      \abs{
+      \langle {(\mat{A} - \lambda \mat{I})}^\ast \vec{x}, \vec{x} - \alpha \vec{v} \rangle
+      }
+      }{
+      \norm{x}^2
+      }
+    \\
+    &= 
+      \frac{
+      \abs{
+      \langle {(\mat{A} - \lambda \mat{I})}^\ast(\vec{x} - \alpha \vec{v}), \vec{x} - \alpha \vec{v} \rangle
+      }
+      }{
+      \norm{x}^2
+      }
+    \\
+    &=
+      \frac{
+      \abs{
+      \langle {\vec{x} - \alpha \vec{v}, (\mat{A} - \lambda \mat{I})} (\vec{x} - \alpha \vec{v}) \rangle
+      }
+      }{
+      \norm{x}^2
+      }
+    \\
+    &\le
+      \frac{
+      \norm{\vec{x} - \alpha \vec{v}} \norm{\mat{A} - \lambda \mat{I}} \norm{\vec{x} - \alpha \vec{v}}
+      }{
+      \norm{\vec{x}}^2
+      }
+    \\
+    &=
+      \norm{\mat{A} - \lambda \mat{I}} {\left(
+      \frac{
+      \norm{\vec{x} - \alpha \vec{v}}
+      }{
+      \norm{\vec{x}}
+      }
+      \right)}^2
+  \end{align*}
+\end{proof}
+\todo{Finish proof (maybe in appendix?)}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../main"
+%%% End:

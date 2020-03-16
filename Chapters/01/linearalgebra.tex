@@ -219,7 +219,7 @@ Besides the possible slow convergence rate, the power method only
 allows to compute the extreme eigenvalue and associated
 eigenvector. In many applications, however, one already has a good
 approximation of an eigenvalue and wants to compute the eigenvector
-it belongs to. The following method overcomes both of these drawpacks
+it belongs to. The following method overcomes both of these drawbacks
 (at least partly).
 
 \subsubsection{(Shifted) Inverse Iteration}
@@ -276,6 +276,10 @@ to the desired eigenvalue $\mu_1$. Therefore, the method is often used
 to compute an eigenvector of $\mat{A}$ if a good approximation of the
 corresponding eigenvalue is already available.
 
+Note that we did not specify the ``until convergence'' criteria in
+neither of the algorithms above. We postpone this discussion until
+Section~\ref{sec:rqi:rq}.
+
 We now give two examples for both the power method and the shifted
 inverse iteration.
 \begin{example}
@@ -297,9 +301,9 @@ approximations to replace occasionally the shift by an approximation
 of the corresponding eigenvalue. There are different techniques to
 obtain such estimates, \eg the \emph{Wielandt Shifted Inverse
   Iteration} or the Rayleigh Quotient Iteration which is rigorously
-studied in the next chapter. For further discussion on the
-variants and developments of these so called \emph{shift and invert}
-techniques see, \eg~\cite{ipsenhistory, tapia2018, golub2000eigenvalue}.
+studied in the next chapter. For further discussion on the variants
+and developments of these so called \emph{shift and invert} techniques
+see, \eg~\cite{ipsenhistory, tapia2018, golub2000eigenvalue}.
 
 %%% Local Variables:
 %%% mode: latex

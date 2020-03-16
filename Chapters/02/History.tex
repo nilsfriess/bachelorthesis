@@ -8,8 +8,8 @@ We start by giving an overview on different algorithms that strongly
 resemble what we now call Rayleigh Quotient iteration. This section
 starts with the first mentioning of the Rayleigh quotient and ends
 with the paper the first defines Rayleigh quotient iteration as it is
-given in Algorithm~\ref{alg:rqi}. This overview is mainly based
-on~\cite{tapia2018}.
+given in Algorithm~\ref{alg:rqi}. Large parts of this overview are
+based on~\cite{tapia2018}.\todo{Page}
 
 \paragraph{1894 --- \textsc{Lord Rayleigh}} In the second edition of
 his book titled ``The Theory of Sound'' John William Strutt, 3rd Baron
@@ -81,7 +81,7 @@ which is a contradiction.
 \paragraph{1957 -- 59 --- \textsc{Ostrowski}}
 Alexander Ostrowski published a series of six papers titled ``On the
 Convergence of the Rayleigh Quotient Iteration for the Computation of
-the Cbaracterist Roots and
+the Characteristic Roots and
 Vectors. I-VI''~\cite{ostrowskiI,ostrowskiII,ostrowskiIII,ostrowskiIV,ostrowskiV,ostrowskiVI}. We
 mention the titles here, since it is the first mention of the term
 \emph{Rayleigh Quotient Iteration}.
@@ -103,13 +103,13 @@ iteration
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
 sequence of Rayleigh quotients
-$\sigma_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie
+$\mu_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie
 \begin{equation}
   \label{eq:rqi:cubic}
   \frac{
-    \sigma_{i+1} - \lambda
+    \mu_{i+1} - \lambda
   }{
-    {(\sigma_i - \lambda)}^3
+    {(\mu_i - \lambda)}^3
   }
   \longrightarrow \gamma \quad \text{ as } i \rightarrow \infty\,,
 \end{equation}
@@ -119,13 +119,13 @@ is assumed to be near the eigenvector corresponding to $\lambda$.
 
 Note that~\eqref{eq:rqi:unnormalised:ostrowski} is the same algorithm
 previously proposed by Crandall given in
-Equation~\eqref{eq:unnormalised:rqi}. Ostrowski, however, was not
-aware of Crandall's method. While the first paper was in press the
+Equation~\eqref{eq:unnormalised:rqi}. Ostrowski was not aware of
+Crandall's method; however,.while the first paper was in press the
 following note was added:
 
 \begin{quotation}
   ``Professor G. Forsythe has directed my attention to a paper by
-  S. H. Crandall [\ldots]. In particular, Professor Crandall
+  S. H. Crandall [\,\ldots]. In particular, Professor Crandall
   establishes the \emph{cubic character} of convergence of $\xi_x$ in
   the rule (28), (29). However he does not arrive at our asymptotic
   formula (46), which is the principal result of our
@@ -145,12 +145,14 @@ iterates (and not just the Rayleigh Quotients) one needs to
 modification of Crandall's algorithm he fully defined RQI. This was
 all shown under the assumption that the matrix $\mat{A}$ is real
 symmetric and Ostrowski mentions that all results remain valid in the
-complex Hermitian case. The third paper~\cite{ostrowskiIII} of the
-series addresses the non-symmetric (or non-Hermitian) case for which
-Ostrowski is also able to define a method that attains local cubic
-convergence. This method uses a generalised notion of the Rayleigh
-quotient and comes at the expense of solving two linear systems at
-each step instead of one.\todo{Read Ostrowski's other papers}
+complex Hermitian case.
+
+The third paper~\cite{ostrowskiIII} of the series addresses the
+non-symmetric (or non-Hermitian) case for which Ostrowski is also able
+to define a method that attains local cubic convergence. This method
+uses a generalised notion of the Rayleigh quotient and comes at the
+expense of solving two linear systems at each step instead of
+one.\todo{Read Ostrowski's other papers}
 
 This concludes the overview on the development of RQI from the first
 mention of the Rayleigh Quotient by Lord Rayleigh to the first
