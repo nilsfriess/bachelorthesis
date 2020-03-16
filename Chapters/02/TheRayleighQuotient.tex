@@ -238,7 +238,7 @@ small residual to imply small errors in these approximations. A
 rigorous justfication is given in~\cite[59\psqq]{saad2011}. Here, we
 give only some important results without proof for the case when
 $\mat{A}$ is symmetric. A popular result, usually referred to as the
-\emph{Bauer-Fike theorem}~\cite{saad2011} \todo{page} states that
+\emph{Bauer-Fike theorem} (see, \eg~\cite[59]{saad2011}) states that
 there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}
@@ -254,20 +254,27 @@ p.~314]{hoffmanlinalg}. Since $\mat{A}$ is real and symmetric
 $\mat{Q}$ is an \emph{orthogonal} matrix. In particular
 $\norm{\mat{Q}} = \norm{\mat{Q}^{-1}} = 1$ and thus
 \begin{equation*}
-  \abs{\lambda - \mu^{(k)}} \le \norm{\vec{r}}\,.
+  \abs{\lambda - \mu^{(k)}} \le \norm{\vec{r}^{(k)}}\,.
 \end{equation*}
 Therefore, if the stopping criterion is fulfilled, we have
+$\abs*{\lambda - \mu^{(k)}} < \mathtt{tol}$.  For the eigenvector one
+can show~\cite[63]{saad2011} that the following bound holds
 \begin{equation*}
-  \abs{\lambda - \mu^{(k)}} < \mathtt{tol}\,.
-\end{equation*}
-For the eigenvector one can show that the following bound holds
-\begin{equation*}
-  \sin \angle(\vec{u}^{(k)}, \vec{v}) \le \frac{
-    \norm{r}^{(k)}
+  \sin \angle(\vec{x}^{(k)}, \vec{v}) \le \frac{
+    \norm{\vec{r}^{(k)}}
   }{
     \delta
-  }
+  }\,,
 \end{equation*}
+where $\vec{v}$ is an eigenvector associtated with $\lambda$ and
+$\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
+\ie
+\begin{equation*}
+  \delta \coloneqq \min_i\, \{ \abs*{\mu^{(k)} - \lambda_i} \ : \ \lambda_i \neq \lambda \} \,.
+\end{equation*}
+These results hold if
+$\mu^{(k)} = {(\vec{x}^{(k)})}^\ast \mat{A} {(\vec{x}^{(k)})}$
+(Rayleigh Quotient).\todo{Stopping criteria in Power method and SIT}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

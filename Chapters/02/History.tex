@@ -1,15 +1,17 @@
 \section{History and recent developments}
-In this section we provide an overview of the historic developments of
-Rayleigh Quotient Iteration. We also discuss recent contributions that
-are relevant to this thesis.
+Now that we have defined the Rayleigh Quotient and Rayleigh Quotient
+Iteration we give an overview on the historic developments of RQI. We
+also discuss recent contributions that are relevant to this thesis.
+Some of the results, mainly the ones that are concerned with the
+convergence of RQI, are discussed in more detail in
+Section~\ref{sec:convergence}.
 
 \subsection{Chronology of Rayleigh Quotient iteration}
-We start by giving an overview on different algorithms that strongly
-resemble what we now call Rayleigh Quotient iteration. This section
-starts with the first mentioning of the Rayleigh quotient and ends
-with the paper the first defines Rayleigh quotient iteration as it is
-given in Algorithm~\ref{alg:rqi}. Large parts of this overview are
-based on~\cite{tapia2018}.\todo{Page}
+It took about 60 years from the first mention of what is now called
+the Rayleigh quotient until RQI was fully defined as it is given in
+Algorithm~\ref{alg:rqi}. In this section we give an overview on some
+important milestones within this 60 years. Large parts of this
+overview are based on~\cite{tapia2018}.\todo{Page}
 
 \paragraph{1894 --- \textsc{Lord Rayleigh}} In the second edition of
 his book titled ``The Theory of Sound'' John William Strutt, 3rd Baron
@@ -56,14 +58,14 @@ Crandall~\cite{crandall} suggests
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x^{(i)}}\,.
 \end{equation}
 Actually, Crandall also considered the generalised
-eigenproblem~\eqref{eq:general:eig} but again for our purposes it is
-sufficient to consider the case $\mat{M} = \mat{I}$. Note, that this
-algorithm is RQI without the normalisation step. Based on the (wrong)
-assumption that the sequence of vectors $\vec{x}^{(k)}$ converges,
-Crandall establishes cubic convergence for this sequence. To see why
-the assumption is wrong, we assume the contrary, \ie suppose
-$\vec{x}^{(i)} \longrightarrow \vec{v}_k$ for some $k = 1, \dotsc, n$.
-From~\eqref{eq:unnormalised:rqi} we have
+eigenproblem~\eqref{eq:general:eig} but for our comparitive purposes
+it is sufficient to consider the case $\mat{M} = \mat{I}$. Note, that
+this algorithm is RQI without the normalisation step. Based on the
+(wrong) assumption that the sequence of vectors $\vec{x}^{(k)}$
+converges, Crandall establishes cubic convergence for this
+sequence. To see why the assumption is wrong, we assume the contrary,
+\ie suppose $\vec{x}^{(i)} \longrightarrow \vec{v}_k$ for some
+$k = 1, \dotsc, n$.  From~\eqref{eq:unnormalised:rqi} we have
 \begin{equation*}
   \quad \mat{A}\vec{v}_k - \rq_{\mat{A}}(\vec{v}_k) \vec{v}_k = \vec{v}_k
   \qquad \Leftrightarrow \qquad
