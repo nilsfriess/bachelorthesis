@@ -14,6 +14,8 @@ headsepline
 \usepackage[backend=biber,style=numeric-comp]{biblatex}
 \addbibresource{bibliography.bib}
 
+\usepackage[page,toc,titletoc,title]{appendix}
+
 
 \include{meta}  
 \include{preamble}
@@ -31,14 +33,16 @@ headsepline
 
 \cleardoublepage
 \tableofcontents
+\listoftodos
 
 \include{Chapters/01/Chapter01}
 \include{Chapters/02/Chapter02}
 \include{Chapters/03/Chapter03}
 
-\appendix
-\include{Appendices/Proofs}
-\include{Appendices/Algorithms}
+\begin{appendices}
+  \include{Appendices/Proofs}
+  \include{Appendices/Algorithms}
+\end{appendices}
 
 \printbibliography[heading=bibintoc]
 \end{document}

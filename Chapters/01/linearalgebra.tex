@@ -1,4 +1,4 @@
-\section{Results from Linear Algebra}
+\section{Results from (numerical) linear algebra}
 In this section we introduce the definitions and results from linear
 algebra that will be needed later. We also introduce the most basic
 iterative eigenvalue algorithms.
@@ -52,6 +52,40 @@ Jacobi published a pioneering paper on a method to compute eigenvalues
 of symmetric matrices~\cite{jacobi1846}. Below we present essential
 facts from linear algebra preparing us for discussing such iterative
 methods in Section~\ref{sec:iterative:algorithms}.
+
+\begin{remark}[Generalisations of eigenvalue problems]
+  The problem stated in Equation~\eqref{eq:eigvalproblem} can be
+  generalised in multiple ways. Many problems from physics lead to the
+  \emph{generalised eigenvalue problem}
+  \begin{equation}
+    \label{eq:eigvalproblem:general}
+    \mat{A} \vec{v} = \lambda \mat{M} \vec{v}\,.
+  \end{equation}
+  In our case, we have $\mat{M} = \mat{I}$, the identity matrix. Many
+  of the numerical algorithms for solving eigenvalue problems of the
+  form~\eqref{eq:eigvalproblem} can be modified to
+  solve~\eqref{eq:eigvalproblem:general} often under certain
+  assumptions posed on $\mat{M}$ such as positive
+  definiteness.\todo{Citation needed.}
+
+  Since matrices can be seen as representations of linear operators on
+  finite-dimensional vector spaces, we can define eigenvalue problems
+  for linear operators on more general spaces, that are possibly of
+  infinite dimension. The eigenvectors are then usually called
+  \emph{eigenfunction}. Other generalisations include the
+  \emph{quadratic eigenvalue problem}
+  \begin{equation*}
+    (\lambda^2 \mat{A}_2 + \lambda \mat{A}_1) \vec{v} = \mat{A}_0 \vec{v}\,,
+  \end{equation*}
+  with matrix coefficients
+  $\mat{A}_0, \mat{A}_1, \mat{A}_2 \in \C^{n \times n}$ or more
+  general \emph{nonlinear eigenproblems}
+  \begin{equation*}
+    \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
+  \end{equation*}
+  where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.
+
+\end{remark}
 
 In the following proposition we collect some basic facts on
 eigenvalues and eigenvectors. The results are shown under the
@@ -169,7 +203,52 @@ $\vec{v}_j$ for $j = 1, \dotsc, n$.
 \label{sec:iterative:algorithms}
 With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
-matrices.
+matrices. Since we are always interested in how fast these methods
+produce a good approximation of eigenvector or eigenvalue (or both),
+we first need the following defintion.
+
+\begin{definition}[Order of Convergence]
+  Let ${(\vec{x}_k)}_{k \in \N}$ be a sequence in $\R^n$ that
+  converges to $\vec{z} \in \R^n$.
+  \begin{enumerate}[label=(\roman*)]
+  \item The sequence is said to converge \emph{linearly} to $\vec{z}$,
+    if there exists a constant $0 < \rho < 1$ such that
+    \begin{equation*}
+      \lim_{k \rightarrow \infty} \frac{
+        \norm{\vec{x}_{k+1} - \vec{z}}
+      }{
+        \norm{\vec{x}_{k} - \vec{z}}
+      } < \rho\,,
+    \end{equation*}
+    where $M$ is called the \emph{rate of convergence}.
+  \item The sequence \emph{converges with order $q$ to $\vec{z}$} for
+    $q > 1$ if
+    \begin{equation*}
+      \lim_{k \rightarrow \infty} \frac{
+        \norm{\vec{x}_{k+1} - \vec{z}}
+      }{
+        \norm{\vec{x}_{k} - \vec{z}}^q
+      } < M\,,
+    \end{equation*}
+    for some $M > 0$. In particular, convergence with order
+    \begin{itemize}
+    \item $q = 2$ is called \emph{quadratic convergence},
+    \item $q = 3$ is called \emph{cubic convergence}
+    \end{itemize}
+    etc.
+  \end{enumerate}
+\end{definition}
+
+
+% Definition 6.3 (Konvergenzordnung). Sei (x k ) k≥0 ⊂ R n eine
+% konvergente Folge mit Grenzwert x ∗ ∈ R n . Wir sagen (i) x k
+% konvergiert gegen x ∗ mit Konvergenzordnung p > 1, falls C ≥ 0 und N
+% ∈ N existieren, sodass für alle k ≥ N gilt kx k+1 − x ∗ k ≤ Ckx k −
+% x ∗ k p .  (ii) x k konvergiert linear gegen x ∗ mit
+% Konvergenzfaktor C ∈ [0, 1), falls N ∈ N existiert, sodass für alle
+% k ≥ N gilt kx k+1 − x ∗ k ≤ Ckx k − x ∗ k .  1166 Iterative
+% Verfahren für (nicht) lineare Gleichungssysteme Für p = 2 spricht
+% man von quadratischer Konvergenz.
 
 % This is not done in the order of the time they were first used but
 % from simpler methods to more complicated ones. An overview of the
@@ -196,7 +275,7 @@ semi-simple\todo{Define semi-simple} and that $\vec{x}^{(0)}$ is not
 orthogonal to $\vec{v}_n$, cf.~\cite[Theorem 4.1,
 p.~86]{saad2011}). The proof of the theorem also shows that the
 sequence $\alpha^{(k)}$ converges to the eigenvalue $\lambda_n$ and
-that the method converges linearly with convergence factor
+that the method converges linearly with convergence rate
 \begin{equation}
   \label{eq:convergence:power}
   \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
@@ -218,37 +297,38 @@ eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small.
 Besides the possible slow convergence rate, the power method only
 allows to compute the extreme eigenvalue and associated
 eigenvector. In many applications, however, one already has a good
-approximation of an eigenvalue and wants to compute the eigenvector
-it belongs to. The following method overcomes both of these drawbacks
-(at least partly).
+approximation of an eigenvalue and wants to compute an eigenvector it
+belongs to. The following method overcomes both of these drawbacks (at
+least partly).
 
 \subsubsection{(Shifted) Inverse Iteration}
 The \emph{inverse iteration} is the power method applied to
 $\mat{A}^{-1}$ (provided that $\mat{A}$ is non-singular). Due to
 Proposition~\ref{prop:eigval:facts} (iii) this will produce a sequence
-of vectors $\vec{v}_k$ converging to the eigenvector associated to the
-smallest eigenvalue $\lambda_1$. Combining this idea with
+of vectors $\vec{x}^{(k)}$ converging to the eigenvector associated to
+the smallest eigenvalue $\lambda_1$. Combining this idea with
 Proposition~\ref{prop:eigval:facts} (iv) produces the \emph{shifted
   inverse iteration}.\footnote{Note that some authors call this the
   inverse iteration and do not make a distinction of a shift being
   used or not.} There, the iterates are defined by
 \[
-  \vec{v}_k = {\left( \mat{A} - \sigma \mat{I} \right)}^{-1}
-  \vec{v}_{k-1}\,,
+  \vec{x}^{(k)} = {\left( \mat{A} - \sigma \mat{I} \right)}^{-1}
+  \vec{x}^{(k-1)}\,,
 \]
 where we omitted the normalisation step. The scalar $\sigma \in \R$ is
 often called the \emph{shift} since it shifts the eigenvalues of
 $\mat{A}^{-1}$ by $\sigma$ on the real axis. Of course, we do not have
-to compute the inverse explicitly. Instead, before the loop we can
-compute the $\mat{LU}$ decomposition of $\mat{A} - \sigma \mat{I}$ and
-solve the system
+\todo{Check this again} to compute the inverse explicitly. Instead,
+before the loop we can compute the $\mat{LU}$ decomposition of
+$\mat{A} - \sigma \mat{I}$ and solve the system
 \[
-  {\left( \mat{A} - \sigma \mat{I} \right)} \vec{v}_k = \vec{v}_{k-1}
+  {\left( \mat{A} - \sigma \mat{I} \right)} \vec{x}^{(k)} =
+  \vec{x}^{(k-1)}
 \]
-for $\vec{v}_k$ reducing the complexity from $\O(n^3)$ to $\O(n^2)$ at
-each step. We summarise the results in Algorithm~\ref{alg:sii} (there,
-we normalise \wrt the Euclidean norm such that at every step
-$\norm{\vec{v}^{(k)}} = 1$ holds).
+for $\vec{x}^{(k)}$ reducing the complexity from $\O(n^3)$ to
+$\O(n^2)$ at each step. We summarise the results in
+Algorithm~\ref{alg:sii} (there, we normalise \wrt the Euclidean norm
+such that at every step $\norm{\vec{v}^{(k)}} = 1$ holds).
 
 \begin{algorithm}[htbp]
   \DontPrintSemicolon%

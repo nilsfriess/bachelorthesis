@@ -1,28 +1,27 @@
 \section{The Rayleigh Quotient}\label{sec:rqi:rq}
-Recall the general problem: Given approximations of an eigenvector of
-a symmetric matrix $\mat{A} = \mat{A}^\tp \in \R^{n \times n}$ we want
-to compute the exact eigenvector and associated eigenvalue. In
-Section~\ref{sec:iterative:algorithms} we briefly introduced iterative
-methods for computing eigenpairs. In essence, RQI is shifted inverse
-iteration where the shift is replaced by the \emph{Rayleigh quotient}
-at each step.
+In Chapter~\ref{chapter:intro} we briefly introduced iterative methods
+for computing eigenpairs. In essence, RQI is shifted inverse iteration
+where the shift is replaced by the \emph{Rayleigh quotient} at each
+step. As we will see, the Rayleigh Quotient can be used to obtain good
+estimates of an eigenvalue given an approximation of an eigenvector.
 
 \begin{definition}[Rayleigh Quotient]
   Let $\mat{A} \in \C^{n \times n}$. The mapping
-  \[
+  \begin{equation*}
     \rq_{\mat{A}} : \C^n \setminus \{\vec{0}\} \rightarrow \C, \qquad
-    \vec{x} \mapsto \frac{\vec{x}^\herm \mat{A} \vec{x}}{\vec{x}^\herm
-      \vec{x}}
-  \]
-  is called the \emph{Rayleigh quotient} corresponding to the matrix
+    \vec{x} \mapsto \frac{\vec{x}^\herm \mat{A} \vec{x}}{\vec{x}^\herm \vec{x}}
+  \end{equation*}
+  is called the \emph{Rayleigh quotient}\footnote{Other notations that
+    are popular in the literature include
+    $R_{\mat{A}}(\vec{x}),\ R(\mat{A}, \vec{x}),\
+    r_{\mat{A}}(\vec{x}),\ \sigma_{\mat{A}}(\vec{x}))$ or
+    $\uprho_{\mat{A}}(\vec{x})$.}  corresponding to the matrix
   $\mat{A}$.
 \end{definition}
 Note that for real matrices, we have
-\[
-  \rq_{\mat{A}} : \R^n \setminus \{\vec{0}\} \rightarrow \R, \qquad
-  \vec{x} \mapsto \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp
-    \vec{x}}
-\]
+\begin{equation*}
+  \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}
+\end{equation*}
 
 We begin by discussing some basic facts.
 \begin{lemma}%
@@ -30,11 +29,11 @@ We begin by discussing some basic facts.
   Let $\vec{x}\in \C^n \setminus \{ \vec{0} \}$,
   $0 \neq \alpha, \beta \in \C$ and $\mat{A} \in \C^{n \times n}$.
   \begin{enumerate}[label=(\roman*)]
-  \item For an eigenpair $(\lambda, \vec{v})$ of $\mat{A}$ we have
+  \item If $(\lambda, \vec{v})$ is an eigenpair of $\mat{A}$, then
     $\rq_{\mat{A}}(\vec{v}) = \lambda$.
   \item
     $\rq_{\beta \mat{A}}(\alpha \vec{x}) = \beta
-    \rq_{\mat{A}}(\vec{x})$ \hfill (Homogenity)
+    \rq_{\mat{A}}(\vec{x})$ \hfill (Homogeneity)
 
   \item
     $\rq_{\mat{A} - \alpha \mat{I}}(\vec{x}) = \rq_{\mat{A}}(\vec{x})
@@ -78,7 +77,7 @@ We begin by discussing some basic facts.
       \lambda\,.
     \end{equation*}
   \item By again writing the Rayleigh Quotient as
-    in~\eqref{eq:rq:innerprod} and using the semilinearity in the
+    in~\eqref{eq:rq:innerprod} and using the semi-linearity in the
     first and linearity in the second argument of the inner product,
     we obtain
     \begin{equation*}
@@ -166,7 +165,7 @@ According to Parlett the following result is the property to which
 ``the phenomenal convergence rate [of RQI] can be
 attributed''~\cite[77]{Parlett1998}.
 
-\begin{lemma}[Eigenvalue estimate]
+\begin{lemma}[Eigenvalue estimate]%
   \label{lem:rq:quadestimate}
   Let $\vec{x} \in \C^n$ be an approximation of an eigenvector
   $\vec{v}$ of a normal\footnote{A matrix $\mat{A}$ is said to be
@@ -214,8 +213,8 @@ Inverse Iteration and the computation of the Rayleigh Quotient.
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
   $\mu^{(0)} \gets {\left(\vec{x}^{(0)}\right)}^\ast \mat{A} \vec{x}^{(0)}$ \;
   \For{$k = 1,2, \dotsc$ until convergence}{
-    Solve ${\left( \mat{A} - \mu^{(k)} \mat{I}\right)} \vec{\tilde{x}}^{(k)} = \vec{x}^{(k-1)}$ for $\vec{\tilde{x}}^{(k)}$\;
-    $\vec{x}^{(k)} \gets \vec{\tilde{x}}^{(k)} / \norm{\vec{\tilde{x}}^{(k)}}$\;
+    Solve ${\left( \mat{A} - \mu^{(k)} \mat{I}\right)} \vec{y}^{(k)} = \vec{x}^{(k-1)}$ for $\vec{y}^{(k)}$\;
+    $\vec{x}^{(k)} \gets \vec{y}^{(k)} / \norm{\vec{y}^{(k)}}$\;
     $\mu^{(k)} \gets {\left(\vec{x}^{(k)}\right)}^\ast \mat{A} \vec{x}^{(k)}$ \;
   } 
   \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
@@ -235,14 +234,15 @@ is a user-given error tolerance. Obviously, if for some $k$ the tuple
 $(\mu^{(k)}, \vec{x}^{(k)})$ is an eigenpair we have
 $\vec{r}^{(k)} = \vec{0}$. For approximate eigenpairs we expect a
 small residual to imply small errors in these approximations. A
-rigorous justfication is given in~\cite[59\psqq]{saad2011}. Here, we
-give only some important results without proof for the case when
-$\mat{A}$ is symmetric. A popular result, usually referred to as the
-\emph{Bauer-Fike theorem} (see, \eg~\cite[59]{saad2011}) states that
-there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
+rigorous justfication\todo{Rewrite} is given
+in~\cite[59\psqq]{saad2011}. Here, we give only some important results
+without proof for the case when $\mat{A}$ is symmetric. A popular
+result, usually referred to as the \emph{Bauer-Fike theorem} (see,
+\eg~\cite[59]{saad2011}) states that there exists an eigenvalue
+$\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}
-  \abs{\lambda - \mu^{(k)}} \le \kappa(\mat{Q}) \norm{\vec{r}}\,,
+  \abs{\lambda - \mu^{(k)}} \le \kappa(\mat{Q}) \norm{\vec{r}^{(k)}}\,,
 \end{equation}
 where $\mat{Q}$ is a matrix that transforms $\mat{A}$ into diagonal
 form (\ie $\mat{Q}$ is such that $\mat{Q}^{-1}\mat{A}\mat{Q}$ is

@@ -3,9 +3,144 @@ We mentioned earlier the local cubic convergence of RQI. In this
 section we give a proof of this claim and we also show that RQI
 converges globally.
 
-As we will see in the next section, the first rigorous proof of the
-cubic convergence of RQI was given by Ostrowksi in
-1958~\cite{ostrowskiI}.
+As we have seen in the previous section the first rigorous proof of
+the cubic convergence of RQI was given by Ostrowski~\cite{ostrowskiI}
+but over time a number of different, simpler proofs were presented.
+We start by stating the result we want to proof and then sketch a few
+of the different approaches.
+
+\begin{theorem}[Cubic convergence]%
+  \label{thm:rqi:cubic}
+  Rayleigh Quotient Iteration is locally cubically convergent.
+\end{theorem}
+Locally here means that
+\begin{enumerate}
+\item we assume that the sequence $(\vec{x}^{(i)})$ does converge to
+  an eigenvector of $\mat{A}$ and
+\item the current iterate is a sufficiently good approximation of the
+  target eigenvector, \ie the error between the current iterate and
+  the target is small enough.
+\end{enumerate}
+It suffices to make these assumptions for the eigenvectors only since
+if the vector iterates converge to an eigenvector, the eigevalue
+approximations (given by the Rayleigh Quotient of the vector iterates)
+must also converge due to Lemma~\ref{lem:rq:properties}
+(ii). Furthermore, we have already seen in
+Lemma~\ref{lem:rq:quadestimate} that the Rayleigh Quotient of good
+eigenvector estimates yields even better eigenvalue estimates.
+
+Some of the proofs are given under the assumption that $\mat{A}$ is
+diagonal. To see why no generality is lost with this assumption, write
+$\mat{Q}^\tp \mat{A} \mat{Q} = \mat{\Lambda}$, where $\mat{Q}$ is an
+orthogonal matrix consisting of the eigenvectors of $\mat{A}$ as its
+columns and $\mat{\Lambda} = \diag(\lambda_1, \dotsc, \lambda_n)$ is
+the diagonal matrix of eigenvalues. We temporarily drop the
+superscripts that denote the current iteration and change variables in
+RQI\footnote{Recall the notation from Algorithm~\ref{alg:rqi} where
+  $\vec{y} = \vec{y}^{(i)}$ denotes the unnormalised $i$-th iterate
+  and $\vec{x} = \vec{x}^{(i)}$ denotes the same iterate after
+  normalisation.}  to $\hat{\vec{x}} \coloneqq \mat{Q}^\tp \vec{x}$
+and $\hat{\vec{y}} \coloneqq \mat{Q}^\tp \vec{y}$. Then
+\begin{equation*}
+  \mu^{(i)} = \mu = \rq_{\mat{A}}(\vec{x}) = \frac{
+    \vec{x}^\tp \mat{A} \vec{x}
+  }{
+    \vec{x}^\tp \vec{x}
+  } = \frac{
+    \hat{\vec{x}}^\tp \mat{Q}^\tp \mat{A} \mat{Q} \hat{\vec{x}}
+  }{
+    \hat{\vec{x}}^\tp \mat{Q}^\tp \mat{Q} \hat{\vec{x}}
+  } = \frac{
+    \hat{\vec{x}}^\tp \mat{\Lambda} \hat{\vec{x}}
+  }{
+    \hat{\vec{x}}^\tp \hat{\vec{x}}
+  } =
+  \rq_{\mat{\Lambda}}(\hat{\vec{x}})
+  =
+  \rq_{\mat{\Lambda}}(\hat{\vec{x}}^{(i)})\,,
+\end{equation*}
+and
+$\mat{Q} \hat{\vec{y}}^{(i+1)} = {(\mat{A} -
+  \mu^{(i)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(i)}$. Hence,
+\begin{equation*}
+  \hat{\vec{y}}^{(i+1)} =
+  \mat{Q}^\tp {(\mat{A} - \mu^{(i)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(i)} =
+  {(\mat{Q}^\tp \mat{A} \mat{Q} - \mu^{(i)}\mat{I})}^{-1}\hat{\vec{x}}^{(i)} =
+  {(\mat{\Lambda} - \mu^{(i)}\mat{I})}^{-1}\hat{\vec{x}}^{(i)}
+\end{equation*}
+\todo{Check if this is right} We see that running RQI with $\mat{A}$
+and $\vec{x}^{(0)}$ is equivalent to running RQI with $\mat{\Lambda}$
+and $\hat{\vec{x}}^{(0)}$. Thus we will assume that
+$\mat{A} = \mat{\Lambda}$ is already diagonal which in particular
+implies that the eigenvectors of $\mat{A}$ are $\vec{e}_i$, the
+columns of the identity matrix.\todo{Rewrite, too close to [Demmel]}
+
+\begin{proof}[Proof 1 ]
+  This proof is due to Demmel~\cite[215 \psq]{demmel}. Assume that the
+  eigenvalue that is computed is \emph{simple}
+  (cf. Definition~\ref{def:eig:simple}). Suppose without loss of
+  generality that $\vec{x}^{(i)}$ converges to $\vec{e}_1$. Remember
+  that we assume that the current iterate is a sufficiently good
+  estimate of $\vec{e}_1$, such that for some $i$ we can write
+  $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ with
+  $\norm{\vec{d}^{(i)}} = \epsilon \ll 1$. To show cubic convergence,
+  we have to verfiy that
+  \begin{equation*}
+    \lim_{i \rightarrow \infty} \frac{
+      \norm{\vec{x}^{(i+1)} - \vec{e}_1}
+    }{
+      \norm{\vec{x}^{(i)} - \vec{e}_1}^3
+    }
+    <
+    M\,,
+  \end{equation*}
+  for some positive constant $M$. We know that
+  $\norm{\vec{x}^{(i)} - \vec{e}_1}^3 = \epsilon^3$, hence it suffices
+  to show that
+  $\norm{\vec{x}^{(i+1)} - \vec{e}_1} = \mathcal{O}(\epsilon^3)$. In
+  other words we have to show that
+  $\vec{x}^{(i+1)} = \vec{e}_1 + \vec{d}^{(i+1)}$ with
+  $\norm{\vec{d}^{(i+1)}} = \mathcal{O}(\epsilon^3)$.
+
+  Since the vectors are normalised at each step we have
+  \begin{align*}
+    1 = {(\vec{x}^{(i)})}^\tp (\vec{x}^{(i)})
+    &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp (\vec{e}_1 + \vec{d}^{(i)})
+      = \vec{e}_1^\tp \vec{e}_1 + 2 \vec{e}_1^\tp \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \vec{d}^{(i)} \\
+    &= 1 + 2 d^{(i)}_1 + \epsilon^2\,.
+  \end{align*}
+  where $d^{(i)}_1$ denotes the first component of the vector
+  $\vec{d}^{(i)}$. Rewriting gives $d^{(i)}_1 = -\epsilon^2/ 2$ and
+  using the symmetry\footnote{For a symmetric matrix
+    $\mat{B} = \mat{B}^\tp$ we have
+    \begin{equation*}
+      \vec{u}^\tp \mat{B} \vec{w} = {(\vec{u}^\tp \mat{B} \vec{w})}^\tp = \vec{w}^\tp {(\vec{u}^\tp \mat{B})}^\tp
+      = \vec{w}^\tp \mat{B}^\tp \vec{u} = \vec{w}^\tp \mat{B} \vec{u} \,.
+    \end{equation*}
+  } of $\mat{\Lambda}$ we obtain
+  \begin{align*}
+    \mu^{(i)} &= {(\vec{x}^{(i)})}^\tp \mat{\Lambda}\vec{x}^{(i)}
+                = {(\vec{e}_1 + \vec{d}^{(i)})}^\tp \mat{\Lambda} {(\vec{e}_1 + \vec{d}^{(i)})} \\
+              &= \vec{e}_1^\tp \mat{\Lambda} \vec{e}_1 + 2\vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1 - \eta\,,
+  \end{align*}
+  where
+  $\eta \coloneqq -2 \vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} -
+  {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1
+  \epsilon^2 - {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}$.
+  Using the fact that the spectral norm of a symmetric matrix is equal
+  to its spectral radius, \ie the absolute value of the largest
+  eigenvalue $\lambda_{\max}$, we can bound $\abs{\eta}$ as follows
+  \begin{equation*}
+    \abs{\eta} \le \abs{\lambda_1} \epsilon^2 + \norm{\mat{\Lambda}}\norm*{\vec{d}^{(i)}}^2
+    \le \abs{\lambda_{\max}} \epsilon^2 + \norm{\mat{\Lambda}} \epsilon^2 = 2 \norm{\mat{\Lambda}} \epsilon^2
+  \end{equation*}
+  we see that
+  $\mu^{(i)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
+  (cf. Lemma~\ref{lem:rq:quadestimate}).
+\end{proof}
+
+
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

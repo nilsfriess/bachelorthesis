@@ -89,18 +89,21 @@ mention the titles here, since it is the first mention of the term
 \emph{Rayleigh Quotient Iteration}.
 
 In the first paper the author suggests the iteration
-\begin{equation*}
+\begin{equation}
+  \label{eq:rqi:ostrowski:first}
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \bm{\eta}\,,\quad \bm{\eta} \neq \vec{0}\,.
-\end{equation*}
+\end{equation}
 He rigorously establishes a \emph{quadratic} convergence rate for the
 sequence $\{ \rq_{\mat{A}}(\vec{x}^{(i)}) \}$. He then refers to a
 paper of Wielandt~\cite{wielandt} and his \emph{fractional} or
 \emph{broken iteration} (German: \emph{gebrochene
-  Iteration}). Inspired by Wielandt`s method he proposes the following
-iteration
+  Iteration}). Inspired by Wielandt`s method he suggests replacing the
+fixed vector $\vec{eta}$ in the right hand side
+of~\eqref{eq:rqi:ostrowski:first} to the solution from the previous
+step
 \begin{equation}
   \label{eq:rqi:unnormalised:ostrowski}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x}^{(i)}\,,
+  (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x}^{(i)}\,,
 \end{equation}
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
