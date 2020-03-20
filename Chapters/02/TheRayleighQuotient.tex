@@ -130,39 +130,9 @@ yields
   \mu = \frac{\hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}}{\left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right)}
 \end{equation*}
 
-To see how good of an approximation the Rayleigh Quotient is we first
-need the notion of an \emph{angle} between to vectors. This definition
-will be also used later when analysing the convergence of RQI.
-
-\begin{definition}[Angle]
-  The \emph{angle} between two vectors
-  $\vec{x}, \vec{y} \in \C^n \setminus \{ \vec{0} \}$ is defined as
-  \begin{equation*}
-    \angle(\vec{x}, \vec{y}) = \arccos \frac{
-      \abs{\langle \vec{x}, \vec{y} \rangle}
-    }{
-      \norm{\vec{x}} \norm{\vec{y}}
-    }\,.
-  \end{equation*}
-  Often, the following identites are convenient
-  \begin{align*}
-    \cos \angle(\vec{x}, \vec{y}) &= \frac{
-                                    \abs{\langle \vec{x}, \vec{y} \rangle}
-                                    }{
-                                    \norm{\vec{x}} \norm{\vec{y}}
-                                    }\,,\\
-    \sin \angle(\vec{x}, \vec{y}) &\coloneqq
-                                    \sqrt{1 - \cos^2 \angle(\vec{x}, \vec{y})}\,, \\
-    \tan \angle(\vec{x}, \vec{y}) &\coloneqq
-                                    \frac{
-                                    \sin \angle(\vec{x}, \vec{y})
-                                    }{
-                                    \cos \angle(\vec{x}, \vec{y})
-                                    }\,.
-  \end{align*}
-\end{definition}
-According to Parlett the following result is the property to which
-``the phenomenal convergence rate [of RQI] can be
+The following result specifies how good of an estimate the Rayleigh
+Quotient is.  According to Parlett this is the property to which ``the
+phenomenal convergence rate [of RQI] can be
 attributed''~\cite[77]{Parlett1998}.
 
 \begin{lemma}[Eigenvalue estimate]%

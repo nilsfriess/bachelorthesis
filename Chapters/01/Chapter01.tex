@@ -1,15 +1,23 @@
 \chapter{Introduction}\label{chapter:intro}%
-This thesis presents a modification of the \emph{Rayleigh Quotient
-  Iteration} that improves convergence to a target eigenpair under the
-assumption that a good approximation of the eigenvector but possibly
-not the eigenvalue is available. In this chapter we introduce an
-example from physics that has this property. We also collect all the
-definitions and results from linear algebra that will be needed later.
-Finally, we describe the objectives of this thesis.
+This thesis introduces a novel shift-and-invert-type method that is
+similar to the \emph{Rayleigh Quotient Iteration (RQI)}. Numerical
+examples suggest that this method overcomes some of the drawbacks of
+RQI. Before we introduce this new method we collect all the necesarry
+definitions and results from numerical linear algebra in the next
+section. We will finish off this introductory chapter be reviewing
+some of the most basic iterative methods to compute eigenvalues.
 
-\input{Chapters/01/objectives}
-\input{Chapters/01/motivation}
-\input{Chapters/01/linearalgebra}
+In the next chapter we study the classic Rayleigh Quotient Iteration.
+Among others, we give a proof for the property that makes it so
+popular, namely the local cubic convergence.\todo{Rewrite}
+
+The third chapter is devoted to the novel method that we call
+\emph{Complex Rayleigh Quotient Iteration}. We give many different
+numerical examples and carefully analyse them.
+
+% \input{Chapters/01/objectives}%
+\input{Chapters/01/motivation}%
+\input{Chapters/01/linearalgebra}%
 
 %%% Local Variables:
 %%% mode: latex

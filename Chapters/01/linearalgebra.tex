@@ -7,16 +7,17 @@ iterative eigenvalue algorithms.
 \label{sec:symmetric:eigenproblem}
 In Example~\ref{ex:modelproblem} a problem of the form
 \[
-  \text{``Find $\vec{v} \in \R^n,\, \lambda \in \R$, such that
-    $ \mat{A}\vec{v} = \lambda \vec{v}$ ''}
+  \text{``Find
+    $\vec{v} \in \R^n \setminus \{ \vec{0} \},\, \lambda \in \R$, such
+    that $ \mat{A}\vec{v} = \lambda \vec{v}$ ''}
 \]
 arised, where $\mat{A}$ was a real symmetric matrix. This problem is
 referred to as the \emph{symmetric eigenvalue problem}. A more general
 definition is given in the following.
 \begin{definition}
-  Let $\mat{A} \in \C^{n \times n}$ be a matrix. A scalar
-  $\lambda \in \C$ is called \emph{eigenvalue} of $\mat{A}$ if there
-  exists a nonzero vector $\vec{v} \in \C^n$ such that
+  Let $\mat{A} \in \C^{n \times n}$. A scalar $\lambda \in \C$ is
+  called \emph{eigenvalue} of $\mat{A}$ if there exists a nonzero
+  vector $\vec{v} \in \C^n$ such that
   \begin{equation}
     \label{eq:eigvalproblem} 
     \mat{A}\vec{v} = \lambda \vec{v}\,.
@@ -24,34 +25,33 @@ definition is given in the following.
   The vector $\vec{v}$ is called an \emph{eigenvector} of $\mat{A}$
   associated with $\lambda$. The tuple $(\lambda, \vec{v})$ is called
   an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
-  called the \emph{spectrum} and is denoted by $\sigma(\mat{A})$.
+  referred to as the \emph{spectrum} and is denoted by
+  $\sigma(\mat{A})$.
 \end{definition}
-\todo{Too often ``is called''} Computing eigenpairs is a non-trivial
-task.  Rewriting~\eqref{eq:eigvalproblem} gives
+Computing eigenpairs is a non-trivial task.
+Rewriting~\eqref{eq:eigvalproblem} gives
 $\mat{A}\vec{v} - \lambda \vec{v} = \vec{0}$ or
 $(\mat{A} - \lambda \mat{I}) \vec{v} = \vec{0}$, where $\mat{I}$ is
-the identity matrix of appropriate size. That is, $\lambda$ is an
-eigenvalue of $\mat{A}$ if and only if the matrix
-$\mat{A} - \lambda \mat{I}$ is singular. It follows, that the
-eigenvalues of $\mat{A}$ are the roots of the \emph{characteristic
-  polynomial}
+the identity matrix. Since $\vec{v}$ cannot be the zero vector, this
+equation holds if and only if the matrix $\mat{A} - \lambda \mat{I}$
+is singular. Thus, eigenvalues of $\mat{A}$ are exactly the roots of
+the \emph{characteristic polynomial}
 \[
-  \chi_{\mat{A}}(t) \coloneqq \chi(t) \coloneqq \det(\mat{A} - t
-  \mat{I}) \,.
+  \chi_{\mat{A}}(t) \coloneqq \det(\mat{A} - t \mat{I}) \,.
 \]
-This fact, however, cannot be used to calculate eigenvalues
-numerically since the computation of the coefficients of the
-polynomial is not stable~\cite[37]{golub2000eigenvalue}. And even if
-it were, it is well-known that even small perturbations in the
-coefficients of $\chi_{\mat{A}}(t)$ can lead to devastating errors in
-the roots. In other words, finding the roots of a polynomial is an
-ill-conditioned task~\cite[cf.][190]{trefethen1997}. Thus, other
-methods are necessary to solve~\eqref{eq:eigvalproblem} which gave
-rise to iterative algorithms. These methods date back to 1846 when
-Jacobi published a pioneering paper on a method to compute eigenvalues
-of symmetric matrices~\cite{jacobi1846}. Below we present essential
-facts from linear algebra preparing us for discussing such iterative
-methods in Section~\ref{sec:iterative:algorithms}.
+This fact, altough being of theoretical significance, cannot be used
+to calculate eigenvalues numerically for two reasons. First, the
+computation of the coefficients of the polynomial is not
+stable~\cite[37]{golub2000eigenvalue}. And even if it was, it is
+well-known that even small perturbations in the coefficients of
+$\chi_{\mat{A}}(t)$ can lead to devastating errors in the
+roots~\cite[cf.][190]{trefethen1997}. Thus, other methods are
+necessary to solve~\eqref{eq:eigvalproblem} which gave rise to
+iterative algorithms. These methods date back to 1846 when Jacobi
+published a pioneering paper on a method to compute eigenvalues of
+symmetric matrices~\cite{jacobi1846}. Below we present essential facts
+from linear algebra preparing us for discussing such iterative methods
+in Section~\ref{sec:iterative:algorithms}.
 
 \begin{remark}[Generalisations of eigenvalue problems]
   The problem stated in Equation~\eqref{eq:eigvalproblem} can be
@@ -64,15 +64,15 @@ methods in Section~\ref{sec:iterative:algorithms}.
   In our case, we have $\mat{M} = \mat{I}$, the identity matrix. Many
   of the numerical algorithms for solving eigenvalue problems of the
   form~\eqref{eq:eigvalproblem} can be modified to
-  solve~\eqref{eq:eigvalproblem:general} often under certain
-  assumptions posed on $\mat{M}$ such as positive
+  solve~\eqref{eq:eigvalproblem:general}; often certain assumptions
+  have to be posed on $\mat{M}$ such as positive
   definiteness.\todo{Citation needed.}
 
   Since matrices can be seen as representations of linear operators on
   finite-dimensional vector spaces, we can define eigenvalue problems
   for linear operators on more general spaces, that are possibly of
   infinite dimension. The eigenvectors are then usually called
-  \emph{eigenfunction}. Other generalisations include the
+  \emph{eigenfunctions}. Other generalisations include the
   \emph{quadratic eigenvalue problem}
   \begin{equation*}
     (\lambda^2 \mat{A}_2 + \lambda \mat{A}_1) \vec{v} = \mat{A}_0 \vec{v}\,,
@@ -84,7 +84,6 @@ methods in Section~\ref{sec:iterative:algorithms}.
     \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
   \end{equation*}
   where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.
-
 \end{remark}
 
 In the following proposition we collect some basic facts on
@@ -101,10 +100,10 @@ in particular for real symmetric matrices.
   matrix. Denote by $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the
   eigenvalues\footnote{Of course, the eigenvalues need not be
     distinct. But since the eigenvalues of $\mat{A}$ are the roots of
-    the $n$-degree polynomial $\det(\mat{A} - t \mat{I})$, when
-    counting these roots with their multiplicity, this polynomial has
-    $n$ roots over $\C$. Thus, we can label the eigenvalues from $1$
-    to $n$.} of $\mat{A}$ with associated eigenvectors
+    the $n$-degree polynomial $\chi_{\mat{A}}(t)$, when counting these
+    roots with their multiplicity, this polynomial has $n$ roots over
+    $\C$. Thus, we can label the eigenvalues from $1$ to $n$.} of
+  $\mat{A}$ with associated eigenvectors
   $\vec{v}_1, \dotsc, \vec{v}_n$.
   \begin{enumerate}[label=(\roman*)]
   \item All eigenvalues of $\mat{A}$ are real.
@@ -118,15 +117,15 @@ in particular for real symmetric matrices.
   \item If $\mat{A}$ is non-singular the eigenvalues of $\mat{A}^{-1}$
     are given by $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with
     eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
-  \item Let $\mu \in \R$ an arbitrary scalar. Then the eigenvalues of
+  \item Let $\mu \in \R$ an arbitrary scalar. The eigenvalues of
     $\mat{A} - \mu \mat{I}$ are $\lambda_i - \mu$ with eigenvectors
     $\vec{v}_1, \dotsc, \vec{v}_n$.
   \end{enumerate}
 \end{proposition}
 \begin{proof}
-  The proofs for (i) and (ii) can be found in most standard linear
-  algebra literature (see for example~\cite[Theorem 18 and Corollary,
-  p.~314]{hoffmanlinalg}).
+  Both (i) and (ii) are well-known results from linear algebra and the
+  proofs can be found in most standard literature (see for
+  example~\cite[Theorem 18 and Corollary, p.~314]{hoffmanlinalg}).
   \begin{enumerate}
   \item[(iii)] Suppose $\mat{A}$ is invertible and let
     $(\lambda, \vec{v})$ be an eigenpair of $\mat{A}$ (note that since
@@ -137,7 +136,7 @@ in particular for real symmetric matrices.
       \quad \Leftrightarrow \quad \lambda^{-1} \vec{v} = \mat{A}^{-1}
       \vec{v} \,,
     \end{gather*}
-    \ie $(\lambda^{-1}, \vec{v})$ is an eigenpair of $\mat{A}^{-1}$.
+    hence $(\lambda^{-1}, \vec{v})$ is an eigenpair of $\mat{A}^{-1}$.
 
   \item[(iv)] For $\mu \in \R$ and $(\lambda, \vec{v})$ an eigenpair
     we have
@@ -147,7 +146,7 @@ in particular for real symmetric matrices.
       \quad \Leftrightarrow \quad (\mat{A} - \mu \mat{I}) \vec{v} =
       (\lambda - \mu) \vec{v} \,,
     \end{gather*}
-    \ie $(\lambda - \mu, \vec{v})$ is an eigenpair of
+    hence $(\lambda - \mu, \vec{v})$ is an eigenpair of
     $\mat{A} - \mu \mat{I}$.
   \end{enumerate}
 \end{proof}
@@ -157,8 +156,9 @@ equation~\eqref{eq:eigvalproblem} given $\mat{A} \in \R^{n \times n}$
 is a real symmetric matrix. The (real) eigenvalues and associated
 (real) eigenvectors of $\mat{A}$ are denoted by
 $\lambda_1, \dotsc, \lambda_n$ and $\vec{v}_1, \dotsc, \vec{v}_n$,
-respectively. We assume that the eigenvalues are normalised \wrt the
-Euclidean norm, \ie
+respectively. Since for any eigenvector $\vec{v}$ also any scalar
+multiple of $\vec{v}$ is also an eigenvector, we assume that the
+eigenvectors are normalised \wrt the Euclidean norm, so that
 \[
   \norm{\vec{v}_i} = \norm{\vec{v}_i}_2 = \sqrt{ \vec{v}_i^\tp
     \vec{v}_i } = 1 \quad \text{ for all } i = 1, \dotsc, n\,.
@@ -203,31 +203,32 @@ $\vec{v}_j$ for $j = 1, \dotsc, n$.
 \label{sec:iterative:algorithms}
 With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
-matrices. Since we are always interested in how fast these methods
-produce a good approximation of eigenvector or eigenvalue (or both),
-we first need the following defintion.
+matrices. We are always interested in how fast these methods produce
+good approximations of eigenvectors or eigenvalues (or both). The
+following defintion provides us with a notion of the speed at which
+the sequence converges to its limit.
 
 \begin{definition}[Order of Convergence]
-  Let ${(\vec{x}_k)}_{k \in \N}$ be a sequence in $\R^n$ that
+  Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\R^n$ that
   converges to $\vec{z} \in \R^n$.
   \begin{enumerate}[label=(\roman*)]
   \item The sequence is said to converge \emph{linearly} to $\vec{z}$,
     if there exists a constant $0 < \rho < 1$ such that
     \begin{equation*}
       \lim_{k \rightarrow \infty} \frac{
-        \norm{\vec{x}_{k+1} - \vec{z}}
+        \norm{\vec{x}^{(k+1)} - \vec{z}}
       }{
-        \norm{\vec{x}_{k} - \vec{z}}
+        \norm{\vec{x}^{(k)} - \vec{z}}
       } < \rho\,,
     \end{equation*}
-    where $M$ is called the \emph{rate of convergence}.
+    where $\rho$ is called the \emph{rate of convergence}.
   \item The sequence \emph{converges with order $q$ to $\vec{z}$} for
     $q > 1$ if
     \begin{equation*}
       \lim_{k \rightarrow \infty} \frac{
-        \norm{\vec{x}_{k+1} - \vec{z}}
+        \norm{\vec{x}^{(k+1)} - \vec{z}}
       }{
-        \norm{\vec{x}_{k} - \vec{z}}^q
+        \norm{\vec{x}^{(k)} - \vec{z}}^q
       } < M\,,
     \end{equation*}
     for some $M > 0$. In particular, convergence with order
@@ -239,49 +240,68 @@ we first need the following defintion.
   \end{enumerate}
 \end{definition}
 
+In some cases convergence behaviour is best studied in terms of the
+\emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
 
-% Definition 6.3 (Konvergenzordnung). Sei (x k ) k≥0 ⊂ R n eine
-% konvergente Folge mit Grenzwert x ∗ ∈ R n . Wir sagen (i) x k
-% konvergiert gegen x ∗ mit Konvergenzordnung p > 1, falls C ≥ 0 und N
-% ∈ N existieren, sodass für alle k ≥ N gilt kx k+1 − x ∗ k ≤ Ckx k −
-% x ∗ k p .  (ii) x k konvergiert linear gegen x ∗ mit
-% Konvergenzfaktor C ∈ [0, 1), falls N ∈ N existiert, sodass für alle
-% k ≥ N gilt kx k+1 − x ∗ k ≤ Ckx k − x ∗ k .  1166 Iterative
-% Verfahren für (nicht) lineare Gleichungssysteme Für p = 2 spricht
-% man von quadratischer Konvergenz.
-
-% This is not done in the order of the time they were first used but
-% from simpler methods to more complicated ones. An overview of the
-% historic developments of these methods is given in the next
-% section.\todo{Rewrite (only overview of rqi is given in next sec)}
+\begin{definition}[Angle]
+  The \emph{angle} between two vectors
+  $\vec{x}, \vec{y} \in \C^n \setminus \{ \vec{0} \}$ is defined as
+  \begin{equation*}
+    \angle(\vec{x}, \vec{y}) = \arccos \frac{
+      \abs{\langle \vec{x}, \vec{y} \rangle}
+    }{
+      \norm{\vec{x}} \norm{\vec{y}}
+    }\,.
+  \end{equation*}
+  Often, the following identites are convenient
+  \begin{align*}
+    \cos \angle(\vec{x}, \vec{y}) &= \frac{
+                                    \abs{\langle \vec{x}, \vec{y} \rangle}
+                                    }{
+                                    \norm{\vec{x}} \norm{\vec{y}}
+                                    }\,,\\
+    \sin \angle(\vec{x}, \vec{y}) &\coloneqq
+                                    \sqrt{1 - \cos^2 \angle(\vec{x}, \vec{y})}\,, \\
+    \tan \angle(\vec{x}, \vec{y}) &\coloneqq
+                                    \frac{
+                                    \sin \angle(\vec{x}, \vec{y})
+                                    }{
+                                    \cos \angle(\vec{x}, \vec{y})
+                                    }\,.
+  \end{align*}
+\end{definition}
 
 \subsubsection{Power method}
-The power method is based on generating the sequence
-$\mat{A}^k \vec{x}^{(0)}$ where $\vec{x}^{(0)}$ is a non-zero unit
-vector. Of course, $\mat{A}^k$ does not have to be computed explicitly
-since
+The \emph{power method} is probably the simplest iterative method for
+computing eigenvectors. It is based on generating the sequence
+$\vec{x}^{(k)} \coloneqq \mat{A}^k \vec{x}^{(0)}$ where
+$\vec{x}^{(0)}$ is a non-zero unit vector. Of course, $\mat{A}^k$ does
+not have to be computed explicitly at each step since
 \[
   \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
   \vec{x})\dotsc))\,.
 \]
-When combined with some sort of normalisation step we arrive at
-Algorithm~\ref{alg:power:method}. There we normalise by ensuring that
-the largest component of the current approximation is equal to one as
-proposed in~\cite{saad2011}. It is of course also possible to
-normalise \wrt the Euclidean norm~\cite[75]{Parlett1998}. The sequence
-$\vec{x}^{(k)}$ converges to the eigenvector associated with the
-eigenvalue $\lambda_n$ (under the assumptions that $\lambda_n$ is
-semi-simple\todo{Define semi-simple} and that $\vec{x}^{(0)}$ is not
-orthogonal to $\vec{v}_n$, cf.~\cite[Theorem 4.1,
-p.~86]{saad2011}). The proof of the theorem also shows that the
-sequence $\alpha^{(k)}$ converges to the eigenvalue $\lambda_n$ and
-that the method converges linearly with convergence rate
+To prevent under- and overflow errors $\vec{x}^{(k)}$ is normalised at
+each step. Altough the vectors are usually normalised \wrt the
+Euclidean norm, in Algorithm~\ref{alg:power:method} we normalise by
+ensuring that the largest component of the current approximation is
+equal to one (\ie we normalise \wrt to the maximum norm) as proposed
+in~\cite{saad2011}.  The sequence $\vec{x}^{(k)}$ converges to the
+eigenvector associated with the eigenvalue $\lambda_n$ under the
+assumptions that $\lambda_n$ is dominant (\ie $\abs{\lambda_n}$ is
+strictly greater than $\abs{\lambda_{n-1}}$) and that the starting
+vector $\vec{x}^{(0)}$ has a non-vanishing component in the direction
+of $\vec{v}_n$. The advantage of normalising \wrt the maximum norm is
+that the largest component of $\mat{A}\vec{x}^{(k-1)}$ converges to
+the eigenvalue $\lambda_n$. Regardless of the normalisation choosen,
+the method converges linearly with convergence rate
 \begin{equation}
   \label{eq:convergence:power}
   \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
 \end{equation}
 Thus, the method can be very slow if the distance between the
-eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small.
+eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For more
+details, see~\cite[85\psqq]{saad2011}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon
@@ -294,16 +314,16 @@ eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small.
   \caption{Power method}\label{alg:power:method}
 \end{algorithm}
 
-Besides the possible slow convergence rate, the power method only
-allows to compute the extreme eigenvalue and associated
-eigenvector. In many applications, however, one already has a good
-approximation of an eigenvalue and wants to compute an eigenvector it
-belongs to. The following method overcomes both of these drawbacks (at
-least partly).
+Besides the possible slow convergence rate, the power method will
+always converge to an eigenvector associated with the dominant
+eigenvalue $\lambda_n$. In many applications, however, one already has
+a good approximation of another eigenvalue and wants to compute an
+eigenvector it belongs to. The following method allows for such
+computations.
 
 \subsubsection{(Shifted) Inverse Iteration}
 The \emph{inverse iteration} is the power method applied to
-$\mat{A}^{-1}$ (provided that $\mat{A}$ is non-singular). Due to
+$\mat{A}^{-1}$ (provided that the inverse exists). Due to
 Proposition~\ref{prop:eigval:facts} (iii) this will produce a sequence
 of vectors $\vec{x}^{(k)}$ converging to the eigenvector associated to
 the smallest eigenvalue $\lambda_1$. Combining this idea with
@@ -346,15 +366,23 @@ linearly. However, if we denote by $\mu_1$ the eigenvalue that is
 closest to the shift $\sigma$ and by $\mu_2$ the one that is the next
 closest one, the eigenvalue of largest modulus of
 ${(\mat{A} - \sigma \mat{I})}^{-1}$ is $1 / (\mu_1 - \sigma)$
-and~\eqref{eq:convergence:power} suggests that the convergence factor
-is
+and~\eqref{eq:convergence:power} suggests that the convergence rate is
 \[
   \rho = \frac{\abs{\mu_1 - \sigma}}{\abs{\mu_2 - \sigma}} \,.
 \]
-Hence, the method can be very fast if the shift $\sigma$ is very close
-to the desired eigenvalue $\mu_1$. Therefore, the method is often used
-to compute an eigenvector of $\mat{A}$ if a good approximation of the
-corresponding eigenvalue is already available.
+Therefore, the method is often used to compute an eigenvector of
+$\mat{A}$ if a good approximation of the corresponding eigenvalue is
+already available. Note, however, that while a shift that is very
+close to an eigenvalue increases the convergence rate, at the same
+leads to a more and more ill-conditioned linear system. In the case
+when $\sigma$ is exactly an eigenvalue the system is even singular and
+one might expect the method to fail in these cases. It took some time
+from when inverse iteration was first defined until Wilkinson
+established that this is merely a problem in exact arithmetic and it
+was fully understood what was observed in practice for many years,
+namely that this poses no problem when the linear system is solved
+numerically using a backwards stably method,
+see~\cite[620\psq]{wilkinson} and~\cite{petersWilkinson}.
 
 Note that we did not specify the ``until convergence'' criteria in
 neither of the algorithms above. We postpone this discussion until
@@ -380,10 +408,11 @@ for the target eigenvector are computed. One could try to use these
 approximations to replace occasionally the shift by an approximation
 of the corresponding eigenvalue. There are different techniques to
 obtain such estimates, \eg the \emph{Wielandt Shifted Inverse
-  Iteration} or the Rayleigh Quotient Iteration which is rigorously
-studied in the next chapter. For further discussion on the variants
-and developments of these so called \emph{shift and invert} techniques
-see, \eg~\cite{ipsenhistory, tapia2018, golub2000eigenvalue}.
+  Iteration} or the \emph{Rayleigh Quotient Iteration}, the latter of
+which is rigorously studied in the next chapter. For further
+discussion on the variants and developments of these so called
+\emph{shift and invert} techniques see, \eg~\cite{ipsenhistory,
+  tapia2018, golub2000eigenvalue}.
 
 %%% Local Variables:
 %%% mode: latex
