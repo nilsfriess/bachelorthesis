@@ -1,23 +1,23 @@
 \documentclass[
-fontsize     = 11pt,
-paper        = a4,
-BCOR         = 5mm,
-DIV          = 11,
-numbers      = noenddot,
-parskip      = half,
-headsepline
+fontsize     = 11pt,%
+paper        = a4,%
+numbers      = noenddot,%
+% parskip      = half,
+DIV = calc,%
+headsepline%
 ]{scrreprt}
 
-\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}%
 \usepackage[T1]{fontenc}
 
-\usepackage[backend=biber,style=numeric-comp]{biblatex}
-\addbibresource{bibliography.bib}
+\usepackage[backend=biber, style=numeric-comp,
+% sortcites, sorting=nty,
+backref, hyperref]{biblatex}%
+\addbibresource{bibliography.bib}%
 
 \usepackage[page,toc,titletoc,title]{appendix}
 
-
-\include{meta}  
+\include{meta}
 \include{preamble}
 \include{mathsetup}
 
@@ -39,15 +39,14 @@ headsepline
 \include{Chapters/02/Chapter02}
 \include{Chapters/03/Chapter03}
 
-\begin{appendices}
-  \include{Appendices/Proofs}
-  \include{Appendices/Algorithms}
-\end{appendices}
+% \begin{appendices}
+%   \include{Appendices/Proofs}
+%   \include{Appendices/Algorithms}
+% \end{appendices}
 
 \printbibliography[heading=bibintoc]
 \end{document}
 
- 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: t
