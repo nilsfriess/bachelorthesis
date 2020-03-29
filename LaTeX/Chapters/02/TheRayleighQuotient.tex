@@ -1,9 +1,8 @@
 \section{The Rayleigh Quotient}\label{sec:rqi:rq}
-In Chapter~\ref{chapter:intro} we briefly introduced iterative methods
-for computing eigenpairs. In essence, RQI is shifted inverse iteration
-where the shift is replaced by the \emph{Rayleigh quotient} at each
-step. As we will see, the Rayleigh Quotient can be used to obtain good
-estimates of an eigenvalue given an approximation of an eigenvector.
+In Chapter~\ref{chapter:intro} we briefly introduced some simple
+iterative eigenvalue methods. In essence, RQI is shifted inverse
+iteration where the shift is replaced by the \emph{Rayleigh quotient}
+at each step.
 
 \begin{definition}[Rayleigh Quotient]
   Let $\mat{A} \in \C^{n \times n}$. The mapping
@@ -129,11 +128,13 @@ yields the solution
 \begin{equation*}
   \mu = \frac{\hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}}{\left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right)}
 \end{equation*}
-
-The following result specifies how good of an estimate the Rayleigh
-Quotient is.  According to Parlett this is the property to which ``the
-phenomenal convergence rate [of RQI] can be
-attributed''~\cite[77]{Parlett1998}.
+That is, the Rayleigh Quotient is the choice of $\mu$ that minimises
+the \emph{residual} norm for the eigenvalue problem. The following
+result specifies how good of an estimate the Rayleigh Quotient is.
+According to Parlett this is the property to which ``the phenomenal
+convergence rate [of RQI] can be attributed''~\cite[77]{Parlett1998}.
+We postpone the proof of this statement until when we discuss the
+convergence behaviour of RQI.
 
 \begin{lemma}[Eigenvalue estimate]%
   \label{lem:rq:quadestimate}
@@ -145,28 +146,24 @@ attributed''~\cite[77]{Parlett1998}.
     Hermitian (and thus symmetric) matrices are normal.} matrix
   $\mat{A}$ with corresponding eigenvalue $\lambda$. Then
   \begin{equation*}
+    \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})}
+    =
     \abs{\rq_{\mat{A}}(\vec{x}) - \lambda}
-    \le
-    \norm{\mat{A} - \lambda \mat{I}} \sin^2 \angle(\vec{x}, \vec{v})
-    \le
-    \norm{\mat{A} - \lambda \mat{I}} {\left( \frac{
-          \norm{\vec{x} - \alpha \vec{v}}
-        }{
-          \norm{\vec{x}}
-        }\right)}^2 \quad \text{ for all } \alpha \in \C\,.
+    =
+    \mathcal{O}\left( \norm{\vec{x} - \vec{v}}^2 \right)\,.
+    % \norm{\mat{A} - \lambda \mat{I}} \sin^2 \angle(\vec{x}, \vec{v})
+    % \le
+    % \norm{\mat{A} - \lambda \mat{I}} {\left( \frac{
+    %   \norm{\vec{x} - \alpha \vec{v}}
+    % }{
+    %   \norm{\vec{x}}
+    % }\right)}^2 \quad \text{ for all } \alpha \in \C\,.
   \end{equation*}
 \end{lemma}
-\begin{proof}[The proof is given in Appendix~\ref{AppendixProofs}]
-\end{proof}
 This result is often paraphrased as ``the Rayleigh Quotient is a
 \emph{quadratically accurate} estimate of an eigenvalue'' (see for
-example~\cite[204]{trefethen1997}) and is often presented in the
-following shorter form\todo{cite examples}
-\begin{equation*}
-  \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}}^2)\,.
-\end{equation*}
-If $\mat{A}$ is non-normal, the Rayleigh quotient is still an estimate
-of order one, \ie
+example~\cite[204]{trefethen1997}). If $\mat{A}$ is non-normal, the
+Rayleigh quotient is still an estimate of order one, \ie
 \begin{equation*}
   \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}})\,.
 \end{equation*}
@@ -245,6 +242,10 @@ $\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
 These results hold if
 $\mu^{(k)} = {(\vec{x}^{(k)})}^\ast \mat{A} {(\vec{x}^{(k)})}$
 (Rayleigh Quotient).\todo{Stopping criteria in Power method and SIT}
+
+\begin{example}%
+  \label{ex:rqi}
+\end{example}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

@@ -1,4 +1,4 @@
-\section{Results from (numerical) linear algebra}
+\section{Results from numerical linear algebra}
 In this section we introduce the definitions and results from linear
 algebra that will be needed later. We also introduce the most basic
 iterative eigenvalue algorithms.
@@ -26,21 +26,23 @@ definition is given in the following.
   associated with $\lambda$. The tuple $(\lambda, \vec{v})$ is called
   an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
   referred to as the \emph{spectrum} and is denoted by
-  $\sigma(\mat{A})$.
+  $\sigma(\mat{A})$. To indicate that eigenvalues belong to a
+  particular matrix $\mat{M}$ we sometimes write $\lambda(\mat{M})$.
 \end{definition}
 Computing eigenpairs is a non-trivial task.
 Rewriting~\eqref{eq:eigvalproblem} gives
 $\mat{A}\vec{v} - \lambda \vec{v} = \vec{0}$ or
 $(\mat{A} - \lambda \mat{I}) \vec{v} = \vec{0}$, where $\mat{I}$ is
 the identity matrix. Since $\vec{v}$ cannot be the zero vector, this
-equation holds if and only if the matrix $\mat{A} - \lambda \mat{I}$
-is singular. Thus, eigenvalues of $\mat{A}$ are exactly the roots of
-the \emph{characteristic polynomial}
+equation has a solution if and only if the matrix
+$\mat{A} - \lambda \mat{I}$ is singular. Thus, eigenvalues of
+$\mat{A}$ are exactly the roots of the \emph{characteristic
+  polynomial}
 \[
   \chi_{\mat{A}}(t) \coloneqq \det(\mat{A} - t \mat{I}) \,.
 \]
-This fact, altough being of theoretical significance, cannot be used
-to calculate eigenvalues numerically for two reasons. First, the
+This fact, despite being of theoretical importance, cannot be used to
+calculate eigenvalues numerically for two reasons. First, the
 computation of the coefficients of the polynomial is not
 stable~\cite[37]{golub2000eigenvalue}. And even if it was, it is
 well-known that even small perturbations in the coefficients of
@@ -65,8 +67,7 @@ in Section~\ref{sec:iterative:algorithms}.
   of the numerical algorithms for solving eigenvalue problems of the
   form~\eqref{eq:eigvalproblem} can be modified to
   solve~\eqref{eq:eigvalproblem:general}; often certain assumptions
-  have to be posed on $\mat{M}$ such as positive
-  definiteness.\todo{Citation needed.}
+  have to be posed on $\mat{M}$ such as positive definiteness.
 
   Since matrices can be seen as representations of linear operators on
   finite-dimensional vector spaces, we can define eigenvalue problems
@@ -83,7 +84,9 @@ in Section~\ref{sec:iterative:algorithms}.
   \begin{equation*}
     \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
   \end{equation*}
-  where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.
+  where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.  In
+  this thesis, we only consider problems of the
+  form~\eqref{eq:eigvalproblem}.
 \end{remark}
 
 In the following proposition we collect some basic facts on
@@ -150,51 +153,47 @@ in particular for real symmetric matrices.
     $\mat{A} - \mu \mat{I}$.
   \end{enumerate}
 \end{proof}
-In the following we restrict our attention to the \emph{symmetric
+
+In the following, we restrict our attention to the \emph{symmetric
   eigenvalue problem}, \ie we want to find solutions of
-equation~\eqref{eq:eigvalproblem} given $\mat{A} \in \R^{n \times n}$
-is a real symmetric matrix. The (real) eigenvalues and associated
-(real) eigenvectors of $\mat{A}$ are denoted by
-$\lambda_1, \dotsc, \lambda_n$ and $\vec{v}_1, \dotsc, \vec{v}_n$,
-respectively. Since for any eigenvector $\vec{v}$ also any scalar
-multiple of $\vec{v}$ is also an eigenvector, we assume that the
-eigenvectors are normalised \wrt the Euclidean norm, so that
-\[
-  \norm{\vec{v}_i} = \norm{\vec{v}_i}_2 = \sqrt{ \vec{v}_i^\tp
-    \vec{v}_i } = 1 \quad \text{ for all } i = 1, \dotsc, n\,.
-\]
-Note, that due to Proposition~\ref{prop:eigval:facts} (ii) we have
-\[
+equation~\eqref{eq:eigvalproblem} assuming $\mat{A}$ is a real
+symmetric matrix and thus, if not stated otherwise, for the remainder
+of the thesis $\mat{A}$ denotes a matrix of this type. The (real)
+eigenvalues are denoted by $\lambda_j(\mat{A}) = \lambda_j$ with
+corresponding (real) eigenvectors $\vec{v}_j$. Since any scalar
+multiple of an eigenvector is also an eigenvector, we assume that they
+are normalised \wrt the Euclidean norm, so that
+\begin{equation*}
+  \norm{\vec{v}_i} \coloneqq \norm{\vec{v}_i}_2
+  \coloneqq \sqrt{\vec{v}_i^\tp \vec{v}_i }
+  = 1 \quad \text{ for all } i = 1, \dotsc, n\,.
+\end{equation*}
+Due to Proposition~\ref{prop:eigval:facts} (ii) we have
+\begin{equation*}
   \inp{\vec{v}_i}{\vec{v}_j} = \vec{v}_i^\tp \vec{v}_j = 0 \quad
   \text{ for } i \neq j\,,
-\]
+\end{equation*}
 where $\inp{\cdot}{\cdot}$ denotes the Euclidean inner product on
 $\R^n$. Since all eigenvalues are real we can label them in increasing
 order of magnitude
-\[
+\begin{equation*}
   \abs{\lambda_1} \le \abs{\lambda_2} \le \dotsc \le \abs{\lambda_n}
   \,.
-\]
+\end{equation*}
 The eigenvalues $\lambda_1$ and $\lambda_n$ are called \emph{extreme}
 eigenvalues. The remaining eigenvalues
 $\lambda_2, \dotsc, \lambda_{n-1}$ are called \emph{interior}
-eigenvalues. To indicate that eigenvalues belong to a particular
-matrix $\mat{M}$ we sometimes write $\lambda(\mat{M})$ or
-$\lambda_j(\mat{M})$. If not stated otherwise, for the remainder of
-the thesis $\mat{A}$ denotes a symmetric $n \times n$ matrix with
-eigenvalues $\lambda_j(\mat{A}) = \lambda_j$ and corresponding
-eigenvectors $\vec{v}_j$ for $j = 1, \dotsc, n$.
+eigenvalues.
 
 In addition to the assumption that the matrix we work with is real and
 symmetric, we are mainly interested in cases in which the target
-eigenvalue and its neighbors are very close. These eigenvalues will
-always be of interior type and we do usually not have any a priori
-knowledge about their location. Also, the matrices are assumed to be
-large such that computation of the complete set of eigenpairs is too
-expensive. However, we assume a good approximation of the target
-eigenvector is available. As we will see, traditional methods fail in
-this case when the gap between the wanted eigenvalue and adjacent
-eigenvalues is too small. 
+eigenvalue and its neighbours are very close. We usually do not have
+any a priori knowledge about their location. Also, the matrices are
+assumed to be large such that the computation of the complete set of
+eigenpairs is too expensive. However, we assume a good approximation
+of the target eigenvector is available. As we will see, traditional
+methods do not perform well when the gap between the wanted eigenvalue
+and adjacent eigenvalues is too small.
 
 % Sometimes we will make the assumption that $\mat{A}$ is positive
 % definite, \ie that
@@ -217,12 +216,12 @@ With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
 matrices. We are always interested in how fast these methods produce
 good approximations of eigenvectors or eigenvalues (or both). The
-following defintion provides us with a notion of the speed at which a
+following definition provides us with a notion of the speed at which a
 sequence converges to its limit.
 
 \begin{definition}[Order of Convergence]
-  Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\R^n$ that
-  converges to $\vec{z} \in \R^n$.
+  Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\C^n$ that
+  converges to $\vec{z} \in \C^n$.
   \begin{enumerate}[label=(\roman*)]
   \item The sequence is said to converge \emph{linearly} to $\vec{z}$,
     if there exists a constant $0 < \rho < 1$ such that
@@ -265,7 +264,7 @@ In some cases convergence behaviour is best studied in terms of the
       \norm{\vec{x}} \norm{\vec{y}}
     }\,.
   \end{equation*}
-  Often, the following identites are convenient
+  Often, the following identities are convenient
   \begin{align*}
     \cos \angle(\vec{x}, \vec{y}) &= \frac{
                                     \abs{\langle \vec{x}, \vec{y} \rangle}
@@ -283,8 +282,33 @@ In some cases convergence behaviour is best studied in terms of the
   \end{align*}
 \end{definition}
 
+To see why also the angle can be used to measure the convergence
+speed, suppose $\vec{x}^{(k)}$ converges to the unit vector
+$\vec{z}$. Let $\vec{u}^{(k)}$ be the unit vector that lies in the
+span of $\vec{x}^{(k)}$ and $\vec{z}$ and is orthogonal to $\vec{z}$
+and denote by $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{z})$ the error
+angle between the current vector iterate and the limit. Now, write the
+vector iterate $\vec{x}^{(k)}$ as
+\begin{equation*}
+  \vec{x}^{(k)} = \vec{z} \cos \phi^{(k)} + \vec{u}^{(k)} \sin \phi^{(k)}\,.
+\end{equation*}
+We temporarily drop the superscripts and write
+$\vec{x} = \vec{x}^{(k)}$, $\vec{u} = \vec{u}^{(k)}$ and
+$\phi = \phi^{(k)}$. Then, using the identities
+$\sin^2(\phi / 2) = \frac{1 - \cos \phi}{2}$,
+$\sin^2 \phi + \cos^2 \phi = 1$ and the Pythagorean theorem we obtain
+\begin{align*}
+  \norm{\vec{x} - \vec{z}}^2 &= \norm{\vec{z} \cos \phi + \vec{u} \sin \phi - \vec{z}}^2 \\
+                             &= \norm{\vec{z}(\cos \phi - 1)}^2 + \norm{\vec{u} \sin \phi}^2 \\
+                             &= {(\cos \phi - 1)}^2 + 1 - \cos^2 \phi \\
+                             &= 2(1 - \cos \phi) = 4 \sin^2( \phi / 2)\,.
+\end{align*}
+Thus, convergence orders \wrt the norm imply the same convergence
+orders in terms of the error angles and vice verca. Note that we did
+assume convergence of the sequence.
+
 \subsubsection{Power method}
-The \emph{power method} is probably the simplest iterative method for
+The \emph{power method} is one of the oldest iterative methods for
 computing eigenvectors. It is based on generating the sequence
 $\vec{x}^{(k)} \coloneqq \mat{A}^k \vec{x}^{(0)}$ where
 $\vec{x}^{(0)}$ is a non-zero unit vector. Of course, $\mat{A}^k$ does
@@ -293,27 +317,26 @@ not have to be computed explicitly at each step since
   \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
   \vec{x})\dotsc))\,.
 \]
-To prevent under- and overflow errors $\vec{x}^{(k)}$ is normalised at
-each step. Altough the vectors are usually normalised \wrt the
-Euclidean norm, in Algorithm~\ref{alg:power:method} we normalise by
-ensuring that the largest component of the current approximation is
-equal to one (\ie we normalise \wrt to the maximum norm) as proposed
-in~\cite{saad2011}.  The sequence $\vec{x}^{(k)}$ converges to the
-eigenvector associated with the eigenvalue $\lambda_n$ under the
-assumptions that $\lambda_n$ is dominant (\ie $\abs{\lambda_n}$ is
-strictly greater than $\abs{\lambda_{n-1}}$) and that the starting
-vector $\vec{x}^{(0)}$ has a non-vanishing component in the direction
-of $\vec{v}_n$. The advantage of normalising \wrt the maximum norm is
-that the largest component of $\mat{A}\vec{x}^{(k-1)}$ converges to
-the eigenvalue $\lambda_n$. Regardless of the normalisation choosen,
-the method converges linearly with convergence rate
+To prevent underflow and overflow errors, $\vec{x}^{(k)}$ is
+normalised at each step. In Algorithm~\ref{alg:power:method} we
+normalise by ensuring that the largest component of the current
+approximation is equal to one. Of course, other norms can be used. The
+sequence $\vec{x}^{(k)}$ converges to the eigenvector associated with
+the eigenvalue $\lambda_n$ under the assumptions that $\lambda_n$ is
+dominant (\ie $\abs{\lambda_n}$ is strictly greater than
+$\abs{\lambda_{n-1}}$) and that the starting vector $\vec{x}^{(0)}$
+has a non-vanishing component in the direction of $\vec{v}_n$. The
+advantage of normalising \wrt the maximum norm is that the largest
+component of $\abs*{\mat{A}\vec{x}^{(k-1)}}$ converges to the
+eigenvalue $\lambda_n$. Regardless of the normalisation chosen, the
+method converges linearly with convergence rate
 \begin{equation}
   \label{eq:convergence:power}
   \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
 \end{equation}
 Thus, the method can be very slow if the distance between the
-eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For more
-details, see~\cite[85\psqq]{saad2011}.
+eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For a
+detailed convergence proof, see~\cite[86\psq]{saad2011}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon
@@ -345,17 +368,18 @@ idea with Proposition~\ref{prop:eigval:facts} (iv) yields the
   \vec{x}^{(k)} = \beta {\left( \mat{A} - \sigma \mat{I} \right)}^{-1}
   \vec{x}^{(k-1)}\,,
 \]
-where $\beta$ ensures that $\vec{x}^{(k)}$ is normalised. The smallest
-eigenvalue in modulus of the shifted matrix $\mat{A} - \sigma \mat{I}$
-is the eigenvalue of $\mat{A}$ that is closest to $\sigma$. Hence,
-this method converges to an eigenvector associated with this
-eigenvalue. Of course, the inverse need not be computed
-explicitly. Instead, before the loop we can compute the LU
+where $\beta$ is responsible for normalising $\vec{x}^{(k)}$. The
+smallest eigenvalue in modulus of the shifted matrix
+$\mat{A} - \sigma \mat{I}$ is the eigenvalue of $\mat{A}$ that is
+closest to $\sigma$. Hence, this method converges to an eigenvector
+associated with this eigenvalue. Of course, the inverse need not be
+computed explicitly. Instead, before the loop we can compute the LU
 decomposition of $\mat{A} - \sigma \mat{I}$ (or any other
-decomposition, if applicable) and solve the system
+factorisation, if applicable) and solve the system
 ${\left( \mat{A} - \sigma \mat{I} \right)} \vec{x}^{(k)} =
-\vec{x}^{(k-1)}$ for $\vec{x}^{(k)}$, reducing the complexity from
-$\O(n^3)$ to $\O(n^2)$ at each step. We summarise the results in
+\vec{x}^{(k-1)}$ for $\vec{x}^{(k)}$. At each step then, only one
+backward and one forward substitution is required, reducing the
+complexity from $\O(n^3)$ to $\O(n^2)$. We summarise the results in
 Algorithm~\ref{alg:sii} (there, we normalise \wrt the Euclidean norm).
 
 \begin{algorithm}[htbp]
@@ -369,7 +393,7 @@ Algorithm~\ref{alg:sii} (there, we normalise \wrt the Euclidean norm).
   \caption{Shifted inverse iteration}\label{alg:sii}
 \end{algorithm}
 Since this is essentially the power method (applied to the inverse of
-$(\mat{A} - \sigma \mat{I})$) this algorithm still converges
+$\mat{A} - \sigma \mat{I}$) this algorithm still converges
 linearly. However, if we denote by $\mu_1$ the eigenvalue that is
 closest to the shift $\sigma$ and by $\mu_2$ the one that is the next
 closest one, the eigenvalue of largest modulus of
@@ -380,38 +404,31 @@ and~\eqref{eq:convergence:power} suggests that the convergence rate is
 \]
 Therefore, the method is often used to compute an eigenvector of
 $\mat{A}$ if a good approximation of the corresponding eigenvalue is
-already available. Clearly, a shift that is very close to an
-eigenvalue produces a very ill-conditioned linear system. In the case
-when $\sigma$ is exactly an eigenvalue the system is even singular and
-one might expect inverse iteration to fail in these cases. In practice
---- contrary to the expectations --- the method has shown to produce
-good approximations even in these cases and it took several years from
-when inverse iteration was introduced in the 1940s until Wilkinson
-established that this is merely a problem in exact arithmetic. He
-elucidated that this poses no problem when the linear system is solved
-numerically using a backwards stably method,
-see~\cite[621--630]{wilkinson} and~\cite{petersWilkinson}. This will
-become important again later when we discuss Rayleigh Quotient
-Iteration. There, the system that is solved gets increasingly
-ill-conditioned at each step but again this poses no problem in
-practice.
+already available. Note, however, that a shift which is very close to
+an eigenvalue produces a very ill-conditioned linear system. In the
+case when $\sigma$ is exactly an eigenvalue the system is even
+singular and one might expect inverse iteration to fail in these cases
+since, in general, it is impossible to solve ill-conditioned systems
+accurately. Despite this seemingly sincere problem, in practice it was
+observed that the method produces good approximations even in these
+cases. According to Parlett~\cite[84\psq]{Parlett1998}, it was
+Wilkinson who elucidated why the ill-conditioning is not a problem in
+most cases. Suppose $\sigma \approx \lambda$ where $\lambda$ is an
+eigenvalue of $\mat{A}$ with corresponding eigenvector
+$\vec{v}$. Wilkinson illustrated that although $\tilde{\vec{x}}^{(k)}$
+may be far from $\vec{v}$, the normalised solution
+$\vec{x}^{(k)} = \tilde{\vec{x}}^{(k)} /
+\norm*{\tilde{\vec{x}}^{(k)}}$ will not be far from $\vec{v}$, when
+the system is solved backwards-stably, for more details
+see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
+and~\cite{petersWilkinson}. This will become important again later
+when we discuss Rayleigh Quotient Iteration. There, the system that is
+solved gets increasingly ill-conditioned at each step but for the same
+reason as above, in practice this poses no problem.
 
 Note that we did not specify the ``until convergence'' criteria in
 neither of the algorithms above. We postpone this discussion until
 Section~\ref{sec:rqi:rq}.
-
-\begin{example}
-  Consider the matrix
-  \[
-    \mat{A} =
-    \begin{pmatrix}
-      1 & 2 & 3 \\
-      2 & 5 & 6 \\
-      3 & 6 & 8
-    \end{pmatrix}.
-  \]
-  \todo{Example of Power method and inverse iteration}
-\end{example}
 
 At each step in the shifted inverse iteration, better approximations
 for the target eigenvector are computed. One could try to use these

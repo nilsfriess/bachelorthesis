@@ -1,0 +1,30 @@
+* CHAPTER 1 [0%]
+** TODO Photonic crystal fibres example [0%]
+*** TODO Read Norton's phd thesis
+*** TODO Read Scheichl & Norton paper
+*** TODO Read Scheichl & Marletta paper
+*** TODO Implement Matlab example that demostrates the band structure of the spectrum
+*** TODO Try computing an eigenvalue using classic RQI
+*** TODO Try computing an eigenvalue using Complex RQI
+
+* CHAPTER 2 [0%]
+** TODO Check the least squares derivation
+** TODO Search and add references that mention the "RQ is quadratically accurate"
+** TODO Rewrite the "Residual based error control" part (see Börm, maybe Saad?)
+*** TODO Describe how RQ can be used to provide stopping criterion for power iterations and mention that the eigenvalues converge faster than the eigenvectors
+** TODO Remove example 2.5
+** TODO Shorten the History section
+** TODO Describe that RQI and other methods do not incooporate the RHS (ie the eigenvector approximation)
+** TODO Inside the proof of cubic convergence mentioned that we proofed the quadratic accuracy
+
+* CHAPTER 3 [0%]
+** TODO Finish intro for chapter
+** TODO Rewrite the motiviation (make more concise)
+** TODO Show that it doesnt matter if CRQI is applied to matrix with orth. projection or without
+*** TODO Show that (in exact arithmetic) the computed eigenvector and eigenvalue sequences are the same
+** TODO Discuss Numerical Examples
+*** TODO Collect examples that express something useful
+**** TODO Convergence rate
+**** TODO Dependence on initial vector compared to classic RQI
+**** TODO Dependence on different initial shifts compared to classic RQI
+**** TODO How good does the eigenvector approximation need to be (Try eg. vector that is a weighted sum of exact eigenvector and random combination of remaining eigenvectors)

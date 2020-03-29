@@ -165,9 +165,111 @@ definition of RQI and the first rigorous proof of what makes it so
 appealing, namely the (local) cubic convergence.
 
 \subsection{Further developments and recent contributions}
+We now give an overview on the developments and contributions after
+the introduction of RQI in 1958. We also look at some recent
+contributions and try to identify their major focus.
+
+After Ostrowski's proof of the local cubic convergence, it took
+another ten years until the question on the global convergence
+behaviour of RQI was answered. In 1968 Parlett and
+Kahan~\cite{parlettkahan} showed that RQI applied to symmetric
+matrices converges for almost all starting vectors and in 1974
+Parlett~\cite{parlettrqi} generalised the result for the case when
+$\mat{A}$ is normal. A slightly more concise version of the proof has
+been again published in Parlett's book~\cite{Parlett1998}. However,
+since parts of the proof are very technical and the proof does not
+give much insight in the method (at least for our purposes), we will
+omit it.
+
+Of course, not only is it of interest \emph{that} the method converges
+but also \emph{which} eigenpair it converges to.  The following
+example demonstrates that the convergence behaviour of RQI might
+sometimes be unexpected.
+\begin{example}
+  This example is based on an example
+  from~\cite[254]{pantazisszyld}. Let $\mat{A} = \diag(1,\ 2,\ 4)$
+  with eigenvalues $\lambda_1=1,\ \lambda_2=2,\ \lambda_3=4$ and
+  corresponding eigenvectors $\vec{e}_i$, the columns of the identity
+  matrix.
+  \begin{enumerate}[label=(\alph*)]
+  \item First consider RQI started with the vector
+    \begin{equation*}
+      \vec{x}^{(0)} =
+      \begin{pmatrix}
+        0.8163392507169525\\
+        -0.0004821161298470036 \\
+        0.5775725022046341
+      \end{pmatrix}\,.
+    \end{equation*}
+    This produces the eigenpair $(1, \vec{e}_1)$ altough
+    \begin{equation*}
+      \rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729\,.
+    \end{equation*}
+    Note, however, that computing the angle between $\vec{x}^{(0)}$
+    and the eigenvectors gives
+    \begin{equation*}
+      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.61575\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 1.57128\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 0.95504\,,
+    \end{equation*}
+    that is, the angle between the initial vector and the resulting
+    eigenvector is smallest.
+  \item Now take
+    \begin{equation*}
+      \vec{x}^{(0)} = {\left(
+          0.74278,\ 0.55709,\ 0.37139
+        \right)}^\tp
+    \end{equation*}
+    the angles are
+    \begin{equation*}
+      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.73358\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 0.97992\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 1.19029\,
+    \end{equation*}
+    and the initial shift is
+    $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx 1.7241$. In this case, RQI
+    converges to the eigenpair $(2, \vec{e}_2)$, \ie not the
+    eigenvector that has the smallest angle with $\vec{x}^{(0)}$.
+  \end{enumerate}
+\end{example}
+This example shows that there seems to be no obvious way how the
+computed eigenpair depends on $\vec{x}^{(0)}$ or
+$\rq_{\mat{A}}(\vec{x}^{(0)})$, and indeed the characterization of the
+global convergence behaviour of RQI is not straightforward. In
+contrast, the local convergence behaviour is better
+understood. Ostrowski~\cite{ostrowskiI} defined explicit estimates of
+\emph{convergence neighborhoods} for the shift, \ie intervals around
+an eigenvalue in which convergence to this eigenvalue is
+assured. However, these intervals depend on quantities that are not
+known beforehand so they are of little practical use.
+
+Efforts have beend made to obtain local convergence regions with as
+little knowledge about the spectrum as possible. For example, Beattie
+and Fox~\cite{beattiefox} derive conditions under which convergence is
+assured to be in a given interval assuming the number of eigenvalues
+contained in the interval is known. Szyld~\cite{szyld} suggests
+combining shifted inverse iteration and RQI to ensure that the
+computed eigenvalue lies in a given interval. In particular, he
+suggested running a few iterations of shifted inverse iteration (since
+it is guarantueed to converge to the nearest eigenvalue) and then
+switching to RQI (to benefit from the cubic convergence) and studied
+criteria for deciding when to switch from one method to the other.
+
+The task of identifying global convergence regions in terms of the
+initial vector seems to be more difficult. Parlett noted in 1980 that
+``There appears to be no simple description of how $\vec{v}$ depends
+on $\vec{x}^{(0)}$''~\cite[82]{Parlett1998} and it looks as if this
+statement still holds true today. Pantazis and
+Szyld~\cite{pantazisszyld} and Batterson and
+Smillie~\cite{battersonsmillie} studied \emph{basins of attraction},
+\ie regions in the unit sphere from which RQI will converge to a
+specific eigenvector. They did, however, only consider the
+three-dimensional case.
+
 
 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"
 %%% End:
+  

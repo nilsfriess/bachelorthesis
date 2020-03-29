@@ -1,0 +1,27 @@
+\chapter{Introduction}\label{chapter:intro}%
+This thesis introduces a novel shift-and-invert method to compute
+eigenvalues and eigenvectors of real symmetric matrices. The method is
+a modification of \emph{Rayleigh Quotient Iteration (RQI)}. Numerical
+examples suggest that our method overcomes some of the drawbacks of
+RQI at the expense of a slower convergence rate.
+
+The thesis is structured as follows. In this chapter, we introduce a
+model problem from physics and collect the necesarry definitions and
+results from numerical linear algebra. We also review some of the most
+basic iterative methods for eigenvalue problems.  The second chapter
+is devoted to the study of the Rayleigh Quotient and Rayleigh Quotient
+Iteration. Among others, we give a proof for the property that makes
+RQI advantageous over other methods, viz., the local cubic
+convergence.  In the third chapter we introduce our novel method that
+we call \emph{Complex Rayleigh Quotient Iteration}. After motivating
+the method, different numerical experiments are carried out to better
+understand the behaviour of the method.
+
+% \input{Chapters/01/objectives}%
+\input{Chapters/01/motivation}%
+\input{Chapters/01/linearalgebra}%
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
