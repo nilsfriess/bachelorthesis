@@ -28,3 +28,8 @@
 **** TODO Dependence on initial vector compared to classic RQI
 **** TODO Dependence on different initial shifts compared to classic RQI
 **** TODO How good does the eigenvector approximation need to be (Try eg. vector that is a weighted sum of exact eigenvector and random combination of remaining eigenvectors)
+
+* GENERAL [0%]
+** TODO Rename and sort papers, articles, books by topic
+** TODO Revise current state of thesis and send to Rob and Alec 
+   DEADLINE: <2020-03-30 Mon 12:00> 
