@@ -251,8 +251,9 @@ sequence converges to its limit.
   \end{enumerate}
 \end{definition}
 
-In some cases convergence behaviour is best studied in terms of the
-\emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
+In some cases, in particular for sequences that approximate
+eigenvectors, the convergence behaviour is best studied in terms of
+the \emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
 
 \begin{definition}[Angle]
   The \emph{angle} between two vectors
@@ -265,21 +266,12 @@ In some cases convergence behaviour is best studied in terms of the
     }\,.
   \end{equation*}
   Often, the following identities are convenient
-  \begin{align*}
-    \cos \angle(\vec{x}, \vec{y}) &= \frac{
-                                    \abs{\langle \vec{x}, \vec{y} \rangle}
-                                    }{
-                                    \norm{\vec{x}} \norm{\vec{y}}
-                                    }\,,\\
-    \sin \angle(\vec{x}, \vec{y}) &\coloneqq
-                                    \sqrt{1 - \cos^2 \angle(\vec{x}, \vec{y})}\,, \\
-    \tan \angle(\vec{x}, \vec{y}) &\coloneqq
-                                    \frac{
-                                    \sin \angle(\vec{x}, \vec{y})
-                                    }{
-                                    \cos \angle(\vec{x}, \vec{y})
-                                    }\,.
-  \end{align*}
+  \begin{gather*}
+    \sin \angle(\vec{x}, \vec{y}) \coloneqq \sqrt{1 - \cos^2
+      \angle(\vec{x}, \vec{y})}\,, \qquad \tan \angle(\vec{x},
+    \vec{y}) \coloneqq \frac{ \sin \angle(\vec{x}, \vec{y}) }{ \cos
+      \angle(\vec{x}, \vec{y}) }\,.
+  \end{gather*}
 \end{definition}
 
 To see why also the angle can be used to measure the convergence

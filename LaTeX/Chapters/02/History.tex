@@ -1,6 +1,6 @@
 \section{History and recent developments}
 Now that we have defined the Rayleigh Quotient and Rayleigh Quotient
-Iteration we give an overview on the historic developments of RQI. We
+Iteration we give an overview of the historic developments of RQI. We
 also discuss recent contributions that are relevant to this thesis.
 Some of the results, mainly the ones that are concerned with the
 convergence of RQI, are discussed in more detail in
@@ -9,28 +9,23 @@ Section~\ref{sec:convergence}.
 \subsection{Chronology of Rayleigh Quotient iteration}
 It took about 60 years from the first mention of what is now called
 the Rayleigh quotient until RQI was fully defined as it is given in
-Algorithm~\ref{alg:rqi}. In this section we give an overview on some
+Algorithm~\ref{alg:rqi}. In this section we give an overview of some
 important milestones within this 60 years. Large parts of this
-overview are based on~\cite{tapia2018}.\todo{Page}
+overview are based on~\cite{tapia2018}.\todo{Add pages}
 
 \paragraph{1894 --- \textsc{Lord Rayleigh}} In the second edition of
 his book titled ``The Theory of Sound'' John William Strutt, 3rd Baron
 Rayleigh~\cite[110]{rayleigh}, proposed the following iteration for
-imporoving an approximate eigenvector $\vec{x}^{(0)}$:
+improving an approximate eigenvector $\vec{x}^{(0)}$:
 \begin{equation}
   \label{eq:rayleigh:iteration}
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I})\, \vec{x}^{(i+1)} = \vec{e}_1\,,
 \end{equation}
 where $\vec{e}_1$ denotes the first natural coordinate vector, \ie the
-first column of the $n \times n$ identity matrix and $\vec{x}^{(i)}$
-and $\vec{x}^{(i+1)}$ denote the current and next iterate,
-respectively. To be precise, Lord Rayleigh considered the
-\emph{generalised eigenvalue problem}
-\begin{equation}
-  \label{eq:general:eig}
-  \mat{A}\vec{v} = \lambda \mat{M} \vec{v}
-\end{equation}
-and so in his text, the iteration reads
+first column of the identity matrix and $\vec{x}^{(i)}$ and
+$\vec{x}^{(i+1)}$ denote the current and next iterate,
+respectively. In fact, Lord Rayleigh considered the generalised
+eigenvalue problem and so in his text, the iteration reads
 \begin{equation*}
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{M})\, \vec{x}^{(i+1)} = \vec{e}_1\,.
 \end{equation*}
@@ -44,34 +39,34 @@ following iteration
 where $\vec{e}_k$ is \emph{any} of the natural coordinate
 vectors. Without a rigorous proof Kohn argues that
 $\rq_{\mat{A}}(\vec{x}^{(i)})$ converges quadratically to an
-eigenvalue of $\mat{A}$ (given that $\vec{x}^{(0)}$ is sufficiently
+eigenvalue of $\mat{A}$ (provided that $\vec{x}^{(0)}$ is sufficiently
 close to an eigenvector of $\mat{A}$). Despite the similarity
 to~\eqref{eq:rayleigh:iteration}, Kohn does not mention Lord
 Rayleigh's method and it is not known whether or not he was aware of
 it.
 
 \paragraph{1951 --- \textsc{Crandall}}
-In a text communicated to the Royal society of London\todo{Full name}
+In a text communicated to the Royal society of London Stephen
 Crandall~\cite{crandall} suggests
 \begin{equation}
   \label{eq:unnormalised:rqi}
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x^{(i)}}\,.
 \end{equation}
-Actually, Crandall also considered the generalised
-eigenproblem~\eqref{eq:general:eig} but for our comparitive purposes
-it is sufficient to consider the case $\mat{M} = \mat{I}$. Note, that
-this algorithm is RQI without the normalisation step. Based on the
-(wrong) assumption that the sequence of vectors $\vec{x}^{(k)}$
-converges, Crandall establishes cubic convergence for this
+Actually, Crandall also considered the generalised eigenproblem but
+for our comparative purposes it is sufficient to consider the case
+$\mat{M} = \mat{I}$. Note, that this algorithm is RQI without the
+normalisation step. Based on the assumption that the sequence of
+vectors $\vec{x}^{(k)}$ converges, Crandall establishes cubic
+convergence in the this sequence and the approximate eigenvalue
 sequence. To see why the assumption is wrong, we assume the contrary,
-\ie suppose $\vec{x}^{(i)} \longrightarrow \vec{v}_k$ for some
-$k = 1, \dotsc, n$.  From~\eqref{eq:unnormalised:rqi} we have
+\ie suppose that the sequence converges to an eigenvector, say
+$\vec{v}_k$.  From~\eqref{eq:unnormalised:rqi} we have
 \begin{equation*}
   \quad \mat{A}\vec{v}_k - \rq_{\mat{A}}(\vec{v}_k) \vec{v}_k = \vec{v}_k
   \qquad \Leftrightarrow \qquad
   \mat{A}\vec{v}_k = (1 + \rq_{\mat{A}}(\vec{v}_k)) \vec{v}_k\,,
 \end{equation*}
-\ie $\vec{v}_k$ is an eigenvector of $\mat{A}$ with corresponding
+and so $\vec{v}_k$ is an eigenvector of $\mat{A}$ with corresponding
 eigenvalue $1 + \rq_{\mat{A}}(\vec{v}_k)$. Since we know that for any
 eigenvector, the value of $\rq_{\mat{A}}(\vec{v}_k)$ is the eigenvalue
 it belongs to we have
@@ -79,6 +74,12 @@ it belongs to we have
   \rq_{\mat{A}}(\vec{v}_k) = 1 + \rq_{\mat{A}}(\vec{v}_k)
 \end{equation*}
 which is a contradiction.
+
+Also, Crandall establishes what is usually referred to as $r$-cubic
+convergence. This is a weaker notion of convergence than the one
+defined earlier, which is called $q$-cubic convergence
+(see~\cite[Appendix~A.1]{tapia2018} for a detailed definition of these
+notions of convergence).
 
 \paragraph{1957 -- 59 --- \textsc{Ostrowski}}
 Alexander Ostrowski published a series of six papers titled ``On the
@@ -108,7 +109,7 @@ step
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
 sequence of Rayleigh quotients
-$\mu_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie 
+$\mu_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie
 \begin{equation}
   \label{eq:rqi:cubic}
   \frac{
@@ -143,48 +144,45 @@ following note was added:
 \end{quotation}
 
 In the beginning of the second paper~\cite{ostrowskiII} Ostrowski
-discusses this in more detail. More importantly, he also points out in
-§21 of the text that in order to assure convergence in the vector
-iterates (and not just the Rayleigh Quotients) one needs to
-\emph{normalise} the vectors. With this small yet important
-modification of Crandall's algorithm he fully defined RQI. This was
-all shown under the assumption that the matrix $\mat{A}$ is real
-symmetric and Ostrowski mentions that all results remain valid in the
-complex Hermitian case.
+discusses this in more detail and remarks that Crandall proofed the
+$r$-cubic convergence of the sequence of eigenvalue iterates, while he
+showed $q$-cubic convergence.
+
+More importantly, he also points out in §21 of the text that in order
+to assure convergence in the vector iterates (and not just the
+eigenvalue approximations) one needs to normalise the vectors. With
+this small yet important modification of Crandall's algorithm he fully
+defined RQI as it is known today.
 
 The third paper~\cite{ostrowskiIII} of the series addresses the
-non-symmetric (or non-Hermitian) case for which Ostrowski is also able
-to define a method that attains local cubic convergence. This method
-uses a generalised notion of the Rayleigh quotient and comes at the
-expense of solving two linear systems at each step instead of
-one.\todo{Read Ostrowski's other papers}
+non-symmetric for which Ostrowski is also able to define a method that
+attains local cubic convergence. This method uses a generalised notion
+of the Rayleigh quotient and comes at the expense of solving two
+linear systems at each step instead of one.
 
-This concludes the overview on the development of RQI from the first
-mention of the Rayleigh Quotient by Lord Rayleigh to the first
-definition of RQI and the first rigorous proof of what makes it so
-appealing, namely the (local) cubic convergence.
+This concludes the overview of the development of RQI from Lord
+Rayleigh's iteration that lacks the changing right hand side and the
+normalisation of the vector iterate to the complete definition of RQI
+by Ostrowski.
 
 \subsection{Further developments and recent contributions}
-We now give an overview on the developments and contributions after
+We now give an overview of the developments and contributions after
 the introduction of RQI in 1958. We also look at some recent
-contributions and try to identify their major focus.
+contributions.
 
 After Ostrowski's proof of the local cubic convergence, it took
-another ten years until the question on the global convergence
-behaviour of RQI was answered. In 1968 Parlett and
-Kahan~\cite{parlettkahan} showed that RQI applied to symmetric
-matrices converges for almost all starting vectors and in 1974
-Parlett~\cite{parlettrqi} generalised the result for the case when
-$\mat{A}$ is normal. A slightly more concise version of the proof has
-been again published in Parlett's book~\cite{Parlett1998}. However,
-since parts of the proof are very technical and the proof does not
-give much insight in the method (at least for our purposes), we will
-omit it.
+another ten years until a first important result concerning the
+\emph{global} convergence behaviour of RQI was presented. In 1968
+Parlett and Kahan~\cite{parlettkahan} showed that RQI applied to
+symmetric matrices converges for almost all starting vectors and in
+1974 Parlett~\cite{parlettrqi} generalised the result for the case
+when $\mat{A}$ is normal. A slightly more concise version of the proof
+has been again published in Parlett's book~\cite{Parlett1998}.
 
 Of course, not only is it of interest \emph{that} the method converges
-but also \emph{which} eigenpair it converges to.  The following
-example demonstrates that the convergence behaviour of RQI might
-sometimes be unexpected.
+but also \emph{which} eigenpair it converges to. The following example
+demonstrates that the convergence behaviour of RQI might sometimes be
+unexpected.
 \begin{example}
   This example is based on an example
   from~\cite[254]{pantazisszyld}. Let $\mat{A} = \diag(1,\ 2,\ 4)$
@@ -201,7 +199,7 @@ sometimes be unexpected.
         0.5775725022046341
       \end{pmatrix}\,.
     \end{equation*}
-    This produces the eigenpair $(1, \vec{e}_1)$ altough
+    This produces the eigenpair $(1, \vec{e}_1)$ although
     \begin{equation*}
       \rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729\,.
     \end{equation*}
@@ -234,16 +232,16 @@ sometimes be unexpected.
 \end{example}
 This example shows that there seems to be no obvious way how the
 computed eigenpair depends on $\vec{x}^{(0)}$ or
-$\rq_{\mat{A}}(\vec{x}^{(0)})$, and indeed the characterization of the
+$\rq_{\mat{A}}(\vec{x}^{(0)})$, and indeed the characterisation of the
 global convergence behaviour of RQI is not straightforward. In
 contrast, the local convergence behaviour is better
 understood. Ostrowski~\cite{ostrowskiI} defined explicit estimates of
-\emph{convergence neighborhoods} for the shift, \ie intervals around
+\emph{convergence neighbourhoods} for the shift, \ie intervals around
 an eigenvalue in which convergence to this eigenvalue is
 assured. However, these intervals depend on quantities that are not
 known beforehand so they are of little practical use.
 
-Efforts have beend made to obtain local convergence regions with as
+Efforts have been made to obtain local convergence regions with as
 little knowledge about the spectrum as possible. For example, Beattie
 and Fox~\cite{beattiefox} derive conditions under which convergence is
 assured to be in a given interval assuming the number of eigenvalues
@@ -251,7 +249,7 @@ contained in the interval is known. Szyld~\cite{szyld} suggests
 combining shifted inverse iteration and RQI to ensure that the
 computed eigenvalue lies in a given interval. In particular, he
 suggested running a few iterations of shifted inverse iteration (since
-it is guarantueed to converge to the nearest eigenvalue) and then
+it is guaranteed to converge to the nearest eigenvalue) and then
 switching to RQI (to benefit from the cubic convergence) and studied
 criteria for deciding when to switch from one method to the other.
 
@@ -266,7 +264,8 @@ Smillie~\cite{battersonsmillie} studied \emph{basins of attraction},
 specific eigenvector. They did, however, only consider the
 three-dimensional case.
 
-
+\todo{Discuss recent contributions (\eg, inexact RQI, Multistep RQI?,
+  sparse PCA using RQI?)}
 
 %%% Local Variables:
 %%% mode: latex

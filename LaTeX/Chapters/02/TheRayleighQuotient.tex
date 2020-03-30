@@ -105,28 +105,29 @@ We begin by discussing some basic facts.
   \end{enumerate}
 \end{proof}
 
-Altough the Rayleigh Quotient might look arbitrary at first sight, it-
+Although the Rayleigh Quotient might look arbitrary at first sight, it
 occurs naturally as the solution of a least squares minimisation
 problem. First note that if $(\lambda, \vec{v})$ is an eigenpair of
-$\mat{A}$, then
+$\mat{A}$
 \begin{equation*}
-  \norm{\mat{A} \vec{v} - \lambda \vec{v}}^2 = 0\,.
+  \norm{\mat{A} \vec{v} - \lambda \vec{v}} = 0\,.
 \end{equation*}
 Now, suppose $\hat{\vec{v}}$ is an approximation for $\vec{v}$ and we
 want to find the best approximation $\hat{\lambda}$ for $\lambda$ in
 the sense that
 \begin{equation*}
-  \hat{\lambda} = \argmin_{\mu \in \C} \norm{\mat{A} \hat{\vec{v}} - \mu \hat{\vec{v}}}^2\,.
+  \hat{\lambda} = \argmin_{\mu \in \C} \norm{\mat{A} \hat{\vec{v}} - \mu \hat{\vec{v}}}\,.
 \end{equation*}
 This is a linear least squares problem in $\mu$ with normal equations
-(cf.~\cite[106]{demmel})
+(see, \eg~\cite[Theorem~6.12, p.~362]{friedberglinalg})
 \begin{equation*}
   \left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right) \mu = \hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}
 \end{equation*}
 and dividing by $\left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right)$
 yields the solution
 \begin{equation*}
-  \mu = \frac{\hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}}{\left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right)}
+  \mu = \frac{\hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}}{ \hat{\vec{v}}^\herm \hat{\vec{v}} }
+  = \rq_{\mat{A}}(\hat{\vec{v}})\,.
 \end{equation*}
 That is, the Rayleigh Quotient is the choice of $\mu$ that minimises
 the \emph{residual} norm for the eigenvalue problem. The following
@@ -172,7 +173,7 @@ We now have a method that allows us to obtain an estimation of an
 Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for
 obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
 estimate. Rayleigh Quotient Iteration is essentially a combination of
-those two methods where each step consits of one step of Shifted
+those two methods where each step consists of one step of Shifted
 Inverse Iteration and the computation of the Rayleigh Quotient.
 
 \begin{algorithm}[htbp]
@@ -187,43 +188,40 @@ Inverse Iteration and the computation of the Rayleigh Quotient.
   \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
 \end{algorithm}
 
-We have yet to define what we mean by ``until convergence'' (cf. the
-algorithms persented in Section~\ref{sec:iterative:algorithms}). Now
-that we the defined the Rayleigh Quotient, we can define the following
-stopping criterion. Run the iteration until
+We have yet to define what we mean by ``until convergence'' in this
+Algorithm but also in the simple vector iterations from
+Chapter~\ref{chapter:intro}. Now that we the defined the Rayleigh
+Quotient, we can define the following stopping criterion. Run the
+iteration until
 \begin{equation*}
   \norm{\vec{r}^{(k)}} = \norm{\mat{A}\vec{x}^{(k)} - \mu^{(k)} \vec{x}^{(k)}} < \mathtt{tol}\,,
 \end{equation*}
 where
 $\vec{r}^{(k)} \coloneqq \mat{A}\vec{x}^{(k)} - \mu^{(k)}
 \vec{x}^{(k)}$ is called the \emph{residual vector} and $\mathtt{tol}$
-is a user-given error tolerance. Obviously, if for some $k$ the tuple
-$(\mu^{(k)}, \vec{x}^{(k)})$ is an eigenpair we have
-$\vec{r}^{(k)} = \vec{0}$. For approximate eigenpairs we expect a
-small residual to imply small errors in these approximations. A
-rigorous justfication\todo{Rewrite} is given
-in~\cite[59\psqq]{saad2011}. Here, we give only some important results
-without proof for the case when $\mat{A}$ is symmetric. A popular
-result, usually referred to as the \emph{Bauer-Fike theorem} (see,
-\eg~\cite[59]{saad2011}) states that there exists an eigenvalue
-$\lambda$ of $\mat{A}$ such that
+is a user-given error tolerance. In Algorithm~\ref{alg:power:method}
+(Power method) and Algorithm~\ref{alg:sii} (Inverse Iteration) the
+Rayleigh Quotient of the current vector iterate
+$\mu^{(k)} = {(\vec{x}^{(k)})}^\herm \mat{A} \vec{x}^{(k)}$ is not
+computed. Therefore, for this \emph{residual-based error control} to
+work, the computation of $\mu^{(k)}$ has to be added to these
+algorithms.
+
+Obviously, if for some $k$ the tuple $(\mu^{(k)}, \vec{x}^{(k)})$ is
+an eigenpair we have $\vec{r}^{(k)} = \vec{0}$. For approximate
+eigenpairs we expect a small residual to imply small errors in these
+approximations.  Details on this residual-based error control can be
+found in~\cite[Section~3.2]{saad2011}
+or~\cite[Section~5.2]{boerm}. Here, we give only some important
+results without proof for the case when $\mat{A}$ is Hermitian. A
+popular result, usually referred to as the \emph{Bauer-Fike theorem}
+for Hermitian matrices (see, \eg~\cite[59]{saad2011}) states that
+there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}
-  \abs{\lambda - \mu^{(k)}} \le \kappa(\mat{Q}) \norm{\vec{r}^{(k)}}\,,
-\end{equation}
-where $\mat{Q}$ is a matrix that transforms $\mat{A}$ into diagonal
-form (\ie $\mat{Q}$ is such that $\mat{Q}^{-1}\mat{A}\mat{Q}$ is
-diagonal) and
-$\kappa(\mat{Q}) \coloneqq \norm{\mat{Q}}\norm{\mat{Q}^{(-1)}}$ is the
-\emph{condition number} of $\mat{Q}$. Such a matrix exists due to the
-\emph{spectral theorem}~\cite[Theorem 18 and Corollary,
-p.~314]{hoffmanlinalg}. Since $\mat{A}$ is real and symmetric
-$\mat{Q}$ is an \emph{orthogonal} matrix. In particular
-$\norm{\mat{Q}} = \norm{\mat{Q}^{-1}} = 1$ and thus
-\begin{equation*}
   \abs{\lambda - \mu^{(k)}} \le \norm{\vec{r}^{(k)}}\,.
-\end{equation*}
-Therefore, if the stopping criterion is fulfilled, we have
+\end{equation}
+Thus, if the stopping criterion is fulfilled, we have
 $\abs*{\lambda - \mu^{(k)}} < \mathtt{tol}$.  For the eigenvector one
 can show~\cite[63]{saad2011} that the following bound holds
 \begin{equation*}
@@ -233,19 +231,12 @@ can show~\cite[63]{saad2011} that the following bound holds
     \delta
   }\,,
 \end{equation*}
-where $\vec{v}$ is an eigenvector associtated with $\lambda$ and
+where $\vec{v}$ is an eigenvector associated with $\lambda$ and
 $\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
 \ie
 \begin{equation*}
   \delta \coloneqq \min_i\, \{ \abs*{\mu^{(k)} - \lambda_i} \ : \ \lambda_i \neq \lambda \} \,.
 \end{equation*}
-These results hold if
-$\mu^{(k)} = {(\vec{x}^{(k)})}^\ast \mat{A} {(\vec{x}^{(k)})}$
-(Rayleigh Quotient).\todo{Stopping criteria in Power method and SIT}
-
-\begin{example}%
-  \label{ex:rqi}
-\end{example}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

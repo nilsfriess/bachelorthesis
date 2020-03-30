@@ -7,16 +7,17 @@
 *** TODO Try computing an eigenvalue using classic RQI
 *** TODO Try computing an eigenvalue using Complex RQI
 
-* CHAPTER 2 [0%]
-** TODO Check the least squares derivation
+* CHAPTER 2 [30%]
+** DONE Check the least squares derivation
+** TODO Search References from spectral theorem in [Friedberg - Linear Algebra]
 ** TODO Search and add references that mention the "RQ is quadratically accurate"
-** TODO Rewrite the "Residual based error control" part (see Börm, maybe Saad?)
-*** TODO Describe how RQ can be used to provide stopping criterion for power iterations and mention that the eigenvalues converge faster than the eigenvectors
-** TODO Remove example 2.5
-** TODO Shorten the History section
+** DONE Rewrite the "Residual based error control" part (see Börm, maybe Saad?)
+*** DONE Describe how RQ can be used to provide stopping criterion for power iterations and mention that the eigenvalues converge faster than the eigenvectors
+** DONE Remove example 2.5
+** TODO In history section, add recent contributions
 ** TODO Describe that RQI and other methods do not incooporate the RHS (ie the eigenvector approximation)
 ** TODO Inside the proof of cubic convergence mentioned that we proofed the quadratic accuracy
-
+** TODO Read Ostrowski's other papers and add details to the History section
 * CHAPTER 3 [0%]
 ** TODO Finish intro for chapter
 ** TODO Rewrite the motiviation (make more concise)

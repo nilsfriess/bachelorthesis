@@ -3,9 +3,10 @@ In this chapter we introduce \emph{Complex Rayleigh Quotient
   Iteration} (CRQI\footnote{We abbreviate the classic Rayleigh
   Quotient Iteration that was discussed in the previous chapter by
   \emph{RQI} or \emph{classic RQI} and the method introduced in this
-  chapter by \emph{CRQI}.}).  This is a novel shift and invert type
-algorithm similar to classic RQI that overcomes some of its
-disadvantages. \todo{Finish intro for chapter}.
+  chapter by \emph{CRQI}.}). This is a novel shift-and-invert
+algorithm similar to classic RQI. Numerical examples suggest that that
+this new method overcomes some of the disadvantages of classic RQI.
+\todo{Finish intro for chapter}
 
 \section{Motivation}
 As was the case in the previous chapters we fix a real symmetric
@@ -37,7 +38,7 @@ eigenpair when the gap between the target eigenvalue and eigenvalues
 nearby is very small. The main idea of CRQI is now to use the
 approximation $\vec{u}$ of $\vec{v}_k$ to perturb the linear system
 that is solved at each step in RQI in such a way that the distance
-between the target eigenvalue $\lambda_k$ and the neighboring
+between the target eigenvalue $\lambda_k$ and the neighbouring
 eigenvalues is increased. Of course this perturbed linear system will
 lead to wrong solutions and so we will ``decrease'' this perturbation
 successively until we arrive at the unperturbed problem.
@@ -56,29 +57,30 @@ The idea is now to apply Rayleigh Quotient iteration to the matrix
 instead of $\mat{A}$, where $\gamma > 0$ is positive real number and
 $i$ denotes the imaginary unit. To get an intuition on why we choose
 this matrix, we first note that the matrix
-$\mat{I} - \vec{u} \vec{u}^\tp$, interpreted as a linear mapping,
-defines the orthogonal projection onto the span of $\vec{u}$. Of
-course, this works for any vector $\vec{v} \in \R^n$ and can be seen
-as follows.  Given a vector $\vec{x} \in \R^n$, the projection of
-$\vec{x} \in \R^n$ onto the span of $\vec{v}$ is
-\begin{equation*}
-  \frac{
-    \langle \vec{v}, \vec{x} \rangle
-  }{
-    \langle \vec{v}, \vec{v} \rangle
-  }\vec{v} \,,
-\end{equation*}
-where $\langle \cdot, \cdot \rangle$ denotes the Euclidean inner
-product on $\R^n$. Thus, the projection onto the orthogonal complement
-of the span of $\vec{v}$ is
-\begin{equation*}
-  \vec{x} - (\vec{v}^\tp \vec{x}) \vec{v} = \vec{x} - (\vec{v} \vec{v}^\tp) \vec{x} = (\mat{I} - \vec{v} \vec{v}^\tp) \vec{x} \,.
-\end{equation*}
-\todo{Look up projection formulas, search references and correct
-  derviation}
+$\mat{I} - \vec{u} \vec{u}^\tp$ defines the orthogonal projection onto
+the span of $\vec{u}$.
+
+% Of course, this works for any vector $\vec{v} \in \R^n$ and can be
+% seen as follows.  Given a vector $\vec{x} \in \R^n$, the projection
+% of $\vec{x} \in \R^n$ onto the span of $\vec{v}$ is
+% \begin{equation*}
+%   \frac{
+%     \langle \vec{v}, \vec{x} \rangle
+%   }{
+%     \langle \vec{v}, \vec{v} \rangle
+%   }\vec{v} \,,
+% \end{equation*}
+% where $\langle \cdot, \cdot \rangle$ denotes the Euclidean inner
+% product on $\R^n$. Thus, the projection onto the orthogonal
+% complement of the span of $\vec{v}$ is
+% \begin{equation*}
+%   \vec{x} - (\vec{v}^\tp \vec{x}) \vec{v} = \vec{x} - (\vec{v} \vec{v}^\tp) \vec{x} = (\mat{I} - \vec{v} \vec{v}^\tp) \vec{x} \,.
+% \end{equation*}
+% \todo{Look up projection formulas, search references and correct
+% derviation}
 
 Therefore, a vector $\vec{x}$ that is almost parallel to $\vec{u}$
-will bareley ``see'' the imaginary part
+will barely ``see'' the imaginary part
 $\gamma i (\mat{I} - \vec{u} \vec{u}^\tp)$ when multiplied with
 $\tilde{\mat{A}}$ and so
 $\tilde{\mat{A}} \vec{x} \approx \mat{A}\vec{x}$. If, however, the
@@ -88,17 +90,16 @@ vector $\vec{x}$ is almost perpendicular to $\vec{u}$ we have
   \tilde{\mat{A}} \vec{x} = \mat{A}\vec{x} - \gamma i \vec{x} - \vec{u}
   \underbrace{\vec{u}^\tp \vec{x}}_{\approx 0} \approx (\mat{A} - \gamma i \mat{I})\vec{x}\,.
 \end{equation}
-Now recall that $\vec{u}$ is assumed to be a good approximation of an
-eigenvector $\vec{v}_k$ of $\mat{A}$. This also implies that the
-orthogonal subspace of the span of $\vec{u}$ approximates the
-orthogonal subspace spanned by $\vec{v}_k$. However, the latter is the
-space spanned by the remaining eigenvectors of $\mat{A}$, since the
-eigenvectors are pairwise orthogonal. Therefore, we expect that the
-eigenvectors of $\tilde{\mat{A}}$ are similar to those of $\mat{A}$
-and that the eigenvalues corresponding to eigenvectors $\vec{v}_j$,
-$j \neq k$ to approximately $\lambda_j - \gamma i$ due
-to~\eqref{eq:a:tilde:multorth}. The eigenvalue corresponding to
-$\vec{v}_k$ would then be approximately equal to $\lambda_k$ since
+Since $u$ approximates $\vec{v}_k$, the orthogonal complement of the
+span of $\vec{u}$ approximates the orthogonal complement of the span
+by $\vec{v}_k$. The latter, due to the orthogonality of the
+eigenvectors, is the subspace spanned by the remaining eigenvectors.
+Therefore, we expect that the eigenvectors of $\tilde{\mat{A}}$ are
+similar to those of $\mat{A}$ and that the eigenvalues corresponding
+to eigenvectors $\vec{v}_j$, $j \neq k$ to approximately be
+$\lambda_j - \gamma i$ due to~\eqref{eq:a:tilde:multorth}. The
+eigenvalue corresponding to $\vec{v}_k$ would then be approximately
+equal to $\lambda_k$ since
 $\tilde{\mat{A}}\vec{v}_k \approx \mat{A}\vec{v}_k = \lambda_k
 \vec{v}_k$.
 
@@ -111,12 +112,13 @@ $\vec{v}_k$.
   $\tilde{\mat{A}}^{(0)} \coloneqq \mat{A} - \gamma i(\mat{I}-
   \vec{v}_k \vec{v}_k^\tp)$ has the same eigenvectors as $\mat{A}$
   with corresponding eigenvalues
-  $\lambda_j(\tilde{\mat{A}}^{(0)}) = \lambda_j - \gamma i$ for
-  $j \neq k$ and $\lambda_k(\tilde{\mat{A}}^{(0)}) = \lambda_k$.
+  $\lambda_j(\tilde{\mat{A}}^{(0)}) = \lambda_j(\mat{A}) - \gamma i$
+  for $j \neq k$ and
+  $\lambda_k(\tilde{\mat{A}}^{(0)}) = \lambda_k(\mat{A})$.
 \end{lemma}
-\todo{Introduce eigenvalue notation in chapter 1}
+
 \begin{proof}
-  First consider $j \neq k$. We have
+  First consider $j \neq k$. A straightforward calculation yields
   \begin{equation*}
     (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_j = \mat{A}\vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \underbrace{\vec{v}_k^\tp  \vec{v}_j}_{ = 0}
     = \lambda_j \vec{v}_j - \gamma i \vec{v}_j = (\lambda_j - \gamma i) \vec{v}_j \,.   
@@ -134,24 +136,24 @@ Lemma~\ref{lem:eigs:atilde0} and $\tilde{\mat{A}}^{(1)}$ is given by
 \begin{equation*}
   \tilde{\mat{A}}^{(1)} \coloneqq \gamma i ( \vec{u} \vec{u}^\tp - \vec{v}_k\vec{v}_k^\tp)\,.
 \end{equation*}
-Weyl`s perturbation inequality then gives the bound
-\begin{equation}
-  \label{eq:weyl}
-  \max_{k = 1}^n\, \abs*{\lambda_k(\mat{\tilde{A}}) - \lambda_k(\tilde{\mat{A^{0}}})} \le \norm{\tilde{\mat{A}}^{(1)}}\,.
-\end{equation}
-To compute the norm on the right hand side of~\eqref{eq:weyl} we make
-use of the following well-known facts from linear algebra.
-\begin{proposition}
-  Let $\mat{A} \in \R^{n \times n}$ be a real symmetric matrix. Then
-  \begin{enumerate}[label=(\alph*)]
-  \item The sum of the eigenvalues of $\mat{A}$ is equal to the
-    \emph{trace} of $\mat{A}$ that is defined as the sum of its
-    diagonal entries, \ie,
-    \begin{equation*}
-      \sum_{j = 1}^n \lambda_j(\mat{A}) = \sum_{k = 1}^n \mat{A}_{kk}\,.
-    \end{equation*}
-  \end{enumerate}
-\end{proposition}
+% Weyl`s nequality then gives the bound
+% \begin{equation}
+%   \label{eq:weyl}
+%   \max_{k = 1}^n\, \abs*{\lambda_k(\mat{\tilde{A}}) - \lambda_k(\tilde{\mat{A^{0}}})} \le \norm{\tilde{\mat{A}}^{(1)}}\,.
+% \end{equation}
+% To compute the norm on the right hand side of~\eqref{eq:weyl} we
+% make use of the following well-known facts from linear algebra.
+% \begin{proposition}
+%   Let $\mat{A} \in \R^{n \times n}$ be a real symmetric matrix. Then
+%   \begin{enumerate}[label=(\alph*)]
+%   \item The sum of the eigenvalues of $\mat{A}$ is equal to the
+%     \emph{trace} of $\mat{A}$ that is defined as the sum of its
+%     diagonal entries, \ie,
+%     \begin{equation*}
+%       \sum_{j = 1}^n \lambda_j(\mat{A}) = \sum_{k = 1}^n \mat{A}_{kk}\,.
+%     \end{equation*}
+%   \end{enumerate}
+% \end{proposition}
 
 
 % used as an initial guess in the classic Rayleigh Quotient Iteration.
