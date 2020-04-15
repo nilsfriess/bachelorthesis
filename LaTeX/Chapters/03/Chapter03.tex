@@ -27,7 +27,7 @@ Due to the pairwise orthogonality of the eigenvectors this implies
 \begin{equation}
   \label{eq:guess_orthogonal}
   \vec{u}^\tp \vec{v}_j \approx
-  \begin{cases}
+  \begin{cases} 
     1 & \text{ if } j = k \,, \\
     0 & \text{ if } j \neq k \,.
   \end{cases}
@@ -39,46 +39,25 @@ nearby is very small. The main idea of CRQI is now to use the
 approximation $\vec{u}$ of $\vec{v}_k$ to perturb the linear system
 that is solved at each step in RQI in such a way that the distance
 between the target eigenvalue $\lambda_k$ and the neighbouring
-eigenvalues is increased. Of course this perturbed linear system will
-lead to wrong solutions and so we will ``decrease'' this perturbation
-successively until we arrive at the unperturbed problem.
-\todo{Rewrite} We make use of the fact that all eigenvalues of
-$\mat{A}$ are real and perturb this matrix in such a way that the
-eigenvalues are ``raised'' into the complex plane. Of course, we do
-not want to raise them all equally but rather in such a way that the
-Euclidean distance between the target eigenvalue and the other
-eigenvalue is increased.
+eigenvalues is increased. In other words, we try to isolate the target
+eigenvalue. Of course this perturbed linear system will lead to wrong
+solutions and so we will ``decrease'' this perturbation successively
+until we arrive at the unperturbed problem.
 
-The idea is now to apply Rayleigh Quotient iteration to the matrix
+We make use of the fact that all eigenvalues of $\mat{A}$ are real and
+perturb $\mat{A}$ in such a way that the eigenvalues are ``raised''
+into the complex plane. Of course, we do not want to raise them all
+equally but rather in such a way that the Euclidean distance between
+the target eigenvalue and the other eigenvalue is increased. This is
+done by incorporating the approximation $\vec{u}$ of the target
+eigenvector $\vec{v}_k$ into the working matrix. Let
 \begin{equation}
   \label{eq:a:tilde}
-  \tilde{\mat{A}} \coloneqq \mat{A} - \gamma i(\mat{I} - \vec{u} \vec{u}^\tp)
+  \tilde{\mat{A}} \coloneqq \mat{A} - \gamma i(\mat{I} - \vec{u} \vec{u}^\tp)\,,
 \end{equation}
-instead of $\mat{A}$, where $\gamma > 0$ is positive real number and
-$i$ denotes the imaginary unit. To get an intuition on why we choose
-this matrix, we first note that the matrix
-$\mat{I} - \vec{u} \vec{u}^\tp$ defines the orthogonal projection onto
-the span of $\vec{u}$.
-
-% Of course, this works for any vector $\vec{v} \in \R^n$ and can be
-% seen as follows.  Given a vector $\vec{x} \in \R^n$, the projection
-% of $\vec{x} \in \R^n$ onto the span of $\vec{v}$ is
-% \begin{equation*}
-%   \frac{
-%     \langle \vec{v}, \vec{x} \rangle
-%   }{
-%     \langle \vec{v}, \vec{v} \rangle
-%   }\vec{v} \,,
-% \end{equation*}
-% where $\langle \cdot, \cdot \rangle$ denotes the Euclidean inner
-% product on $\R^n$. Thus, the projection onto the orthogonal
-% complement of the span of $\vec{v}$ is
-% \begin{equation*}
-%   \vec{x} - (\vec{v}^\tp \vec{x}) \vec{v} = \vec{x} - (\vec{v} \vec{v}^\tp) \vec{x} = (\mat{I} - \vec{v} \vec{v}^\tp) \vec{x} \,.
-% \end{equation*}
-% \todo{Look up projection formulas, search references and correct
-% derviation}
-
+where $\gamma > 0$ is positive real number and $i$ denotes the
+imaginary unit. Note that the matrix $\mat{I} - \vec{u} \vec{u}^\tp$
+defines the orthogonal projection onto the span of $\vec{u}$.
 Therefore, a vector $\vec{x}$ that is almost parallel to $\vec{u}$
 will barely ``see'' the imaginary part
 $\gamma i (\mat{I} - \vec{u} \vec{u}^\tp)$ when multiplied with
@@ -103,39 +82,170 @@ equal to $\lambda_k$ since
 $\tilde{\mat{A}}\vec{v}_k \approx \mat{A}\vec{v}_k = \lambda_k
 \vec{v}_k$.
 
-To make this intuition more quantitative, we first need the following
-result where we replace $\vec{u}$ by the exact target eigenvector
-$\vec{v}_k$.
-\begin{lemma}
-  \label{lem:eigs:atilde0}
-  The matrix
-  $\tilde{\mat{A}}^{(0)} \coloneqq \mat{A} - \gamma i(\mat{I}-
-  \vec{v}_k \vec{v}_k^\tp)$ has the same eigenvectors as $\mat{A}$
-  with corresponding eigenvalues
-  $\lambda_j(\tilde{\mat{A}}^{(0)}) = \lambda_j(\mat{A}) - \gamma i$
-  for $j \neq k$ and
-  $\lambda_k(\tilde{\mat{A}}^{(0)}) = \lambda_k(\mat{A})$.
-\end{lemma}
+If we would use this matrix in RQI, the results would of course not be
+the target eigenpair but an eigenpair of $\tilde{\mat{A}}$. Thus,
+instead of keeping this matrix fixed, we replace the vector $\vec{u}$
+by the current iterate $\vec{x}^{(k)}$ and the scalar $\gamma$ by a
+sequence $\gamma^{(k)}$ that converges to zero. Ideally, in the
+beginning of the iteration $\gamma^{(k)}$ should be sufficiently large
+such that the target eigenvalue is properly isolated. As the the
+iterates get closer to the target eigenpair, $\gamma^{(k)}$ should
+decrease such that in the end $\tilde{\mat{A}} \approx \mat{A}$. An
+obvious choice is the norm of the current residual $\vec{r}^{(k)}$ or
+related quantities such as the square of the residual norm. How the
+choice of this shift influences the convergence behaviour is discussed
+in the next first example of Section~\ref{sec:crqi:experiments}.
 
+\section{Implementation}
+
+Altough we will soon slightly change the matrix $\tilde{\mat{A}}$
+defined in~\eqref{eq:a:tilde} again, we summarise the discussion up to
+this point in Algorithm~\ref{alg:crqi:proj}.\footnote{By
+  $\Re(\vec{x})$ we denote the real part of the complex vector
+  $\vec{x}$.}
+
+\begin{algorithm}[htpb]
+  \DontPrintSemicolon%
+  \KwData{Nonzero initial vector $\vec{x}^{(0)}$ with $\norm*{\vec{x}^{(0)}} = 1$}
+  \Begin{
+    $\mu^{(0)} \gets {(\vec{x}^{(0)})}^\herm \mat{A} \vec{x}^{(0)}$\;
+    $r^{(0)} \gets \norm*{(\mat{A} - \mu^{(0)}\mat{I}) \vec{x}^{(0)}}$\;
+    $\gamma^{(0)} \gets r^{(0)}$\;
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      $\tilde{\mat{A}} \gets \mat{A} - \gamma^{(k)}i(\mat{I} - \vec{x}^{(k)} {(\vec{x}^{(k)})}^\herm)$\;
+      Solve $( \tilde{\mat{A}} - \mu^{(k)}\mat{I})\tilde{\vec{x}}^{(k+1)} = \vec{x}^{(k)}$\;
+      $\vec{x}^{(k+1)} \gets \tilde{\vec{x}}^{(k+1)} / \norm*{\tilde{\vec{x}}^{(k+1)}}$\;
+      $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A} \vec{x}^{(k+1)}$\;
+      $r^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I}) \vec{x}^{(k+1)}}$\;
+      $\gamma^{(k+1)} \gets r^{(k+1)}$\;
+    }
+    $\vec{x} \gets \Re({\vec{x}^{(k+1)}})$\;
+    $\vec{x} \gets \vec{x} / \norm*{\vec{x}}$
+  }
+  \caption{Complex Rayleigh Quotient Iteration, First Version}\label{alg:crqi:proj}
+\end{algorithm}
+\todo{Sign of shift in Algo step should be +?}
+
+Strictly speaking, this algorithm is not a Rayleigh Quotient Iteration
+as the matrix changes at each step. Obviously, the method is strongly
+linked to RQI so we still refer to it as Complex Rayleigh Quotient
+Iteration. As mentioned above, this is not the final version as we
+wish to present it. The following lemma allows for a small
+simplification of the algorithm.
+
+\begin{lemma}
+  Let $\mat{A} \in \R^{n \times n}$ be a nonsingular real symmetric
+  matrix. Let $\vec{u} \in \C^n$ be a unit vector. We define the
+  matrices
+  \begin{equation}
+    \label{eq:rayleigh_quotient_complex}
+    \mat{B} \coloneqq \mat{A} - (\sigma - \gamma i) \mat{I}
+  \end{equation}
+  and
+  \begin{equation}
+    \label{eq:rayleigh_quotient_proj}
+    \mat{C} \coloneqq { \mat{A} - \sigma \mat{I} + \gamma i( \mat{I} - \vec{u} \vec{u}^\herm)}\,,
+  \end{equation}
+  where $i$ is the imaginary unit and $\sigma, \gamma > 0$ are
+  positive real numbers such that $\sigma$ is not an eigenvalue of
+  $\mat{A}$. Then
+  \begin{equation}
+    \label{eq:rq_equal}
+    \rq_{\mat{A}}(\mat{B}^{-1} \vec{u}) = \rq_{\mat{A}}(\mat{C}^{-1} \vec{u} ) \,.
+  \end{equation}
+\end{lemma}
 \begin{proof}
-  First consider $j \neq k$. A straightforward calculation yields
-  \begin{equation*}
-    (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_j = \mat{A}\vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \underbrace{\vec{v}_k^\tp  \vec{v}_j}_{ = 0}
-    = \lambda_j \vec{v}_j - \gamma i \vec{v}_j = (\lambda_j - \gamma i) \vec{v}_j \,.   
-  \end{equation*}
-  For $j = k$ we have
-  $\vec{v}_k^\tp \vec{v}_j = \vec{v}_k^\tp \vec{v}_k = 1$ and thus
-  \begin{equation*}
-    (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_k = \lambda_k \vec{v}_k - \gamma i \vec{v}_k + \gamma i \vec{v}_k = \lambda_k \vec{v}_k\,.
-  \end{equation*}
+  Without loss of generality, we can assume $\sigma = 0$. Otherwise,
+  set $\tilde{\mat{A}} = \mat{A} - \sigma \mat{I}$ and use this matrix
+  instead of $\mat{A}$ ($\tilde{\mat{A}}$ is obviously still real and
+  symmetric and invertible since $\sigma$ is not an eigenvalue of
+  $\mat{A}$). First, observe that
+  $\mat{C} = \mat{B} - \gamma i \vec{u}\vec{u}^\herm$. Using the
+  Sherman-Morrison formula~\cite{hager1989update} and letting
+  $\alpha \coloneqq 1 - \gamma i \vec{u}^\herm \mat{B}^{-1} \vec{u} \,
+  \in \C$ we obtain
+  \begin{align*}
+    \mat{C}^{-1} \vec{u} &= {\left( \mat{B} - \gamma i \vec{u} \vec{u}^\herm \right)}^{-1} \vec{u} \\
+                         &= \left(
+                           \mat{B}^{-1} + \alpha^{-1} \mat{B}^{-1} \vec{u} \gamma i \vec{u}^\herm \mat{B}^{-1}
+                           \right) \vec{u} \\
+                         &= \mat{B}^{-1} \vec{u} + \mat{B}^{-1} \vec{u} \underbrace{\alpha^{-1} \gamma i \vec{u}^\herm \mat{B}^{-1} \vec{u} }_{ \in \C} \\
+                         &= \mat{B}^{-1} \vec{u} ( 1 + \alpha^{-1} \gamma i \vec{u}^\herm \mat{B}^{-1} \vec{u}) \,.    
+  \end{align*}
+  Thus, the vector $\mat{C}^{-1} \vec{u}$ is a scalar multple of
+  $\mat{B}^{-1} \vec{u}$ and the result follows from
+  Lemma~\ref{lem:rq:properties} (i) (the Homogenity of the Rayleigh
+  Quotient).
 \end{proof}
-We now decompose $\tilde{\mat{A}}$ into the sum
-$\tilde{\mat{A}} = \tilde{\mat{A}}^{(0)} + \tilde{\mat{A}}^{(1)}$,
-where $\tilde{\mat{A}}^{(0)}$ is defined in
-Lemma~\ref{lem:eigs:atilde0} and $\tilde{\mat{A}}^{(1)}$ is given by
+\todo{Where is the non-singularity needed?}
+
+Immediately, the following result follows.
+
+\begin{corollary}
+  Algorithm~\ref{alg:crqi:proj} produces the same results when
+  $\tilde{\mat{A}}$ is replaced with
+  $\hat{\mat{A}} = \mat{A} + \gamma i \mat{I}$.
+\end{corollary}
+\begin{proof}
+  
+\end{proof}
+This result allows for a simplification of the algorithm. We combine
+the real shift $\mu^{(k)}$ and the imaginary shift $i \gamma^{(k)}$
+into a new shift $\sigma^{(k)} \coloneqq \mu^{(k)} - i \gamma^{(k)}$
+and solve the system
 \begin{equation*}
-  \tilde{\mat{A}}^{(1)} \coloneqq \gamma i ( \vec{u} \vec{u}^\tp - \vec{v}_k\vec{v}_k^\tp)\,.
+  (\mat{A} - \sigma^{(k)} \mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}
 \end{equation*}
+for $\vec{x}^{(k+1)}$ at each step.
+
+
+
+\input{Chapters/03/NumericalExperiments}
+
+% To make this intuition more quantitative, we first need the
+% following result where we replace $\vec{u}$ by the exact target
+% eigenvector $\vec{v}_k$.
+% \begin{lemma}
+%   \label{lem:eigs:atilde0}
+%   The matrix
+%   $\tilde{\mat{A}}^{(0)} \coloneqq \mat{A} - \gamma i(\mat{I}-
+%   \vec{v}_k \vec{v}_k^\tp)$ has the same eigenvectors as $\mat{A}$
+%   with corresponding eigenvalues
+%   $\lambda_j(\tilde{\mat{A}}^{(0)}) = \lambda_j(\mat{A}) - \gamma i$
+%   for $j \neq k$ and
+%   $\lambda_k(\tilde{\mat{A}}^{(0)}) = \lambda_k(\mat{A})$.
+% \end{lemma}
+
+% \begin{proof}
+%   First consider $j \neq k$. A straightforward calculation yields
+%   \begin{equation*}
+%     (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_j = \mat{A}\vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \underbrace{\vec{v}_k^\tp  \vec{v}_j}_{ = 0}
+%     = \lambda_j \vec{v}_j - \gamma i \vec{v}_j = (\lambda_j - \gamma i) \vec{v}_j \,.   
+%   \end{equation*}
+%   For $j = k$ we have
+%   $\vec{v}_k^\tp \vec{v}_j = \vec{v}_k^\tp \vec{v}_k = 1$ and thus
+%   \begin{equation*}
+%     (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_k = \lambda_k \vec{v}_k - \gamma i \vec{v}_k + \gamma i \vec{v}_k = \lambda_k \vec{v}_k\,.
+%   \end{equation*}
+% \end{proof}
+% We now decompose $\tilde{\mat{A}}$ into the sum
+% $\tilde{\mat{A}} = \tilde{\mat{A}}^{(0)} + \tilde{\mat{A}}^{(1)}$,
+% where $\tilde{\mat{A}}^{(0)}$ is defined in
+% Lemma~\ref{lem:eigs:atilde0} and $\tilde{\mat{A}}^{(1)}$ is given by
+% \begin{equation*}
+%   \tilde{\mat{A}}^{(1)} \coloneqq \gamma i ( \vec{u} \vec{u}^\tp - \vec{v}_k\vec{v}_k^\tp)\,.
+% \end{equation*}
+% \todo{Complete perturbation derivation} Of course, when RQI is
+% applied to the matrix $\tilde{\mat{A}}$ the results would not be the
+% eigenvalues of $\mat{A}$ but those of $\tilde{\mat{A}}$ . Therefore,
+% instead of using a fixed imaginary shift $\gamma i$ we choose a
+% decreasing sequence $\gamma^{(k)}$ and perform one step of RQI using
+% $\tilde{\mat{A}}^{(k)} \coloneqq \mat{A} - \gamma^{(k)} i(\mat{I} -
+% \vec{u} \vec{u}^\tp)$. As $\gamma^{(k)} \rightarrow 0$ the matrix
+% $\tilde{\mat{A}}^{(k)}$ approaches $\mat{A}$.
+
+
+
 % Weyl`s nequality then gives the bound
 % \begin{equation}
 %   \label{eq:weyl}
@@ -228,52 +338,6 @@ Lemma~\ref{lem:eigs:atilde0} and $\tilde{\mat{A}}^{(1)}$ is given by
 %   $\tilde{\mat{A}} \coloneqq \mat{A} - \gamma i (\mat{I} -
 %   \vec{u}\vec{u}^\tp)$.
 % \end{lemma}
-
-
-% \begin{lemma}
-%   Let $\mat{A} \in \R^{n \times n}$ be a nonsingular real symmetric
-%   matrix. Let $\vec{u} \in \R^n$ be a unit vector. We define the
-%   matrices
-%   \begin{equation}
-%     \label{eq:rayleigh_quotient_complex}
-%     \mat{B} \coloneqq {\left(\mat{A} - (\sigma - \gamma i) \mat{I} \right)}
-%   \end{equation}
-%   and
-%   \begin{equation}
-%     \label{eq:rayleigh_quotient_proj}
-%     \mat{C} \coloneqq {\left( \mat{A} - \sigma \mat{I} + \gamma i( \mat{I} - \vec{u} \vec{u}^\tp) \right)}\,,
-%   \end{equation}
-%   where $i$ is the imaginary unit and $\sigma, \gamma > 0$ are
-%   positive real numbers such that $\sigma$ is not an eigenvalue of
-%   $\mat{A}$. Then
-%   \begin{equation}
-%     \label{eq:rq_equal}
-%     \rq_{\mat{A}}(\mat{B}^{-1} \vec{u}) = \rq_{\mat{A}}(\mat{C}^{-1} \vec{u} ) \,.
-%   \end{equation}
-% \end{lemma}
-% \begin{proof}
-%   Without loss of generality, we can assume $\sigma = 0$. Otherwise,
-%   set $\tilde{\mat{A}} = \mat{A} - \sigma \mat{I}$ and use this
-%   matrix instead of $\mat{A}$ ($\tilde{\mat{A}}$ is obviously still
-%   real and symmetric and invertible since $\sigma$ is not an
-%   eigenvalue of $\mat{A}$). First, observe that
-%   $\mat{C} = \mat{B} - \gamma i \vec{u}\vec{u}^\tp$. Using the
-%   Sherman-Morrison formula \parencite[50]{golub1996} and letting
-%   $\alpha \coloneqq 1 - \gamma i \vec{u}^\tp \mat{B}^{-1} \vec{u} \,
-%   \in \C$ we obtain
-%   \begin{align*}
-%     \mat{C}^{-1} \vec{u} &= {\left( \mat{B} - \gamma i \vec{u} \vec{u}^\tp \right)}^{-1} \vec{u} \\
-%                          &= \left(
-%                            \mat{B}^{-1} + \alpha^{-1} \mat{B}^{-1} \vec{u} \gamma i \vec{u}^\tp \mat{B}^{-1}
-%                            \right) \vec{u} \\
-%                          &= \mat{B}^{-1} \vec{u} + \mat{B}^{-1} \vec{u} \underbrace{\alpha^{-1} \gamma i \vec{u}^\tp \mat{B}^{-1} \vec{u} }_{ \in \C} \\
-%                          &= \mat{B}^{-1} \vec{u} ( 1 + \alpha^{-1} \gamma i \vec{u}^\tp \mat{B}^{-1} \vec{u}) \,.    
-%   \end{align*}
-%   Thus, the vector $\mat{C}^{-1} \vec{u}$ is a scalar multple of
-%   $\mat{B}^{-1} \vec{u}$ and the result follows from
-%   Lemma~\ref{lem:rq:properties} (i) (the Homogenity of the Rayleigh
-%   Quotient).
-% \end{proof}
 
 % \begin{corollary}
 %   The Rayleigh sequences generated using the matrices $\mat{B}$ and

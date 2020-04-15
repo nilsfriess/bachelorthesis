@@ -1,4 +1,4 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2(a,x,sigma,gamma,tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2combined(a,x,sigma,gamma,tolerance)
 % complex_rqi   Computes an eigenpair of a using the complex Rayleigh 
 % quotient iteration
 %
@@ -20,7 +20,11 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
   res = norm((a - sigma*speye(m))*x);
   
   if gamma == inf
-      gamma = res;
+      if res > 1
+          gamma = res;
+      else
+          gamma = res^2;
+      end
   end
   
   eigval_iterates = [sigma];  % save the approximations for debugging,
@@ -34,8 +38,11 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     x = x / norm(x);
     sigma = x' * a * x;
     res = norm((a - sigma*speye(m))*x);
-    gamma = res;
-    
+    if res >= 1
+       gamma = sqrt(res);
+    else
+       gamma = res^2;
+    end
     eigval_iterates = [eigval_iterates, sigma]; %append current iterates
     eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
     resold = residuals(end);

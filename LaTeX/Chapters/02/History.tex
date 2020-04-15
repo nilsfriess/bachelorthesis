@@ -50,7 +50,7 @@ In a text communicated to the Royal society of London Stephen
 Crandall~\cite{crandall} suggests
 \begin{equation}
   \label{eq:unnormalised:rqi}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x^{(i)}}\,.
+  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x}^{(i)}\,.
 \end{equation}
 Actually, Crandall also considered the generalised eigenproblem but
 for our comparative purposes it is sufficient to consider the case
@@ -95,11 +95,11 @@ In the first paper the author suggests the iteration
   \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \bm{\eta}\,,\quad \bm{\eta} \neq \vec{0}\,.
 \end{equation}
 He rigorously establishes a \emph{quadratic} convergence rate for the
-sequence $\{ \rq_{\mat{A}}(\vec{x}^{(i)}) \}$. He then refers to a
-paper of Wielandt~\cite{wielandt} and his \emph{fractional} or
-\emph{broken iteration} (German: \emph{gebrochene
+sequence of Rayleigh Quotients $\rq_{\mat{A}}(\vec{x}^{(i)})$. He then
+refers to a paper of Wielandt~\cite{wielandt} and his
+\emph{fractional} or \emph{broken iteration} (German: \emph{gebrochene
   Iteration}). Inspired by Wielandt`s method he suggests replacing the
-fixed vector $\vec{eta}$ in the right hand side
+fixed vector $\bm{\eta}$ in the right hand side
 of~\eqref{eq:rqi:ostrowski:first} to the solution from the previous
 step
 \begin{equation}
@@ -150,15 +150,16 @@ showed $q$-cubic convergence.
 
 More importantly, he also points out in §21 of the text that in order
 to assure convergence in the vector iterates (and not just the
-eigenvalue approximations) one needs to normalise the vectors. With
-this small yet important modification of Crandall's algorithm he fully
+Rayleigh Quotients) one needs to normalise the vectors. With this
+small yet important modification of Crandall's algorithm he fully
 defined RQI as it is known today.
 
 The third paper~\cite{ostrowskiIII} of the series addresses the
-non-symmetric for which Ostrowski is also able to define a method that
-attains local cubic convergence. This method uses a generalised notion
-of the Rayleigh quotient and comes at the expense of solving two
-linear systems at each step instead of one.
+non-symmetric case for which Ostrowski is also able to define a method
+that attains local cubic convergence. This method uses a generalised
+notion of the Rayleigh quotient and comes at the expense of solving
+two linear systems at each step instead of one.\todo{Check content
+  of papers 4-6 of Ostrowski}
 
 This concludes the overview of the development of RQI from Lord
 Rayleigh's iteration that lacks the changing right hand side and the
@@ -247,11 +248,12 @@ and Fox~\cite{beattiefox} derive conditions under which convergence is
 assured to be in a given interval assuming the number of eigenvalues
 contained in the interval is known. Szyld~\cite{szyld} suggests
 combining shifted inverse iteration and RQI to ensure that the
-computed eigenvalue lies in a given interval. In particular, he
-suggested running a few iterations of shifted inverse iteration (since
-it is guaranteed to converge to the nearest eigenvalue) and then
-switching to RQI (to benefit from the cubic convergence) and studied
-criteria for deciding when to switch from one method to the other.
+computed eigenvalue lies in a given interval. He obtains criteria to
+switch back and forth between the two algorithms to benefit from their
+respective advantages (inverse iteration is guarantueed to converge to
+the nearest eigenvalue but convergence is merely linear; RQI posseses
+local cubic convergence but the global convergence behaviour is
+possibly erratic).
 
 The task of identifying global convergence regions in terms of the
 initial vector seems to be more difficult. Parlett noted in 1980 that
@@ -264,9 +266,20 @@ Smillie~\cite{battersonsmillie} studied \emph{basins of attraction},
 specific eigenvector. They did, however, only consider the
 three-dimensional case.
 
+Besides the unpredictablity of the outcome of RQI another major
+drawback is its high cost. At every iteration a linear system has to
+be solved and since the system changes at each step one cannot
+factorize the matrix beforehand as was the case in inverse
+iteration. There are several obvious possiblities to reduce the cost
+such as to change the shift only occasionally. Sometimes, inverse
+iteration is run a fixed number of steps before changing the shift to
+the Rayleigh Quotient and Szyld's paper~\cite{szyld} that was
+mentioned above can also be interpreted as a method to reduce the
+computational cost for large problems.
+
 \todo{Discuss recent contributions (\eg, inexact RQI, Multistep RQI?,
   sparse PCA using RQI?)}
-
+ 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

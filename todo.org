@@ -1,13 +1,13 @@
 * CHAPTER 1 [0%]
-** TODO Photonic crystal fibres example [0%]
-*** TODO Read Norton's phd thesis
+** TODO Periodic Schrödinger example [0%]
+*** TODO Search in [Modern Physics IV] for examples (maybe with analytically computable Spectrum)?
 *** TODO Read Scheichl & Norton paper
 *** TODO Read Scheichl & Marletta paper
 *** TODO Implement Matlab example that demostrates the band structure of the spectrum
 *** TODO Try computing an eigenvalue using classic RQI
 *** TODO Try computing an eigenvalue using Complex RQI
 
-* CHAPTER 2 [30%]
+* CHAPTER 2 [44%]
 ** DONE Check the least squares derivation
 ** TODO Search References from spectral theorem in [Friedberg - Linear Algebra]
 ** TODO Search and add references that mention the "RQ is quadratically accurate"
@@ -16,7 +16,7 @@
 ** DONE Remove example 2.5
 ** TODO In history section, add recent contributions
 ** TODO Describe that RQI and other methods do not incooporate the RHS (ie the eigenvector approximation)
-** TODO Inside the proof of cubic convergence mentioned that we proofed the quadratic accuracy
+** DONE Inside the proof of cubic convergence mentioned that we proofed the quadratic accuracy
 ** TODO Read Ostrowski's other papers and add details to the History section
 * CHAPTER 3 [0%]
 ** TODO Finish intro for chapter
@@ -30,7 +30,7 @@
 **** TODO Dependence on different initial shifts compared to classic RQI
 **** TODO How good does the eigenvector approximation need to be (Try eg. vector that is a weighted sum of exact eigenvector and random combination of remaining eigenvectors)
 
-* GENERAL [0%]
-** TODO Rename and sort papers, articles, books by topic
-** TODO Revise current state of thesis and send to Rob and Alec 
+* GENERAL [100%]
+** DONE Rename and sort papers, articles, books by topic
+** DONE Revise current state of thesis and send to Rob and Alec 
    DEADLINE: <2020-03-30 Mon 12:00> 

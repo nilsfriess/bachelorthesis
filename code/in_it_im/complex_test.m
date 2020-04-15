@@ -3,7 +3,7 @@ clear;
 topright = 1.1;
 [nodes,elements] = initial_mesh(topright);
 
-for i = 1:2
+for i = 1:4
     [nodes,elements] = refine(nodes,elements);
 end
 
@@ -13,6 +13,8 @@ elt_matrices = elt_stiffness(elements, nodes);
 % Next assemble the global stiffness matrix 
 % (including all boundary nodes)
 Ahat = global_stiffness(elt_matrices, elements, nodes);
+
+save("fe_matrix.mat", 'Ahat')
 
 [v,d] = eigs(Ahat, 20);
 eigvals = diag(d);
