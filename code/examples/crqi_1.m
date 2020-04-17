@@ -14,16 +14,15 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % where one of the interior eigenvectors is weighted heavier
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
-weights = rand(N,1);
-weights(targetIndex) = 10;
+%weights = rand(N,1);
+%weights(targetIndex) = 10;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
 disp(['Target eigenvalue: ', num2str(targetE)]);
 
-
-v = V*weights;
-v = v / norm(v);
+angle = 45;
+v = random_in_cone(targetV, angle);
 
 disp(['Residual = ', num2str(norm(a*v - rayleighquotient(a,v)*v))]);
 
@@ -122,4 +121,4 @@ legend({'Classic RQI', ...
         'Complex RQI (\gamma^{(k)} = r^2)', ...
         'Complex RQI (\gamma^{(k)} adaptive)'}, ...
         'Location', 'southwest');
-export_fig 'crqi_residuals.eps' -transparent
+%export_fig 'crqi_residuals.eps' -transparent

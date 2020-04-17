@@ -166,7 +166,8 @@ Rayleigh's iteration that lacks the changing right hand side and the
 normalisation of the vector iterate to the complete definition of RQI
 by Ostrowski.
 
-\subsection{Further developments and recent contributions}
+\subsection{Further developments and recent
+  contributions}\label{sec:rqi:recent}
 We now give an overview of the developments and contributions after
 the introduction of RQI in 1958. We also look at some recent
 contributions.
@@ -246,18 +247,26 @@ Efforts have been made to obtain local convergence regions with as
 little knowledge about the spectrum as possible. For example, Beattie
 and Fox~\cite{beattiefox} derive conditions under which convergence is
 assured to be in a given interval assuming the number of eigenvalues
-contained in the interval is known. Szyld~\cite{szyld} suggests
-combining shifted inverse iteration and RQI to ensure that the
-computed eigenvalue lies in a given interval. He obtains criteria to
-switch back and forth between the two algorithms to benefit from their
-respective advantages (inverse iteration is guarantueed to converge to
-the nearest eigenvalue but convergence is merely linear; RQI posseses
-local cubic convergence but the global convergence behaviour is
-possibly erratic).
+contained in the interval is known. Recently, Rommes~\cite{rommes}
+derived sharper bounds for local convergence neighborhoods. He
+compares RQI to a related algorithm, called the Dominant Pole
+Algorithm (DPA). Further, he observes that RQI does not take much
+advantage of the information in the initial vector $\vec{x}^{(0)}$. In
+other words, even if the initial vector is a very good approximation
+of the wanted eigenvector, RQI might fail. We will come back to this
+observation in the next chapter.
+
+Szyld~\cite{szyld} suggests combining shifted inverse iteration and
+RQI to ensure that the computed eigenvalue lies in a given
+interval. He obtains criteria to switch back and forth between the two
+algorithms to benefit from their respective advantages (inverse
+iteration is guaranteed to converge to the nearest eigenvalue but
+convergence is merely linear; RQI possesses local cubic convergence
+but the global convergence behaviour is possibly erratic).
 
 The task of identifying global convergence regions in terms of the
 initial vector seems to be more difficult. Parlett noted in 1980 that
-``There appears to be no simple description of how $\vec{v}$ depends
+`[t]here appears to be no simple description of how $\vec{v}$ depends
 on $\vec{x}^{(0)}$''~\cite[82]{Parlett1998} and it looks as if this
 statement still holds true today. Pantazis and
 Szyld~\cite{pantazisszyld} and Batterson and
@@ -266,19 +275,46 @@ Smillie~\cite{battersonsmillie} studied \emph{basins of attraction},
 specific eigenvector. They did, however, only consider the
 three-dimensional case.
 
-Besides the unpredictablity of the outcome of RQI another major
+Besides the unpredictability of the outcome of RQI another major
 drawback is its high cost. At every iteration a linear system has to
 be solved and since the system changes at each step one cannot
-factorize the matrix beforehand as was the case in inverse
-iteration. There are several obvious possiblities to reduce the cost
+factorise the matrix beforehand as was the case in inverse
+iteration. There are several obvious possibilities to reduce the cost
 such as to change the shift only occasionally. Sometimes, inverse
 iteration is run a fixed number of steps before changing the shift to
 the Rayleigh Quotient and Szyld's paper~\cite{szyld} that was
-mentioned above can also be interpreted as a method to reduce the
-computational cost for large problems.
-
-\todo{Discuss recent contributions (\eg, inexact RQI, Multistep RQI?,
-  sparse PCA using RQI?)}
+mentioned above can also be interpreted as a method that reduces the
+computational cost for large problems. Another approach that was first
+studied for inverse iteration is to solve the linear system itself
+iteratively leading to an \emph{inexact shift-and-invert method}. The
+use of iterative inner solvers in RQI (for Hermitian matrices) was
+studied by Simoncini and Eld\'{e}n e in~\cite{simoncini2002rqi} and
+Notay in~\cite{notay2003rqi}. They both analyse how the convergence of
+RQI is affected by solving the linear systems only approximately. This
+means at each iteration an approximate solution $\vec{y}^{(k)}$ to
+\begin{equation*}
+  \left(
+    \mat{A} - \mu^{(k)}\mat{I}
+  \right)
+  \vec{y}^{(k)} = \vec{x}^{(k)}
+\end{equation*}
+is sought that satisfies
+\begin{equation*}
+  \norm{
+    \left(
+      \mat{A} - \mu^{(k)}\mat{I}
+    \right)
+    \vec{y}^{(k)} - \vec{x}^{(k)}
+  } \le \tau^{(k)}\,,
+\end{equation*}
+where $\tau^{(k)}$ is a tolerance that might change at each
+step. Also~\cite{simoncini2002rqi} shows the equivalence of inexact
+RQI and another iterative eigenvalue method called the
+\emph{Jacobi-Davidson method}. This result is extended to the
+non-Hermitian case by Freitag and Spence in~\cite{freitag2008rqi}.
+They also study how different preconditioners for the linear system
+can be used and ``tuned'' to improve the outer convergence.
+\todo{Conclude this overview?}
  
 %%% Local Variables:
 %%% mode: latex

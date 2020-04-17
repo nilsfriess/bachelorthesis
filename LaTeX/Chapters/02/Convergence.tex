@@ -245,7 +245,87 @@ single step of inverse iteration with the Rayleigh quotient of the
 current iterate vector chosen as the shift), see for
 example~\cite[208]{trefethen1997} or~\cite[89\psq]{boerm}.
 
-\todo{Global convergence behaviour}
+To conclude this chapter we briefly discuss some of the results
+concerning the global convergence behaviour of RQI. Essential for
+showing that RQI is globally convergent is the follwoing fact which,
+according to Parlett~\cite[85]{Parlett1998}, is due to
+Kahan~\cite{parlettkahan}. We recall that $\vec{r}^{(k)}$ denotes the
+residual at step $k$ in RQI, \ie
+\begin{equation*}
+  \vec{r}^{(k)} = \left(\mat{A} - \mu^{(k)}\mat{I}\right) \vec{x}^{(k)} \,.
+\end{equation*}
+We also note that we can relate the $k$-th and $k+1$-th iterate of RQI
+by
+\begin{equation*}
+  \vec{x}^{(k)} = \beta \left(\mat{A} - \mu^{(k)}\mat{I}\right)\vec{x}^{(k+1)}\,,
+\end{equation*}
+for some $\beta$ which implies
+\begin{equation*}
+  \begin{aligned}
+    \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} -
+        \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}} &= \abs{\beta^{-1}
+      {\left(
+          \vec{x}^{(k)} \right)}^\herm \vec{x}^{(k)}} \\
+    &= \abs*{\beta^{-1}} \norm{\vec{x}^{(k)}} \\
+    &= \abs*{\beta^{-1}} \norm{\beta \left(\mat{A} - \mu^{(k)} \mat{I}
+      \right) \vec{x}^{(k+1)}}
+  \end{aligned}
+\end{equation*}
+and thus
+\begin{equation}
+  \label{eq:xk:parallel}
+  \norm{\left(\mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}}
+  =
+  \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}}\,.
+\end{equation}
+
+\begin{lemma}[Monotonic residuals]
+  For every $k$ it holds
+  \begin{equation*}
+    \norm{\vec{r}^{(k+1)}} \le \norm{\vec{r}^{(k)}}\,.
+  \end{equation*}
+\end{lemma}
+\begin{proof}
+  \begin{align*}
+    \norm{\vec{r}^{(k+1)}} &= \norm{\left( \mat{A} - \mu^{(k+1)} \mat{I} \right) \vec{x}^{(k+1)}} \\
+                           &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{(Since $\mu^{(k+1)}$ minimises the residual norm)} \\
+                           &= \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}} && \text{(by~\eqref{eq:xk:parallel})} \\
+                           &\le \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} \norm{\vec{x}^{(k+1)}} && \text{(by the Cauchy-Schwarz inequality)} \\
+                           &= \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} && \text{(since $\vec{x}^{(k+1)}$ is a unit vector)} \\
+                           &= \norm{\left(\mat{A} - \mu^{(k)} \mat{I}\right)\vec{x}^{(k)}} && \text{(since $\mat{A}$ is symmetric)} \\
+                           &= \norm{\vec{r}^{(k)}} \,.
+  \end{align*}
+  
+\end{proof}
+\begin{theorem}[Global convergence of RQI]
+  Let the RQI be applied to a normal matrix started with any unit
+  vector $\vec{x}^{(0)}$.  Then, as $k \rightarrow \infty$, the
+  eigenvalue sequence $\mu^{(k)}$ converges and either
+  \begin{enumerate}
+  \item $(\mu^{(k)}, \vec{x}^{(k)})$ converges to an eigenpair
+    $(\lambda, \vec{v})$, or
+  \item the sequence $\mu^{(k)}$ converges to
+    ($\lambda_p + \lambda_q)/2$ and $\vec{x}^{k}$ oscillates between
+    vectors converging to $\vec{v}_{pq}^+$ and vectors converging to
+    $\vec{v}_{pq}^-$, where
+    $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{q}) / \sqrt{2}$, where
+    $\lambda_p$ andd $\lambda_q$ are eigenvalues of $\mat{A}$ with
+    corresponding eigenvectors $\vec{v}_p$ and $\vec{v}_q$.
+  \end{enumerate}
+  The latter is unstable under perturbations of $\vec{x}^{(k)}$.
+\end{theorem}
+As mentioned above, we do not give a proof of this result. Parlett
+states in~\cite[61]{Parlett1998} and in~\cite[680]{parlettrqi} that
+RQI converges for almost all starting vectors but Batterson and
+Smillie claim that this assertion is not
+proofed~\cite[625]{battersonsmillie}. They proceed to give a proof of
+this fact which is formulated in their paper as follows.
+
+\begin{theorem}
+  The set of unit vectors for which RQI does not converge to an
+  eigenvector is a set of measure zero.
+\end{theorem}
+
 
 %%% Local Variables:
 %%% mode: latex
