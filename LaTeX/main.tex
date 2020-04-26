@@ -1,9 +1,10 @@
 \documentclass[
-fontsize     = 11pt,%
+fontsize     = 12pt,%
 paper        = a4,%
 numbers      = noenddot,%
 % parskip      = half,
 DIV = calc,%
+BCOR = 5mm,
 headsepline%
 ]{scrreprt}
 
@@ -31,16 +32,17 @@ backref, hyperref]{biblatex}%
 \include{titlepage}
 % \include{abstract}
 
-\cleardoublepage
-\tableofcontents
-\listoftodos
+\cleardoublepage%
+\tableofcontents%
+\listoffigures \listofalgorithms%
+\listoftodos%
 
 \include{Chapters/01/Chapter01}
 \include{Chapters/02/Chapter02}
 \include{Chapters/03/Chapter03}
 
 \begin{appendices}
-  % \include{Chapters/Appendices/Proofs}
+  \include{Chapters/Appendices/Proofs}
   \include{Chapters/Appendices/Algorithms}
 \end{appendices}
 

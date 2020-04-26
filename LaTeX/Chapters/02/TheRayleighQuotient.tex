@@ -10,16 +10,15 @@ at each step.
     \rq_{\mat{A}} : \C^n \setminus \{\vec{0}\} \rightarrow \C, \qquad
     \vec{x} \mapsto \frac{\vec{x}^\herm \mat{A} \vec{x}}{\vec{x}^\herm \vec{x}}
   \end{equation*}
-  is called the \emph{Rayleigh quotient}\footnote{Other notations that
-    are popular in the literature include
-    $R_{\mat{A}}(\vec{x}),\ R(\mat{A}, \vec{x}),\
-    r_{\mat{A}}(\vec{x}),\ \sigma_{\mat{A}}(\vec{x})$ or
-    $\uprho_{\mat{A}}(\vec{x})$.}  corresponding to the matrix
-  $\mat{A}$.
+  is called the \emph{Rayleigh quotient} corresponding to the matrix
+  $\mat{A}$.\footnote{Other notations that are popular in the
+    literature include $R_{\mat{A}}(\vec{x})$, $R(\mat{A}, \vec{x})$,
+    $r_{\mat{A}}(\vec{x})$, $\sigma_{\mat{A}}(\vec{x})$ or
+    $\uprho_{\mat{A}}(\vec{x})$.}
 \end{definition}
-Note that for real matrices, we have
+For real vectors, we have
 \begin{equation*}
-  \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}
+  \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}\,.
 \end{equation*}
 
 We begin by discussing some basic facts.
@@ -175,7 +174,6 @@ obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
 estimate. Rayleigh Quotient Iteration is essentially a combination of
 those two methods where each step consists of one step of Shifted
 Inverse Iteration and the computation of the Rayleigh Quotient.
-
 \begin{algorithm}[htbp]
   \DontPrintSemicolon%
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
@@ -213,9 +211,8 @@ eigenpairs we expect a small residual to imply small errors in these
 approximations.  Details on this residual-based error control can be
 found in~\cite[Section~3.2]{saad2011}
 or~\cite[Section~5.2]{boerm}. Here, we give only some important
-results without proof for the case when $\mat{A}$ is Hermitian. A
-popular result, usually referred to as the \emph{Bauer-Fike theorem}
-for Hermitian matrices (see, \eg~\cite[59]{saad2011}) states that
+results without proof. A popular result, usually referred to as the
+\emph{Bauer-Fike theorem} (see, \eg~\cite[59]{saad2011}) states that
 there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}

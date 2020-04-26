@@ -1,0 +1,210 @@
+\section{The Symmetric Eigenvalue Problem}%
+There is a plethora of examples which lead to eigenvalue problems in
+almost all of the natural sciences, engineering and many other
+disciplines. In many cases the matrix of which the eigenvalues are
+sought is real and symmetric. In this case, the task of finding
+eigenvalues and eigenvectors is referred to as the \emph{symmetric
+  eigenvalue problem}. For completeness, we collect some general facts
+from linear algebra on eigenvalues and eigenvectors below.
+
+\begin{definition}
+  Let $\mat{A} \in \C^{n \times n}$. A scalar $\lambda \in \C$ is
+  called \emph{eigenvalue} of $\mat{A}$ if there exists a nonzero
+  vector $\vec{v} \in \C^n$ such that
+  \begin{equation}
+    \label{eq:eigvalproblem} 
+    \mat{A}\vec{v} = \lambda \vec{v}\,.
+  \end{equation}
+  The vector $\vec{v}$ is called an \emph{eigenvector} of $\mat{A}$
+  associated with $\lambda$. The tuple $(\lambda, \vec{v})$ is called
+  an \emph{eigenpair}. The set of all eigenvalues of $\mat{A}$ is
+  referred to as the \emph{spectrum} and is denoted by
+  $\sigma(\mat{A})$. To indicate that eigenvalues belong to a
+  particular matrix $\mat{M}$ we sometimes write $\lambda(\mat{M})$.
+\end{definition}
+Computing eigenpairs is a non-trivial task.
+Rewriting~\eqref{eq:eigvalproblem} gives
+$\mat{A}\vec{v} - \lambda \vec{v} = \vec{0}$ or
+$(\mat{A} - \lambda \mat{I}) \vec{v} = \vec{0}$, where $\mat{I}$ is
+the identity matrix. Since $\vec{v}$ cannot be the zero vector, this
+equation has a solution if and only if the matrix
+$\mat{A} - \lambda \mat{I}$ is singular. Thus, eigenvalues of
+$\mat{A}$ are exactly the roots of the \emph{characteristic
+  polynomial}
+\[
+  \chi_{\mat{A}}(t) \coloneqq \det(\mat{A} - t \mat{I}) \,.
+\]
+This fact, despite being of theoretical importance, cannot be used to
+calculate eigenvalues numerically for two reasons. First, the
+computation of the coefficients of the polynomial is not
+stable~\cite[37]{golub2000eigenvalue}. And even if it was, it is
+well-known that even small perturbations in the coefficients of
+$\chi_{\mat{A}}(t)$ can lead to devastating errors in the
+roots~\cite[cf.][190]{trefethen1997}. Thus, other methods are
+necessary to solve~\eqref{eq:eigvalproblem} which gave rise to
+iterative algorithms. These methods date back to 1846 when Jacobi
+published a pioneering paper on a method to compute eigenvalues of
+symmetric matrices~\cite{jacobi1846}. Below we present essential facts
+from linear algebra preparing us for discussing such iterative methods
+in Section~\ref{sec:iterative:algorithms}.
+
+\begin{remark}[Generalisations of eigenvalue problems]
+  The problem stated in Equation~\eqref{eq:eigvalproblem} can be
+  generalised in multiple ways. Many problems from physics lead to the
+  \emph{generalised eigenvalue problem}
+  \begin{equation}
+    \label{eq:eigvalproblem:general}
+    \mat{A} \vec{v} = \lambda \mat{M} \vec{v}\,.
+  \end{equation}
+  In our case, we have $\mat{M} = \mat{I}$, the identity matrix. Many
+  of the numerical algorithms for solving eigenvalue problems of the
+  form~\eqref{eq:eigvalproblem} can be modified to
+  solve~\eqref{eq:eigvalproblem:general}; often certain assumptions
+  have to be posed on $\mat{M}$ such as positive definiteness.
+
+  Since matrices can be seen as representations of linear operators on
+  finite-dimensional vector spaces, we can define eigenvalue problems
+  for linear operators on more general spaces that are possibly of
+  infinite dimension. The eigenvectors are then usually called
+  \emph{eigenfunctions}. Other generalisations include the
+  \emph{quadratic eigenvalue problem}
+  \begin{equation*}
+    (\lambda^2 \mat{A}_2 + \lambda \mat{A}_1) \vec{v} = \mat{A}_0 \vec{v}\,,
+  \end{equation*}
+  with matrix coefficients
+  $\mat{A}_0, \mat{A}_1, \mat{A}_2 \in \C^{n \times n}$ or more
+  general \emph{nonlinear eigenproblems}
+  \begin{equation*}
+    \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
+  \end{equation*}
+  where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.  In
+  this thesis, we mostly consider problems of the
+  form~\eqref{eq:eigvalproblem}. We will briefly come back to problems
+  of the form~\eqref{eq:eigvalproblem:general} in the last chapter.
+\end{remark}
+
+In the following proposition we collect some basic facts on
+eigenvalues and eigenvectors. The results are shown under the
+assumption that $\mat{A} \in \C^{n \times n}$ is a complex Hermitian
+matrix, \ie
+$\mat{A} = \mat{A}^\herm \coloneqq \overline{\mat{A}}^\tp$, where the
+bar denotes the complex conjugate. If $\mat{A}$ is a real matrix, we
+have $\overline{\mat{A}} = \mat{A}$ and thus the following facts hold
+in particular for real symmetric matrices.
+\begin{proposition}%
+  \label{prop:eigval:facts}
+  Let $\mat{A} = \mat{A}^\herm \in \C^{n \times n}$ be a Hermitian
+  matrix. Denote by $\lambda_1, \lambda_2, \dotsc, \lambda_n$ the
+  eigenvalues\footnote{Of course, the eigenvalues need not be
+    distinct. But since the eigenvalues of $\mat{A}$ are the roots of
+    the $n$-degree polynomial $\chi_{\mat{A}}(t)$, when counting these
+    roots with their multiplicity, this polynomial has $n$ roots over
+    $\C$. Thus, we can label the eigenvalues from $1$ to $n$.} of
+  $\mat{A}$ with associated eigenvectors
+  $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \begin{enumerate}[label=(\roman*)]
+  \item All eigenvalues of $\mat{A}$ are real.
+  \item There exists an orthonormal basis of $\C^n$ consisting of
+    eigenvectors of $\mat{A}$. If $\mat{A}$ is a real symmetric
+    matrix, the eigenvectors form an orthonormal basis of $\R^n$.
+    % $\vec{v}_i$ and $\vec{v}_j$ to two distinct eigenvalues
+    % $\lambda_i$ and $\lambda_j$ are orthogonal. Hence, after
+    % normalisation, we can choose eigenvectors of $\mat{A}$ that form
+    % an orthonormal basis of $\R^n$.
+  \item If $\mat{A}$ is non-singular the eigenvalues of $\mat{A}^{-1}$
+    are given by $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with
+    eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \item Let $\mu \in \R$ an arbitrary scalar. The eigenvalues of
+    $\mat{A} - \mu \mat{I}$ are $\lambda_i - \mu$ with eigenvectors
+    $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \end{enumerate}
+\end{proposition}
+\begin{proof}
+  Both (i) and (ii) are well-known results from linear algebra and the
+  proofs can be found in most standard literature (see for
+  example~\cite[Theorem 18 and Corollary, p.~314]{hoffmanlinalg}).
+  \begin{enumerate}
+  \item[(iii)] Suppose $\mat{A}$ is invertible and let
+    $(\lambda, \vec{v})$ be an eigenpair of $\mat{A}$ (note that since
+    $\mat{A}$ is non-singular we have $\lambda \neq 0$). Then
+    \begin{gather*}
+      \mat{A} \vec{v} = \lambda \vec{v} \quad \Leftrightarrow \quad
+      \mat{A}^{-1} \mat{A} \vec{v} = \lambda \mat{A}^{-1} \vec{v}
+      \quad \Leftrightarrow \quad \lambda^{-1} \vec{v} = \mat{A}^{-1}
+      \vec{v} \,,
+    \end{gather*}
+    hence $(\lambda^{-1}, \vec{v})$ is an eigenpair of $\mat{A}^{-1}$.
+
+  \item[(iv)] For $\mu \in \R$ and $(\lambda, \vec{v})$ an eigenpair
+    we have
+    \begin{gather*}
+      \mat{A}\vec{v} = \lambda \vec{v} \quad \Leftrightarrow \quad
+      \mat{A}\vec{v} - \mu \vec{v} = \lambda \vec{v} - \mu \vec{v}
+      \quad \Leftrightarrow \quad (\mat{A} - \mu \mat{I}) \vec{v} =
+      (\lambda - \mu) \vec{v} \,,
+    \end{gather*}
+    hence $(\lambda - \mu, \vec{v})$ is an eigenpair of
+    $\mat{A} - \mu \mat{I}$.
+  \end{enumerate}
+\end{proof}
+
+In the following, we restrict our attention to the \emph{symmetric
+  eigenvalue problem}, \ie we want to find solutions of
+equation~\eqref{eq:eigvalproblem} assuming $\mat{A}$ is a real
+symmetric matrix. Thus, unless stated otherwise, for the remainder of
+the thesis $\mat{A}$ denotes a matrix of this type. The (real)
+eigenvalues are denoted by $\lambda_j(\mat{A}) = \lambda_j$ with
+corresponding (real) eigenvectors $\vec{v}_j$. Since any scalar
+multiple of an eigenvector is also an eigenvector, we assume that they
+are normalised \wrt the Euclidean norm, so that
+\begin{equation*}
+  \norm{\vec{v}_i} \coloneqq \norm{\vec{v}_i}_2
+  \coloneqq \sqrt{\vec{v}_i^\tp \vec{v}_i }
+  = 1 \quad \text{ for all } i = 1, \dotsc, n\,.
+\end{equation*}
+Due to Proposition~\ref{prop:eigval:facts} (ii) we have
+\begin{equation*}
+  \inp{\vec{v}_i}{\vec{v}_j} = \vec{v}_i^\tp \vec{v}_j = 0 \quad
+  \text{ for } i \neq j\,,
+\end{equation*}
+where $\inp{\cdot}{\cdot}$ denotes the Euclidean inner product on
+$\R^n$. Since all eigenvalues are real we can label them in increasing
+order of magnitude
+\begin{equation*}
+  \abs{\lambda_1} \le \abs{\lambda_2} \le \dotsc \le \abs{\lambda_n}
+  \,.
+\end{equation*}
+The eigenvalues $\lambda_1$ and $\lambda_n$ are called \emph{extreme}
+eigenvalues. The remaining eigenvalues
+$\lambda_2, \dotsc, \lambda_{n-1}$ are called \emph{interior}
+eigenvalues.
+
+In addition to the assumption that the matrix we work with is real and
+symmetric, we are mainly interested in cases in which the target
+eigenvalue and its neighbours are very close. We usually do not have
+any a priori knowledge about their location. Also, the matrices are
+assumed to be large such that the computation of the complete set of
+eigenpairs is too expensive. However, we assume a good approximation
+of the target eigenvector is available. As we will see, traditional
+methods do not perform well when the gap between the wanted eigenvalue
+and adjacent eigenvalues is too small.
+
+% Sometimes we will make the assumption that $\mat{A}$ is positive
+% definite, \ie that
+% \[
+%   x^\tp A x > 0 \quad \text{ for all } x \in \R^n \setminus \{
+%   \vec{0} \}.
+% \]
+% Given an eigenvalue $\lambda$ and an associated normalised
+% eigenvector $\vec{v}$ we then have
+% \[
+%   \lambda = \vec{v}^\tp \lambda \vec{v} = \vec{v}^\tp \mat{A}
+%   \vec{v} > 0 \,,
+% \]
+% \ie eigenvalues of symmetric positive definite matrices are
+% positive.
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:

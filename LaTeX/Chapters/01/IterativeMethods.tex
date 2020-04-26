@@ -1,0 +1,227 @@
+\section{Iterative methods for eigenvalue problems}%
+\label{sec:iterative:algorithms}
+With the necessary facts from linear algebra at hand we can introduce
+some simple iterative methods for computing eigenpairs of symmetric
+matrices. We are always interested in how fast these methods produce
+good approximations of eigenvectors or eigenvalues (or both). The
+following definition provides us with a notion of the speed at which a
+sequence converges to its limit.
+
+\begin{definition}[Order of Convergence]
+  Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\C^n$ that
+  converges to $\vec{z} \in \C^n$.
+  \begin{enumerate}[label=(\roman*)]
+  \item The sequence is said to converge \emph{linearly} to $\vec{z}$,
+    if there exists a constant $0 < \rho < 1$ such that
+    \begin{equation*}
+      \lim_{k \rightarrow \infty} \frac{
+        \norm{\vec{x}^{(k+1)} - \vec{z}}
+      }{
+        \norm{\vec{x}^{(k)} - \vec{z}}
+      } < \rho\,,
+    \end{equation*}
+    where $\rho$ is called the \emph{rate of convergence}.
+  \item The sequence \emph{converges with order $q$ to $\vec{z}$} for
+    $q > 1$ if
+    \begin{equation*}
+      \lim_{k \rightarrow \infty} \frac{
+        \norm{\vec{x}^{(k+1)} - \vec{z}} 
+      }{
+        \norm{\vec{x}^{(k)} - \vec{z}}^q
+      } < M\,,
+    \end{equation*}
+    for some $M > 0$. In particular, convergence with order
+    \begin{itemize}
+    \item $q = 2$ is called \emph{quadratic convergence},
+    \item $q = 3$ is called \emph{cubic convergence}
+    \end{itemize}
+    etc.
+  \end{enumerate}
+\end{definition}
+
+In some cases, in particular for sequences that approximate
+eigenvectors, the convergence behaviour is best studied in terms of
+the \emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
+
+\begin{definition}[Angle]
+  The \emph{angle} between two vectors
+  $\vec{x}, \vec{y} \in \C^n \setminus \{ \vec{0} \}$ is defined as
+  \begin{equation*}
+    \angle(\vec{x}, \vec{y}) = \arccos \frac{
+      \abs{\langle \vec{x}, \vec{y} \rangle}
+    }{
+      \norm{\vec{x}} \norm{\vec{y}}
+    }\,.
+  \end{equation*}
+  Often, the following identities are convenient
+  \begin{gather*}
+    \sin \angle(\vec{x}, \vec{y}) \coloneqq \sqrt{1 - \cos^2
+      \angle(\vec{x}, \vec{y})}\,, \qquad \tan \angle(\vec{x},
+    \vec{y}) \coloneqq \frac{ \sin \angle(\vec{x}, \vec{y}) }{ \cos
+      \angle(\vec{x}, \vec{y}) }\,.
+  \end{gather*}
+\end{definition}
+
+To see why also the angle can be used to measure the convergence
+speed, suppose $\vec{x}^{(k)}$ converges to the unit vector
+$\vec{z}$. Let $\vec{u}^{(k)}$ be the unit vector that lies in the
+span of $\vec{x}^{(k)}$ and $\vec{z}$ and is orthogonal to $\vec{z}$
+and denote by $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{z})$ the error
+angle between the current vector iterate and the limit. Now, write the
+vector iterate $\vec{x}^{(k)}$ as
+\begin{equation*}
+  \vec{x}^{(k)} = \vec{z} \cos \phi^{(k)} + \vec{u}^{(k)} \sin \phi^{(k)}\,.
+\end{equation*}
+We temporarily drop the superscripts and write
+$\vec{x} = \vec{x}^{(k)}$, $\vec{u} = \vec{u}^{(k)}$ and
+$\phi = \phi^{(k)}$. Then, using the identities
+$\sin^2(\phi / 2) = \frac{1 - \cos \phi}{2}$,
+$\sin^2 \phi + \cos^2 \phi = 1$ and the Pythagorean theorem we obtain
+\begin{align*}
+  \norm{\vec{x} - \vec{z}}^2 &= \norm{\vec{z} \cos \phi + \vec{u} \sin \phi - \vec{z}}^2 \\
+                             &= \norm{\vec{z}(\cos \phi - 1)}^2 + \norm{\vec{u} \sin \phi}^2 \\
+                             &= {(\cos \phi - 1)}^2 + 1 - \cos^2 \phi \\
+                             &= 2(1 - \cos \phi) = 4 \sin^2( \phi / 2)\,.
+\end{align*}
+Thus, convergence orders \wrt the norm imply the same convergence
+orders in terms of the error angles and vice verca. Note that we did
+assume convergence of the sequence.
+
+\subsubsection{Power method}
+The \emph{power method} is one of the oldest iterative methods for
+computing eigenvectors. It is based on generating the sequence
+$\vec{x}^{(k)} \coloneqq \mat{A}^k \vec{x}^{(0)}$ where
+$\vec{x}^{(0)}$ is a non-zero unit vector. Of course, $\mat{A}^k$ does
+not have to be computed explicitly at each step since
+\[
+  \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
+  \vec{x})\dotsc))\,.
+\]
+To prevent underflow and overflow errors, $\vec{x}^{(k)}$ is
+normalised at each step. In Algorithm~\ref{alg:power:method} we
+normalise by ensuring that the largest component of the current
+approximation is equal to one. Of course, other norms can be used. The
+sequence $\vec{x}^{(k)}$ converges to the eigenvector associated with
+the eigenvalue $\lambda_n$ under the assumptions that $\lambda_n$ is
+dominant (\ie $\abs{\lambda_n}$ is strictly greater than
+$\abs{\lambda_{n-1}}$) and that the starting vector $\vec{x}^{(0)}$
+has a non-vanishing component in the direction of $\vec{v}_n$. The
+advantage of normalising \wrt the maximum norm is that the largest
+component of $\abs*{\mat{A}\vec{x}^{(k-1)}}$ converges to the
+eigenvalue $\lambda_n$. Regardless of the normalisation chosen, the
+method converges linearly with convergence rate
+\begin{equation}
+  \label{eq:convergence:power}
+  \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
+\end{equation}
+Thus, the method can be very slow if the distance between the
+eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For a
+detailed convergence proof, see~\cite[86\psq]{saad2011}.
+
+\begin{algorithm}[htpb]
+  \DontPrintSemicolon
+  \Begin{ Choose nonzero initial vector $\vec{x}^{(0)}$\;
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      $\displaystyle \vec{x}^{(k)} =
+      \frac{1}{\alpha^{(k)}}\mat{A}\vec{x}^{(k-1)}$\; \tcc{$\alpha^{(k)}$ is the component of $\mat{A}\vec{x}^{(k-1)}$ with the maximum modulus}
+    }
+  }
+  \caption{Power method}\label{alg:power:method}
+\end{algorithm}
+
+Besides the possible slow convergence rate, the power method will
+always converge to an eigenvector associated with the dominant
+eigenvalue $\lambda_n$. In many applications, however, one already has
+a good approximation of another eigenvalue and wants to compute an
+eigenvector it belongs to. The following method allows for such
+computations.
+
+\subsubsection{(Shifted) Inverse Iteration}
+The \emph{inverse iteration} is the power method applied to
+$\mat{A}^{-1}$ (provided that the inverse exists). Due to
+Proposition~\ref{prop:eigval:facts} (iii) this will produce a sequence
+of vectors $\vec{x}^{(k)}$ converging to the eigenvector associated to
+the eigenvalue that is smallest in modulus $\lambda_1$. Combining this
+idea with Proposition~\ref{prop:eigval:facts} (iv) yields the
+\emph{shifted inverse iteration}. There, the iterates are defined by
+\[
+  \vec{x}^{(k)} = \beta {\left( \mat{A} - \sigma \mat{I} \right)}^{-1}
+  \vec{x}^{(k-1)}\,,
+\]
+where $\beta$ is responsible for normalising $\vec{x}^{(k)}$. The
+smallest eigenvalue in modulus of the shifted matrix
+$\mat{A} - \sigma \mat{I}$ is the eigenvalue of $\mat{A}$ that is
+closest to $\sigma$. Hence, this method converges to an eigenvector
+associated with this eigenvalue. Of course, the inverse need not be
+computed explicitly. Instead, before the loop we can compute the LU
+decomposition of $\mat{A} - \sigma \mat{I}$ (or any other
+factorisation, if applicable) and solve the system
+${\left( \mat{A} - \sigma \mat{I} \right)} \vec{x}^{(k)} =
+\vec{x}^{(k-1)}$ for $\vec{x}^{(k)}$. At each step then, only one
+backward and one forward substitution is required, reducing the
+complexity from $\O(n^3)$ to $\O(n^2)$. We summarise the results in
+Algorithm~\ref{alg:sii} (there, we normalise \wrt the Euclidean
+norm).\footnote{Note that we did not specify the ``until convergence''
+  criteria in neither of the algorithms introduced in this section. We
+  postpone this discussion until Section~\ref{sec:rqi:rq}.}
+
+\begin{algorithm}[htbp]
+  \DontPrintSemicolon%
+  \KwData{Nonzero unit vector $\vec{x}^{(0)}$, shift $\sigma \in \R$}
+  Compute $\mat{LU}$ decomposition $\mat{A} - \sigma \mat{I} = \mat{LU}$\;
+  \For{$k = 1,2, \dotsc$ until convergence}{
+    Solve ${\left( \mat{A} - \sigma \mat{I}\right)} \vec{\tilde{x}}^{(k)} = \vec{x}^{(k-1)}$ for $\vec{\tilde{x}}^{(k)}$\;
+    $\vec{x}^{(k)} \gets \vec{\tilde{x}}^{(k)} / \norm*{\vec{\tilde{x}}^{(k)}}$\;
+  } 
+  \caption{Shifted inverse iteration}\label{alg:sii}
+\end{algorithm}
+Since this is essentially the power method (applied to the inverse of
+$\mat{A} - \sigma \mat{I}$) this algorithm still converges
+linearly. However, if we denote by $\mu_1$ the eigenvalue that is
+closest to the shift $\sigma$ and by $\mu_2$ the one that is the next
+closest one, the eigenvalue of largest modulus of
+${(\mat{A} - \sigma \mat{I})}^{-1}$ is $1 / (\mu_1 - \sigma)$
+and~\eqref{eq:convergence:power} suggests that the convergence rate is
+\[
+  \rho = \frac{\abs{\mu_1 - \sigma}}{\abs{\mu_2 - \sigma}} \,.
+\]
+Therefore, the method is often used to compute an eigenvector of
+$\mat{A}$ if a good approximation of the corresponding eigenvalue is
+already available.
+
+Note, however, that a shift which is very close to an eigenvalue
+produces a very ill-conditioned linear system and one might expect
+inverse iteration to fail in these cases since, in general, it is
+impossible to solve ill-conditioned systems accurately. Despite this
+seemingly sincere problem, in practice it was observed that the method
+produces good approximations even in these cases. According to
+Parlett~\cite[84\psq]{Parlett1998}, it was Wilkinson who elucidated
+why the ill-conditioning is not a problem in most cases. Suppose
+$\sigma \approx \lambda$ where $\lambda$ is an eigenvalue of $\mat{A}$
+with corresponding eigenvector $\vec{v}$. Wilkinson illustrated that
+although $\tilde{\vec{x}}^{(k)}$ may be far from $\vec{v}$, the
+normalised solution
+$\vec{x}^{(k)} = \tilde{\vec{x}}^{(k)} /
+\norm*{\tilde{\vec{x}}^{(k)}}$ will not be far from $\vec{v}$, when
+the system is solved backwards-stably, for more details
+see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
+and~\cite{petersWilkinson}. This will become important again later
+when we discuss Rayleigh Quotient Iteration. There, the system that is
+solved gets increasingly ill-conditioned at each step but for the same
+reason as above, in practice this poses no problem.
+
+At each step in the shifted inverse iteration, better approximations
+for the target eigenvector are computed. One could try to use these
+approximations to compute approximations of the corresponding
+eigenvalue and replace occasionally the shift. There are different
+techniques to obtain such estimates, \eg the \emph{Wielandt Shifted
+  Inverse Iteration} or the \emph{Rayleigh Quotient Iteration}, the
+latter of which is rigorously studied in the next chapter. For further
+discussion on the variants and developments of these so called
+\emph{shift-and-invert} techniques see, e.\,g., the historic
+surveys~\cite{ipsenhistory} and~\cite{golub2000eigenvalue} or Sections
+2 and 3 of~\cite{tapia2018}.
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:

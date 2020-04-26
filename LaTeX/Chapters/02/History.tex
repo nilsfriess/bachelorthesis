@@ -11,7 +11,7 @@ It took about 60 years from the first mention of what is now called
 the Rayleigh quotient until RQI was fully defined as it is given in
 Algorithm~\ref{alg:rqi}. In this section we give an overview of some
 important milestones within this 60 years. Large parts of this
-overview are based on~\cite{tapia2018}.\todo{Add pages}
+overview are based on Section 4 of~\cite{tapia2018}.
 
 \paragraph{1894 --- \textsc{Lord Rayleigh}} In the second edition of
 his book titled ``The Theory of Sound'' John William Strutt, 3rd Baron
@@ -69,7 +69,7 @@ $\vec{v}_k$.  From~\eqref{eq:unnormalised:rqi} we have
 and so $\vec{v}_k$ is an eigenvector of $\mat{A}$ with corresponding
 eigenvalue $1 + \rq_{\mat{A}}(\vec{v}_k)$. Since we know that for any
 eigenvector, the value of $\rq_{\mat{A}}(\vec{v}_k)$ is the eigenvalue
-it belongs to we have
+it belongs to, this implies
 \begin{equation*}
   \rq_{\mat{A}}(\vec{v}_k) = 1 + \rq_{\mat{A}}(\vec{v}_k)
 \end{equation*}
@@ -158,8 +158,9 @@ The third paper~\cite{ostrowskiIII} of the series addresses the
 non-symmetric case for which Ostrowski is also able to define a method
 that attains local cubic convergence. This method uses a generalised
 notion of the Rayleigh quotient and comes at the expense of solving
-two linear systems at each step instead of one.\todo{Check content
-  of papers 4-6 of Ostrowski}
+two linear systems at each step instead of one. The remaining papers
+are also mainly concerned with the non-symmetric and non-Hermitian
+case and are thus not of particular interest for this thesis.
 
 This concludes the overview of the development of RQI from Lord
 Rayleigh's iteration that lacks the changing right hand side and the
@@ -229,7 +230,9 @@ unexpected.
     and the initial shift is
     $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx 1.7241$. In this case, RQI
     converges to the eigenpair $(2, \vec{e}_2)$, \ie not the
-    eigenvector that has the smallest angle with $\vec{x}^{(0)}$.
+    eigenvector that has the smallest angle with $\vec{x}^{(0)}$ but
+    rather the one that corresponds to the eigenvalue to which the
+    initial shift is closest.
   \end{enumerate}
 \end{example}
 This example shows that there seems to be no obvious way how the
@@ -248,7 +251,7 @@ little knowledge about the spectrum as possible. For example, Beattie
 and Fox~\cite{beattiefox} derive conditions under which convergence is
 assured to be in a given interval assuming the number of eigenvalues
 contained in the interval is known. Recently, Rommes~\cite{rommes}
-derived sharper bounds for local convergence neighborhoods. He
+derived sharper bounds for local convergence neighbourhoods. He
 compares RQI to a related algorithm, called the Dominant Pole
 Algorithm (DPA). Further, he observes that RQI does not take much
 advantage of the information in the initial vector $\vec{x}^{(0)}$. In
@@ -313,8 +316,9 @@ RQI and another iterative eigenvalue method called the
 \emph{Jacobi-Davidson method}. This result is extended to the
 non-Hermitian case by Freitag and Spence in~\cite{freitag2008rqi}.
 They also study how different preconditioners for the linear system
-can be used and ``tuned'' to improve the outer convergence.
-\todo{Conclude this overview?}
+can be used and ``tuned'' to improve the outer convergence. We will
+briefly come back to the idea of solving the inner system inexactly
+when discussing our new method in the next chapter.
  
 %%% Local Variables:
 %%% mode: latex

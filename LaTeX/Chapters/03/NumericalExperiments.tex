@@ -47,15 +47,15 @@ given in Figure~\ref{fig:residuals}.
     residuals of Classic RQI, Complex RQI with
     $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, Complex RQI with
     $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}^2$ and Complex RQI with the
-    imaginary shift chosen adaptively (see text). The last variantt
-    seems to combine the adavantages of the second and third
+    imaginary shift chosen adaptively (see text). The last variant
+    seems to combine the advantages of the second and third
     alternatives.}%
   \label{fig:residuals}
 \end{figure}
 
 We observe that in the initial phase of the iteration, the second
-variant seems to be slower than the first. Altough it is not clearly
-observable in the figure below, further investiagion of other examples
+variant seems to be slower than the first. Although it is not clearly
+observable in the figure below, further investigation of other examples
 suggested that during the final steps of the iterations the second
 version was faster than the first. Consequently, by combining both
 approaches and thus changing the shift adaptively we expect faster
@@ -138,7 +138,7 @@ larger value than the other, Figure~\ref{fig:varying shift random}).
     \caption{{\small Random initial vector}}%
     \label{fig:varying shift random}
   \end{subfigure}
-  \caption[RQI and CRQI wiith varying initial shifts]{Plot of initial
+  \caption[RQI and CRQI with varying initial shifts]{Plot of initial
     real shift against the computed eigenvalue using classic RQI and
     CRQI. The dotted area encloses the initial shifts that lie in the
     spectrum of $\mat{A}$. In the first two examples the initial
@@ -149,7 +149,7 @@ larger value than the other, Figure~\ref{fig:varying shift random}).
 
 We immediately observe that RQI seems to depend heavily on the choice
 of the initial shift, especially when the shift lies between the upper
-and lowwer bound of the spectrum (indicated by the dotted area in the
+and lower bound of the spectrum (indicated by the dotted area in the
 plots). This does not change even for initial vectors that are very
 close approximations of an eigenvector as we have already seen
 earlier, in Section~\ref{sec:rqi:recent}. In contrast, it appears that
@@ -161,13 +161,13 @@ correct result whereas shifts above the eigenvalue did not and
 analogously for positive eigenvalues. Further investigation revealed
 that this has actually nothing to do with the target eigenvalue being
 negative or positive but rather its location in the spectrum. If it is
-below the center of the spectrum the behaviour is as in
+below the centre of the spectrum the behaviour is as in
 Figure~\ref{fig:varying shift small negative} and for eigenvalues
-above the center the method acts as in Figure~\ref{fig:varying shift
+above the centre the method acts as in Figure~\ref{fig:varying shift
   small positive}. This observation could possibly be used if the
 initial vector is not that good of an approximation but some knowledge
 of the spectrum is available so that the initial shifts could be
-choosen accordingly.
+chosen accordingly.
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../../main"

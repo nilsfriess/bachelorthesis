@@ -1,4 +1,18 @@
 \chapter{Proofs}\label{appendix:proofs}
+\begin{proof}[Proof of Lemma~\ref{lem:eigs:atilde0}]
+  First consider $j \neq k$. A straightforward calculation yields
+  \begin{equation*}
+    (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_j = \mat{A}\vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \underbrace{\vec{v}_k^\tp  \vec{v}_j}_{ = 0}
+    = \lambda_j \vec{v}_j - \gamma i \vec{v}_j = (\lambda_j - \gamma i) \vec{v}_j \,.   
+  \end{equation*}
+  For $j = k$ we have
+  $\vec{v}_k^\tp \vec{v}_j = \vec{v}_k^\tp \vec{v}_k = 1$ and thus
+  \begin{equation*}
+    (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_k = \lambda_k \vec{v}_k - \gamma i \vec{v}_k + \gamma i \vec{v}_k = \lambda_k \vec{v}_k\,.
+  \end{equation*}
+\end{proof}
+
+
 % \begin{lemma}[Sherman-Morrison formula in the complex case]
 %   Let $\mat{A} \in \C^{n \times n}$ be invertible. Let
 %   $\vec{u}, \vec{v} \in \C^n$ be vectors. If

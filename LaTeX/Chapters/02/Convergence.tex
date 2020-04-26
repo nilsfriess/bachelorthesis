@@ -1,10 +1,10 @@
 \section{Convergence Analysis}\label{sec:convergence}
-We mentioned earlier the local cubic convergence of RQI. In this
-section we give a proof of this property and we also discuss some
-results concerning the global convergence behaviour. We do not give a
-full proof of the global convergence, since parts of it are very
-technical and, at least for our purposes, it does not give much
-insight in the method.
+We have mentioned on several occasions the local cubic convergence of
+RQI. In this section we give a proof of this property and we also
+discuss some results concerning the global convergence behaviour. We
+do not give a full proof of the global convergence, since parts of it
+are very technical and, at least for our purposes, it does not give
+much insight in the method.
 
 As we have seen in the previous section, the first rigorous proof of
 the cubic convergence of RQI was given by Ostrowski~\cite{ostrowskiI}
@@ -91,13 +91,10 @@ $\mat{A} = \mat{\Lambda}$ is already diagonal which in particular
 implies that the eigenvectors of $\mat{A}$ are $\vec{e}_i$, the
 natural coordinate vectors.
 \begin{proof}[Proof of Theorem~\ref{thm:rqi:cubic}]
-  Assume that the eigenvalue that is computed is \emph{simple}
-  \todo{Define simple and highlight where this is required in the
-    proof} and suppose without loss of generality that $\vec{x}^{(i)}$
-  converges to $\vec{e}_1$. Remember that we assume that the current
-  iterate is a sufficiently good estimate of $\vec{e}_1$, such that
-  for some $i$ we can write
-  $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ with
+  Suppose without loss of generality that $\vec{x}^{(i)}$ converges to
+  $\vec{e}_1$. Remember that we assume that the current iterate is a
+  sufficiently good estimate of $\vec{e}_1$, such that for some $i$ we
+  can write $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ with
   $\norm*{\vec{d}^{(i)}} = \epsilon \ll 1$. To show cubic convergence,
   we have to verify that
   \begin{equation*}
@@ -185,8 +182,8 @@ natural coordinate vectors.
       \right)}^\tp \span \span \\
     &\eqqcolon \frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})\,.
   \end{align*}
-  If we denote by $\delta$ the gap between $\lambda_1$ and the rest of
-  the spectrum, \ie
+  \todo{Reformat this} If we denote by $\delta$ the gap between
+  $\lambda_1$ and the rest of the spectrum, \ie
   \begin{equation*}
     \delta \coloneqq \min_{j=2}^n \abs{\lambda_j - \lambda_1}\,,
   \end{equation*}
@@ -233,7 +230,7 @@ quadratically accurate approximations of eigenvalues is indeed crucial
 in the derivation of the cubic convergence. Some other proofs, for
 example the one given by Parlett~\cite[77]{Parlett1998}, proof
 convergence of the \emph{error angle}
-$\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{v})$, \ie
+$\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{v})$, \ie he shows
 \begin{equation*}
   \lim_{k \rightarrow \infty} \abs{\frac{\phi^{(k+1)}}{{\left( \phi^{(k)}\right)}^{3}}} \le 1\,.
 \end{equation*}
@@ -247,15 +244,23 @@ example~\cite[208]{trefethen1997} or~\cite[89\psq]{boerm}.
 
 To conclude this chapter we briefly discuss some of the results
 concerning the global convergence behaviour of RQI. Essential for
-showing that RQI is globally convergent is the follwoing fact which,
+showing that RQI is globally convergent is the following fact which,
 according to Parlett~\cite[85]{Parlett1998}, is due to
 Kahan~\cite{parlettkahan}. We recall that $\vec{r}^{(k)}$ denotes the
 residual at step $k$ in RQI, \ie
 \begin{equation*}
   \vec{r}^{(k)} = \left(\mat{A} - \mu^{(k)}\mat{I}\right) \vec{x}^{(k)} \,.
 \end{equation*}
-We also note that we can relate the $k$-th and $k+1$-th iterate of RQI
-by
+
+\begin{lemma}[Monotonic residuals]\label{lem:monotoni:res}
+  For every $k$ it holds
+  \begin{equation*}
+    \norm{\vec{r}^{(k+1)}} \le \norm{\vec{r}^{(k)}}\,.
+  \end{equation*}
+\end{lemma}
+
+Before giving the proof, we note that we can relate the $k$-th and
+$k+1$-th iterate of RQI by
 \begin{equation*}
   \vec{x}^{(k)} = \beta \left(\mat{A} - \mu^{(k)}\mat{I}\right)\vec{x}^{(k+1)}\,,
 \end{equation*}
@@ -278,14 +283,7 @@ and thus
   =
   \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}}\,.
 \end{equation}
-
-\begin{lemma}[Monotonic residuals]
-  For every $k$ it holds
-  \begin{equation*}
-    \norm{\vec{r}^{(k+1)}} \le \norm{\vec{r}^{(k)}}\,.
-  \end{equation*}
-\end{lemma}
-\begin{proof}
+\begin{proof}[Proof of Lemma~\ref{lem:monotoni:res}]
   \begin{align*}
     \norm{\vec{r}^{(k+1)}} &= \norm{\left( \mat{A} - \mu^{(k+1)} \mat{I} \right) \vec{x}^{(k+1)}} \\
                            &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{(Since $\mu^{(k+1)}$ minimises the residual norm)} \\
@@ -298,25 +296,65 @@ and thus
   
 \end{proof}
 \begin{theorem}[Global convergence of RQI]
-  Let the RQI be applied to a normal matrix started with any unit
-  vector $\vec{x}^{(0)}$.  Then, as $k \rightarrow \infty$, the
+  Let the RQI be applied to a normal matrix started with an arbitrary
+  unit vector $\vec{x}^{(0)}$.  Then, as $k \rightarrow \infty$, the
   eigenvalue sequence $\mu^{(k)}$ converges and either
   \begin{enumerate}
   \item $(\mu^{(k)}, \vec{x}^{(k)})$ converges to an eigenpair
     $(\lambda, \vec{v})$, or
   \item the sequence $\mu^{(k)}$ converges to
-    ($\lambda_p + \lambda_q)/2$ and $\vec{x}^{k}$ oscillates between
+    ($\lambda_p + \lambda_q)/2$ and $\vec{x}^{(k)}$ oscillates between
     vectors converging to $\vec{v}_{pq}^+$ and vectors converging to
     $\vec{v}_{pq}^-$, where
     $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{q}) / \sqrt{2}$, where
-    $\lambda_p$ andd $\lambda_q$ are eigenvalues of $\mat{A}$ with
+    $\lambda_p$ and $\lambda_q$ are eigenvalues of $\mat{A}$ with
     corresponding eigenvectors $\vec{v}_p$ and $\vec{v}_q$.
   \end{enumerate}
   The latter is unstable under perturbations of $\vec{x}^{(k)}$.
 \end{theorem}
-As mentioned above, we do not give a proof of this result. Parlett
-states in~\cite[61]{Parlett1998} and in~\cite[680]{parlettrqi} that
-RQI converges for almost all starting vectors but Batterson and
+
+As mentioned above, we do not give a complete proof of this result;
+below we outline a rough sketch of the first statement based on the
+proof by Parlett in~\cite{Parlett1998}.
+
+We begin by observing that the monotonicity of the residuals implies
+\begin{gather*}
+  \norm{\vec{r}^{(k)}} \longrightarrow \tau \ge 0 \quad \text{as } k
+  \rightarrow \infty\,.
+\end{gather*}
+Now, note that the sequence of vector iterates $\vec{x}^{(k)}$ is
+confined in the unit sphere, a compact subset of $\R^n$. One can also
+show that the sequence of the Rayleigh Quotients
+$\rq_{\mat{A}}(\vec{x}^{(k)})$ is confined in a compact set and thus,
+the sequence
+${\left(\rq_{\mat{A}}(\vec{x}^{(k)}), \vec{x}^{(k)}\right)}_{k \in
+  \N}$ has at least one limit point. Call this point
+$(\rho, \vec{z})$. This point is the limit of a subsequence
+${\left(\rq_{\mat{A}}(\vec{x}^{(j)}), \vec{x}^{j}\right)}_{j \in
+  \mathcal{J}}$ for some index set $\mathcal{J}$. Using the fact that
+the Rayleigh Quotient is a continuous function on the unit sphere we
+see that
+\begin{gather*}
+  \rq_{\mat{A}}(\vec{z}) = \lim_j \rq_{\mat{A}}(\vec{x}^{(j)}) = \rho
+\end{gather*}
+and thus
+\begin{gather*}
+  \norm{(\mat{A} - \rho)\vec{z}} = \lim_j \norm{\vec{r}^{(j)}} =
+  \tau\,,
+\end{gather*}
+where the limits are for $j \rightarrow \infty$ in $\mathcal{J}$.  If
+we assume $\tau = 0$, this shows that $(\rho, \vec{z})$ must be an
+eigenpair of $\mat{A}$. Parlett then proceeds to use the local
+convergence theorem to conclude that indeed
+$\lim_{k \rightarrow \infty} \vec{x}^{(k)} = \vec{z}$.
+
+The second case $\tau > 0$ is much harder to analyse and does also
+require a number of auxiliary results relating the eigenvectors of a
+matrix $\mat{A}$ to its square $\mat{A}^2$. Therefore, as mentioned
+above, we do not discuss this part of the proof here.
+
+Parlett states in~\cite[61]{Parlett1998} and in~\cite[680]{parlettrqi}
+that RQI converges for almost all starting vectors but Batterson and
 Smillie claim that this assertion is not
 proofed~\cite[625]{battersonsmillie}. They proceed to give a proof of
 this fact which is formulated in their paper as follows.
@@ -326,6 +364,8 @@ this fact which is formulated in their paper as follows.
   eigenvector is a set of measure zero.
 \end{theorem}
 
+
+\todo{Concluding remarks}
 
 %%% Local Variables:
 %%% mode: latex
