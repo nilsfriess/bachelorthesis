@@ -125,20 +125,23 @@ lemma answers how ``big'' this perturbation is.
 % and the wanted eigenvector are sufficiently small this is indeed the
 % case as the following lemma shows.
 
-\begin{lemma}
+\begin{lemma}%
+  \label{lem:eigs:atilde1}
   Let $\tilde{\mat{A}}_{(1)}$ be the matrix defined in
   Equation~\eqref{eq:a:tilde1}. Then
   \begin{equation}
     \label{eq:a:tilde1:norm}
-    \norm{\tilde{\mat{A}}_{(1)}} = \gamma \sqrt{1 - {\langle \vec{u}, \vec{v}_k \rangle}^2}\,.
+    \norm{\tilde{\mat{A}}_{(1)}} = \gamma \sqrt{1 - {\langle \vec{u}, \vec{v}_k \rangle}^2}\,,
   \end{equation}
+  where $\norm*{\cdot}$ denotes the spectral norm of a matrix.
 \end{lemma}
 For good approximations $\vec{u}$ we have
 ${\langle \vec{u}, \vec{v}_k \rangle}^2 \approx 1$ and thus, if
 $\gamma$ is sufficiently small, $\norm*{\tilde{\mat{A}}_{(1)}} \ll 1$.
 We can now estimate the eigenvalues of $\tilde{\mat{A}}$.
 
-\begin{proposition}
+\begin{proposition}%
+  \label{prop:atilde:eigenvalues}
   The eigenvalues of $\tilde{\mat{A}}$ satisfy
   \begin{equation}
     \label{eq:a:tilde:eigvalbound}

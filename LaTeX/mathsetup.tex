@@ -46,18 +46,19 @@
 \def\norm{\@ifstar{\oldnorm}{\oldnorm*}}
 \makeatother
 
-\makeatletter
-\newcommand*{\tp}{%
-  {\mathpalette\@transpose{}}%
-}
-\newcommand*{\@transpose}[2]{%
-  % #1: math style
-  % #2: unused
-  \raisebox{\depth}{$\m@th#1\intercal$}%
-}
-\makeatother
+% \makeatletter
+% \newcommand*{\tp}{%
+%   {\mathpalette\@transpose{}}%
+% }
+% \newcommand*{\@transpose}[2]{%
+%   % #1: math style
+%   % #2: unused
+%   \raisebox{\depth}{$\m@th#1\intercal$}%
+% }
+% \makeatother
 
-\newcommand*{\herm}{\ast}
+\newcommand*{\herm}{\ast} 
+\newcommand*{\tp}{\mathsf{T}}
 
 % \makeatletter
 % \newcommand*{\herm}{%
@@ -80,6 +81,7 @@
 
 \DeclareMathOperator{\rang}{rang}
 \DeclareMathOperator{\cond}{cond}
+\DeclareMathOperator{\tr}{tr}
 \DeclareMathOperator{\diag}{diag}
 \DeclareMathOperator{\im}{im}
 \DeclareMathOperator{\spr}{spr}

@@ -1,6 +1,7 @@
 \chapter{Proofs}\label{appendix:proofs}
 \begin{proof}[Proof of Lemma~\ref{lem:eigs:atilde0}]
-  First consider $j \neq k$. A straightforward calculation yields
+  First consider $j \neq k$. Using the orthogonality of the
+  eigenvectors
   \begin{equation*}
     (\mat{A} - \gamma i(\mat{I}- \vec{v}_k \vec{v}_k^\tp)) \vec{v}_j = \mat{A}\vec{v}_j - \gamma i \vec{v}_j + \gamma i \vec{v}_k \underbrace{\vec{v}_k^\tp  \vec{v}_j}_{ = 0}
     = \lambda_j \vec{v}_j - \gamma i \vec{v}_j = (\lambda_j - \gamma i) \vec{v}_j \,.   
@@ -12,7 +13,131 @@
   \end{equation*}
 \end{proof}
 
+\begin{proof}[Proof of Lemma~\ref{lem:eigs:atilde1}]
+  Since
+  \begin{equation*}
+    \norm{\tilde{\mat{A}}_{(1)}} = \norm{\gamma i \left( \vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp \right)} = \gamma \norm{\smash{\underbrace{
+          \vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp
+        }_{\eqqcolon \mat{E}}}
+    }
+  \end{equation*}
+  it suffices to compute the norm of $\mat{E}$. Additionally,
+  $\mat{E}$ is symmetric (since it is a sum of two symmetric matrices)
+  and thus its spectral norm coincides with its spectral radius. The
+  matrices $\vec{u}\vec{u}^\tp$ and $\vec{v}_k\vec{v}_k^\tp$ have both
+  rank one and therefore $\mat{E}$ is at most of rank two. This
+  implies that it has at most two non-zero eigenvalues, denoted by
+  $\mu_1$ and $\mu_2$, and we can therefore compute both of them and
+  take the one that is larger in modulus.
 
+  To compute the eigenvalues of $\mat{A}$ we use the following two
+  well-known facts from linear algebra. Here, $\tr(\mat{E}) $ denotes
+  the trace of $\mat{E}$ defined as the sum of the diagonal entries of
+  the matrix.
+  \begin{enumerate}
+  \item The trace is the sum of the eigenvalues of $\mat{E}$, \ie
+    \begin{equation}
+      \label{eq:trace:sumeigenvalues}
+      \tr(\mat{E}) = \mu_1 + \mu_2\,.
+    \end{equation}
+  \item The eigenvalues of the square of $\mat{E}$ are $\mu_1^2$ and
+    $\mu_2^2$ and thus, using the previous fact,
+    \begin{equation}
+      \label{eq:trace:sumeigenvalues:square}
+      \tr(\mat{E}^2) = \mu_1^2 + \mu_2^2 \,.
+    \end{equation}
+  \end{enumerate}
+  The diagonal entries of the matrices $\vec{u}\vec{u}^\tp$ and
+  $\vec{v}_k\vec{v}_k^\tp$ consist of the squares of their respective
+  entries and thus, using the additivity of the trace, we get
+  \begin{equation*}
+    \tr(\mat{E}) = \norm*{\vec{u}} - \norm*{\vec{v}_k} = 0
+  \end{equation*}
+  which in conjunction with~\eqref{eq:trace:sumeigenvalues} implies
+  $\mu_1 = -\mu_2$.  We expand $\mat{E}^2$ and obtain
+  \begin{align*}
+    \mat{E}^2 &= (\vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp)(\vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp) \\
+              &= \vec{u}\vec{u}^\tp\vec{u}\vec{u}^\tp
+                - \vec{v}_k\vec{v}_k^\tp\vec{u}\vec{u}^\tp
+                - \vec{u}\vec{u}^\tp\vec{v_k}\vec{v_k}^\tp
+                + \vec{v}_k\vec{v}_k^\tp\vec{v}_k\vec{v}_k^\tp \\
+              &= \vec{u}\vec{u}^\tp + \vec{v}_k \vec{v}_k^\tp - \langle \vec{u}, \vec{v}_k \rangle \left(\vec{u}\vec{v}_k^\tp + \vec{v}_k\vec{u}^\tp\right)\,.
+  \end{align*}
+  Therefore,
+  \begin{align*}
+    \tr(\mat{E}^2) &= \norm*{\vec{u}} + \norm*{\vec{v}_k} - \langle \vec{u}, \vec{v}_k \rangle
+                     (\langle \vec{u}, \vec{v}_k \rangle + \langle \vec{u}, \vec{v}_k \rangle) \\
+                   &= 2 - 2{\langle \vec{u}, \vec{v}_k \rangle}^2\,.
+  \end{align*}
+  However, we also have $\tr(\mat{E}^2) = 2\mu_1^2$ due
+  to~\eqref{eq:trace:sumeigenvalues:square} and so
+  \begin{equation*}
+    \mu_1 = \sqrt{1 - {\langle \vec{u}, \vec{v}_k \rangle}^2}
+  \end{equation*}
+  from which the result follows.
+\end{proof}
+
+\begin{proof}[Proof of Proposition~\ref{prop:atilde:eigenvalues}]
+  For this proof we treat $\tilde{\mat{A}}_{(1)}$ as a perturbation of
+  $\tilde{\mat{A}}_{(0)}$ and a result from~\cite{REFERENCE} which
+  states that the eigenvalues of
+  $\tilde{\mat{A}} = \tilde{\mat{A}}_{(0)} + \tilde{\mat{A}}_{(1)}$
+  satisfy
+  \begin{equation}%
+    \label{eq:eigval:estimation}
+    \lambda_j(\tilde{\mat{A}}) = \lambda_j(\tilde{\mat{A}}_{(0)})
+    +
+    \vec{w}_j^\herm \tilde{\mat{A}}_{(0)} \vec{w}_j + \mathcal{O}\left( \norm{\tilde{\mat{A}}_{(1)}}^2\right)\,,
+  \end{equation}
+  where $\vec{w}_j$ is an eigenvector belonging to
+  $\lambda_j(\tilde{\mat{A}}_{(0)})$. We expand the middle part and
+  obtain
+  \begin{align*}
+    \vec{w}_j^\herm \tilde{\mat{A}}_{(0)} \vec{w}_j &= \gamma i \vec{w}_j^\herm  \left( \vec{u}\vec{u}^\herm - \vec{v}_k \vec{v}_k^\herm  \right) \vec{w}_j \\
+                                                    &= \gamma i \left( \vec{w}_j^\herm\vec{u}\vec{u}^\herm\vec{w}_j - \vec{w}_j^\herm\vec{v}_k\vec{v}_k^\herm\vec{w}_j\right) \\
+                                                    &= \gamma i \left({\langle \vec{w}_j, \vec{u}\rangle}^2 - {\langle \vec{w}_j, \vec{v}_k\rangle}^2 \right) \\
+                                                    &=
+                                                      \begin{cases}
+                                                        \gamma i {\langle \vec{v}_j, \vec{u}\rangle}^2 & \text{ if } j \neq k\,, \\
+                                                        \gamma i
+                                                        \left(
+                                                          {\langle
+                                                            \vec{v}_j,
+                                                            \vec{u}\rangle}^2
+                                                          - 1 \right)
+                                                        & \text{ if }
+                                                        j = k\,,
+                                                      \end{cases}
+  \end{align*}
+  where we used Lemma~\ref{lem:eigs:atilde0} in the last step, which
+  states that in fact $\vec{w}_j = \vec{v}_j$ with $\vec{v}_j$ being
+  the eigenvectors of $\mat{A}$. Adding this to the first part
+  of~\eqref{eq:eigval:estimation} yields
+  \begin{align*}
+    \lambda_j(\tilde{\mat{A}}_{(0)})
+    +
+    \vec{w}_j^\herm \tilde{\mat{A}}_{(0)} \vec{w}_j
+    &=
+      \lambda_j(\mat{A}) - \gamma i + \gamma i {\langle \vec{v}_j, \vec{u}\rangle}^2 \\
+    &=
+      \lambda_j(\mat{A}) + \gamma i \left( {\langle \vec{v}_j, \vec{u}\rangle}^2 - 1 \right)
+  \end{align*}
+  for $j \neq k$ and
+  \begin{align*}
+    \lambda_j(\tilde{\mat{A}}_{(0)})
+    +
+    \vec{w}_j^\herm \tilde{\mat{A}}_{(0)} \vec{w}_j
+    &=
+      \lambda_k(\mat{A}) + \gamma i \left( {\langle \vec{v}_k, \vec{u}\rangle}^2 - 1 \right)
+  \end{align*}
+  for $j = k$ and thus
+  \begin{equation*}
+    \lambda_j(\tilde{\mat{A}}) =
+    \lambda_j(\mat{A}) + \gamma i \left( {\langle \vec{v}_j, \vec{u}\rangle}^2 - 1 \right)
+    + \mathcal{O}\left( \norm{\tilde{\mat{A}}_{(1)}}^2\right)\,,
+  \end{equation*}
+  for all $j = 1, \dotsc, n$, which concludes the proof.
+\end{proof}
 % \begin{lemma}[Sherman-Morrison formula in the complex case]
 %   Let $\mat{A} \in \C^{n \times n}$ be invertible. Let
 %   $\vec{u}, \vec{v} \in \C^n$ be vectors. If
