@@ -191,9 +191,10 @@ Algorithm but also in the simple vector iterations from
 Chapter~\ref{chapter:intro}. Now that we the defined the Rayleigh
 Quotient, we can define the following stopping criterion. Run the
 iteration until
-\begin{equation*}
+\begin{equation}
+  \label{eq:stopping_criterion}
   \norm{\vec{r}^{(k)}} = \norm{\mat{A}\vec{x}^{(k)} - \mu^{(k)} \vec{x}^{(k)}} < \mathtt{tol}\,,
-\end{equation*}
+\end{equation}
 where
 $\vec{r}^{(k)} \coloneqq \mat{A}\vec{x}^{(k)} - \mu^{(k)}
 \vec{x}^{(k)}$ is called the \emph{residual vector} and $\mathtt{tol}$
@@ -234,6 +235,16 @@ $\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
 \begin{equation*}
   \delta \coloneqq \min_i\, \{ \abs*{\mu^{(k)} - \lambda_i} \ : \ \lambda_i \neq \lambda \} \,.
 \end{equation*}
+Thus, if the wanted eigenvalues and its neighbours are very close,
+$\delta$ is large and the eigenvector might not be accurate. Due to
+the cubic convergence of RQI (which we will discuss below) instead of
+stopping the iteration as soon as the criterion
+in~\eqref{eq:stopping_criterion} is fulfilled, we simply run another
+iteration. Often, the residual norm will then already be close to
+working accuracy and the eigenvector is sufficiently accurate. If more
+information about the spectrum is available, one could also adjust the
+stopping criterion accordingly.
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

@@ -8,7 +8,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
 %   guess. The final approximated eigenvector and -value are stored in x
 %   and sigma, repsectively. The results after every iteration are stored 
 %   in the vectors eigval_iterates and eigvec_iterates. The iteration is 
-%   stopped if the residual is less than 10e-9.
+%   stopped if the residual is less than 1e-9.
 %
 %   [x, sigma, iterations, eigval_iterates, eigvec_iterates] = CLASSIC_RQI(a, x, sigma, tol) 
 %   Same as above except that the computation is stopped when the residual 
@@ -18,7 +18,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
         error("Too few arguments");
     elseif nargin < 4
         % if no tolerance provided, use 10e-9
-        tolerance = 10e-9; 
+        tolerance = 1e-9; 
     end
 
     m = size(a);
@@ -35,7 +35,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     residuals = [res];
     
     iterations = 0;
-    while res > tolerance
+    while res >= tolerance
        x = (a - sigma * speye(m)) \ x;  % solve linear system
        x = x / norm(x);                 % normalise iterate
        sigma = x' * a * x;              % compute Rayleigh quotient

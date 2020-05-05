@@ -1,11 +1,12 @@
 \section{The Symmetric Eigenvalue Problem}%
 There is a plethora of examples which lead to eigenvalue problems in
-almost all of the natural sciences, engineering and many other
-disciplines. In many cases the matrix of which the eigenvalues are
-sought is real and symmetric. In this case, the task of finding
-eigenvalues and eigenvectors is referred to as the \emph{symmetric
-  eigenvalue problem}. For completeness, we collect some general facts
-from linear algebra on eigenvalues and eigenvectors below.
+almost all of the natural sciences, in engineering but also other
+areas such as economics. In many cases the matrix of which the
+eigenvalues are sought is real and symmetric. The task of finding
+eigenvalues and eigenvectors is then referred to as the
+\emph{symmetric eigenvalue problem}. For completeness, we collect some
+general facts from linear algebra on eigenvalues and eigenvectors
+below.
 
 \begin{definition}
   Let $\mat{A} \in \C^{n \times n}$. A scalar $\lambda \in \C$ is
@@ -60,7 +61,8 @@ in Section~\ref{sec:iterative:algorithms}.
   of the numerical algorithms for solving eigenvalue problems of the
   form~\eqref{eq:eigvalproblem} can be modified to
   solve~\eqref{eq:eigvalproblem:general}; often certain assumptions
-  have to be posed on $\mat{M}$ such as positive definiteness.
+  have to be posed on $\mat{M}$ such as symmetry and positive
+  definiteness.
 
   Since matrices can be seen as representations of linear operators on
   finite-dimensional vector spaces, we can define eigenvalue problems
@@ -78,9 +80,10 @@ in Section~\ref{sec:iterative:algorithms}.
     \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
   \end{equation*}
   where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.  In
-  this thesis, we mostly consider problems of the
-  form~\eqref{eq:eigvalproblem}. We will briefly come back to problems
-  of the form~\eqref{eq:eigvalproblem:general} in the last chapter.
+  this thesis, we consider only problems of the
+  form~\eqref{eq:eigvalproblem}.
+  % We will briefly come back to problems
+  % of the form~\eqref{eq:eigvalproblem:general} in the last chapter.
 \end{remark}
 
 In the following proposition we collect some basic facts on
@@ -150,7 +153,7 @@ in particular for real symmetric matrices.
 
 In the following, we restrict our attention to the \emph{symmetric
   eigenvalue problem}, \ie we want to find solutions of
-equation~\eqref{eq:eigvalproblem} assuming $\mat{A}$ is a real
+Equation~\eqref{eq:eigvalproblem} assuming $\mat{A}$ is a real
 symmetric matrix. Thus, unless stated otherwise, for the remainder of
 the thesis $\mat{A}$ denotes a matrix of this type. The (real)
 eigenvalues are denoted by $\lambda_j(\mat{A}) = \lambda_j$ with
@@ -179,15 +182,15 @@ eigenvalues. The remaining eigenvalues
 $\lambda_2, \dotsc, \lambda_{n-1}$ are called \emph{interior}
 eigenvalues.
 
-In addition to the assumption that the matrix we work with is real and
-symmetric, we are mainly interested in cases in which the target
-eigenvalue and its neighbours are very close. We usually do not have
-any a priori knowledge about their location. Also, the matrices are
-assumed to be large such that the computation of the complete set of
-eigenpairs is too expensive. However, we assume a good approximation
-of the target eigenvector is available. As we will see, traditional
-methods do not perform well when the gap between the wanted eigenvalue
-and adjacent eigenvalues is too small.
+% In addition to the assumption that the matrix we work with is real
+% and symmetric, we are mainly interested in cases in which the target
+% eigenvalue and its neighbours are very close. We usually do not have
+% any a priori knowledge about their location. Also, the matrices are
+% assumed to be large such that the computation of the complete set of
+% eigenpairs is too expensive. However, we assume a good approximation
+% of the target eigenvector is available. As we will see, traditional
+% methods do not perform well when the gap between the wanted
+% eigenvalue and adjacent eigenvalues is too small.
 
 % Sometimes we will make the assumption that $\mat{A}$ is positive
 % definite, \ie that

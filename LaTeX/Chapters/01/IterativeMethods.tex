@@ -2,10 +2,12 @@
 \label{sec:iterative:algorithms}
 With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
-matrices. We are always interested in how fast these methods produce
-good approximations of eigenvectors or eigenvalues (or both). The
-following definition provides us with a notion of the speed at which a
-sequence converges to its limit.
+matrices.
+
+We are always interested in how fast these methods produce good
+approximations of eigenvectors or eigenvalues (or both). The following
+definition provides us with a notion of the speed at which a sequence
+converges to its limit.
 
 \begin{definition}[Order of Convergence]
   Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\C^n$ that
@@ -88,8 +90,9 @@ orders in terms of the error angles and vice verca. Note that we did
 assume convergence of the sequence.
 
 \subsubsection{Power method}
-The \emph{power method} is one of the oldest iterative methods for
-computing eigenvectors. It is based on generating the sequence
+The \emph{power method} or \emph{Von Mises iteration} is one of the
+oldest iterative methods for computing eigenvectors. It is based on
+generating the sequence
 $\vec{x}^{(k)} \coloneqq \mat{A}^k \vec{x}^{(0)}$ where
 $\vec{x}^{(0)}$ is a non-zero unit vector. Of course, $\mat{A}^k$ does
 not have to be computed explicitly at each step since
@@ -116,7 +119,7 @@ method converges linearly with convergence rate
 \end{equation}
 Thus, the method can be very slow if the distance between the
 eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For a
-detailed convergence proof, see~\cite[86\psq]{saad2011}.
+detailed convergence analysis, see~\cite[86\psq]{saad2011}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon
@@ -133,8 +136,8 @@ Besides the possible slow convergence rate, the power method will
 always converge to an eigenvector associated with the dominant
 eigenvalue $\lambda_n$. In many applications, however, one already has
 a good approximation of another eigenvalue and wants to compute an
-eigenvector it belongs to. The following method allows for such
-computations.
+eigenvector it belongs to. In this case, the following method can be
+used.
 
 \subsubsection{(Shifted) Inverse Iteration}
 The \emph{inverse iteration} is the power method applied to
@@ -152,10 +155,11 @@ where $\beta$ is responsible for normalising $\vec{x}^{(k)}$. The
 smallest eigenvalue in modulus of the shifted matrix
 $\mat{A} - \sigma \mat{I}$ is the eigenvalue of $\mat{A}$ that is
 closest to $\sigma$. Hence, this method converges to an eigenvector
-associated with this eigenvalue. Of course, the inverse need not be
-computed explicitly. Instead, before the loop we can compute the LU
-decomposition of $\mat{A} - \sigma \mat{I}$ (or any other
-factorisation, if applicable) and solve the system
+associated with this eigenvalue. The most expensive step of this
+procedure is obviously the computation of the inverse at each step.
+Fortunately, this computation is not necessary since instead of
+explicitly computing the inverse, before the loop we can compute the
+LU decomposition of $\mat{A} - \sigma \mat{I}$ and solve the system
 ${\left( \mat{A} - \sigma \mat{I} \right)} \vec{x}^{(k)} =
 \vec{x}^{(k-1)}$ for $\vec{x}^{(k)}$. At each step then, only one
 backward and one forward substitution is required, reducing the
@@ -191,10 +195,10 @@ already available.
 
 Note, however, that a shift which is very close to an eigenvalue
 produces a very ill-conditioned linear system and one might expect
-inverse iteration to fail in these cases since, in general, it is
+inverse iteration to fail in this case since, in general, it is
 impossible to solve ill-conditioned systems accurately. Despite this
-seemingly sincere problem, in practice it was observed that the method
-produces good approximations even in these cases. According to
+seemingly obvious problem, in practice it was observed that the method
+produces good approximations. According to
 Parlett~\cite[84\psq]{Parlett1998}, it was Wilkinson who elucidated
 why the ill-conditioning is not a problem in most cases. Suppose
 $\sigma \approx \lambda$ where $\lambda$ is an eigenvalue of $\mat{A}$
@@ -202,25 +206,38 @@ with corresponding eigenvector $\vec{v}$. Wilkinson illustrated that
 although $\tilde{\vec{x}}^{(k)}$ may be far from $\vec{v}$, the
 normalised solution
 $\vec{x}^{(k)} = \tilde{\vec{x}}^{(k)} /
-\norm*{\tilde{\vec{x}}^{(k)}}$ will not be far from $\vec{v}$, when
-the system is solved backwards-stably, for more details
-see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
+\norm*{\tilde{\vec{x}}^{(k)}}$ will not be far from $\vec{v}$ when the
+system is solved backwards-stably. For a detailed analysis of this
+problem, see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
 and~\cite{petersWilkinson}. This will become important again later
 when we discuss Rayleigh Quotient Iteration. There, the system that is
 solved gets increasingly ill-conditioned at each step but for the same
 reason as above, in practice this poses no problem.
 
 At each step in the shifted inverse iteration, better approximations
-for the target eigenvector are computed. One could try to use these
-approximations to compute approximations of the corresponding
-eigenvalue and replace occasionally the shift. There are different
-techniques to obtain such estimates, \eg the \emph{Wielandt Shifted
-  Inverse Iteration} or the \emph{Rayleigh Quotient Iteration}, the
-latter of which is rigorously studied in the next chapter. For further
-discussion on the variants and developments of these so called
-\emph{shift-and-invert} techniques see, e.\,g., the historic
-surveys~\cite{ipsenhistory} and~\cite{golub2000eigenvalue} or Sections
-2 and 3 of~\cite{tapia2018}.
+for the target eigenvector are computed. There a different techniques
+to obtain approximations of the corresponding eigenvalue. One of these
+methods, which leads to the \emph{Rayleigh Quotient Iteration}, is
+discussed in detail in the next chapter. For further discussion on the
+variants and developments of these so called \emph{shift-and-invert}
+methods see, e.\,g., the historic survey~\cite{ipsenhistory} or
+Sections 2 and 3 of~\cite{tapia2018}.
+
+Of course there is a wide variety of other methods to compute
+eigenvalues and eigenvectors that are suitable for different kinds of
+problems. Some of them also compute only eigenvector (and/or
+eigenvalue) as the algorithms from above do, some compute the complete
+spectrum and full set eigenvectors while some computy only a fixed
+number of the eigenvalues and corresponding eigenvalues. Apart from
+Rayleigh Quotient Iteration and our new method called \emph{Complex
+  Rayleigh Quotient Iteration}, which are introduced in the second and
+third chapter, respectively, we do not discuss any of these other
+algorithms. For further discussion on the variants and developments of
+the different eigenvalue methods we refer to the historic
+survey~\cite{golub2000eigenvalue} and the references therein which
+include the classic monographs by Saad~\cite{saad2011} (that is
+concerned with large scale problems) and by Parlett~\cite{Parlett1998}
+(that considers the symmetric eigenvalue problem).
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

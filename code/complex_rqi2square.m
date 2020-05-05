@@ -30,7 +30,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
   iterations = 0;
   
   while res >= tolerance
-    x = (a - (sigma - gamma*1i)*speye(m))\x;
+    x = (a - (sigma + gamma*1i)*speye(m))\x;
     x = x / norm(x);
     sigma = x' * a * x;
     res = norm((a - sigma*speye(m))*x);
@@ -44,5 +44,6 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
     iterations = iterations + 1;
   end
   x = real(x) / norm(real(x));
-  sigma = real(sigma);
+  sigma = x'*a*x;
+  residuals(end) = norm((a - sigma*speye(m))*x); 
 end

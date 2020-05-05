@@ -1,7 +1,7 @@
 clf
 
 N = 200;
-a = sprandsym(N,0.2);
+a = sprandsym(N,0.4);
 
 % a = load("fe_matrix.mat");
 % a = a.Ahat;
@@ -15,7 +15,7 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
 weights = rand(N,1);
-weights(targetIndex) = 3;
+weights(targetIndex) = 8;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
@@ -28,11 +28,6 @@ disp(['Target eigenvalue: ', num2str(targetE)]);
 
 
 v = V*weights;
-v = v / norm(v);
-
-
-% Random unit vector
-v = randn(N,1);
 v = v / norm(v);
 
 disp(['Residual = ', num2str(norm(a*v - rayleighquotient(a,v)*v))]);
@@ -53,7 +48,7 @@ for k = 1 : maxits
     currshift = shifts(k);
     
     [x1, e1, its1, e_its1, v_its1, res1] = classic_rqi(a, v, currshift);
-    [x2, e2, its2, e_its2, v_its2, res2] = complex_rqi2(a, v, currshift, inf);
+    [x2, e2, its2, e_its2, v_its2, res2] = complex_rqi2combined(a, v, currshift, inf);
     
     result_crqi(k) = e2;
     result_rqi(k) = e1;

@@ -1,7 +1,7 @@
 close all;
 
 N = 200;
-a = sprandsym(N,0.2);
+a = sprandsym(N,0.3);
 
 % a = load("fe_matrix.mat");
 % a = a.Ahat;
@@ -11,31 +11,33 @@ a = sprandsym(N,0.2);
 D = diag(D);
 
 tests = 500;
-addWeights = linspace(0.1,20,tests);
+addWeights = linspace(0,30,tests);
 
-classicRQIResults = zeros(tests,4);
-complexRQIResults = zeros(tests,4);
+classicRQIResults = zeros(tests,5);
+complexRQIResults = zeros(tests,5);
+
+% Create random linear combination of eigenvectors of A
+% where one of the interior eigenvectors is weighted heavier
+% than the rest (we later expect convergence to that very evec)
+targetIndex = floor(N / 2);
+targetV = V(:,targetIndex);
+targetE = D(targetIndex);
+
+disp(['Target eigenvalue: ', num2str(targetE)]);
 
 for i = 1:tests
     disp(['Iteration: ', num2str(i)]);
-    % Create random linear combination of eigenvectors of A
-    % where one of the interior eigenvectors is weighted heavier
-    % than the rest (we later expect convergence to that very evec)
-    targetIndex = randi(N);
+    
     weights = rand(N,1);
-    weights(targetIndex) = max(weights) + addWeights(i);
-    targetV = V(:,targetIndex);
-    targetE = D(targetIndex);
+    weights(targetIndex) = weights(targetIndex) + addWeights(i);
+    
+    v = V*weights;
+    v = v / norm(v);
     
     Vwithouttarget = V;
     Vwithouttarget(:,targetIndex) = zeros(N,1);
     sumOfEvecs = sum(Vwithouttarget, 2);
     sumOfEvecs = sumOfEvecs / norm(sumOfEvecs);
-    
-    disp(['Target eigenvalue: ', num2str(targetE)]);
-    
-    v = V*weights;
-    v = v / norm(v);
     
     disp(['Angle between v and target (deg): ', num2str(rad2deg(acos(v'* targetV)))]);
     disp(['Angle between v and target (rad): ', num2str((acos(v'* targetV)))]);
@@ -52,6 +54,9 @@ for i = 1:tests
     
     classicRQIResults(i,4) = its1;    
     complexRQIResults(i,4) = its2;
+    
+    classicRQIResults(i,5) = e1;    
+    complexRQIResults(i,5) = e2;
 
     if abs(e1 - targetE) < 10e-4
         classicRQIResults(i,3) = 1;
@@ -62,25 +67,46 @@ for i = 1:tests
     end
 end
 
-figure(1);
-subplot(2,2,1);
-plot(complexRQIResults(:,1), complexRQIResults(:,3), 'xk'); hold on;
-plot(classicRQIResults(:,1), classicRQIResults(:,3)+0.2, 'or');
-axis([min(complexRQIResults(:,1))-0.5,...
-      max(complexRQIResults(:,1))+0.5,...
-      -3,3]);
+% figure(1);
+% subplot(2,2,1);
+% plot(complexRQIResults(:,1), complexRQIResults(:,3), 'xk'); hold on;
+% plot(classicRQIResults(:,1), classicRQIResults(:,3)+0.2, 'or');
+% axis([min(complexRQIResults(:,1))-0.5,...
+%       max(complexRQIResults(:,1))+0.5,...
+%       -3,3]);
+% 
+% subplot(2,2,2);
+% plot(complexRQIResults(:,2), complexRQIResults(:,3), 'xk'); hold on;
+% plot(classicRQIResults(:,2), classicRQIResults(:,3)+0.2, 'or');
+% axis([min(complexRQIResults(:,2))-0.5,...
+%       max(complexRQIResults(:,2))+0.5,...
+%       -3,3]);
+% 
+% subplot(2,2,3);
+% plot(complexRQIResults(:,1), complexRQIResults(:,4), 'xk'); hold on;
+% plot(classicRQIResults(:,1), classicRQIResults(:,4), 'or');
+% 
+% subplot(2,2,4);
+% plot(complexRQIResults(:,2), complexRQIResults(:,4), 'xk'); hold on;
+% plot(classicRQIResults(:,2), classicRQIResults(:,4), 'or');
 
-subplot(2,2,2);
-plot(complexRQIResults(:,2), complexRQIResults(:,3), 'xk'); hold on;
-plot(classicRQIResults(:,2), classicRQIResults(:,3)+0.2, 'or');
-axis([min(complexRQIResults(:,2))-0.5,...
-      max(complexRQIResults(:,2))+0.5,...
-      -3,3]);
 
-subplot(2,2,3);
-plot(complexRQIResults(:,1), complexRQIResults(:,4), 'xk'); hold on;
-plot(classicRQIResults(:,1), classicRQIResults(:,4), 'or');
+plot(complexRQIResults(:,1), complexRQIResults(:,5), 'xk');
+hold on;
+plot([min(complexRQIResults(:,1)) - 1, pi/2 + 1], [targetE, targetE]);
 
-subplot(2,2,4);
-plot(complexRQIResults(:,2), complexRQIResults(:,4), 'xk'); hold on;
-plot(classicRQIResults(:,2), classicRQIResults(:,4), 'or');
+plot(classicRQIResults(:,1), classicRQIResults(:,5), 'or');
+ylabel('Computed eigenvalue')
+pbaspect([ 1 1 1 ])
+xlabel('Angle between initial vector and target')
+
+
+
+legend({'Complex RQI', 'Classic RQI', 'Target eigenvalue'})
+
+
+axis([min(complexRQIResults(:,1)) - 0.1, pi/2 + 0.1,...
+      min(complexRQIResults(:,5))-1,max(complexRQIResults(:,5))+1]);
+
+xticklabels({'\pi/12', '\pi/6', '\pi/4', '\pi/3', '5\pi/12', '\pi/2'})
+xticks([pi/12, pi/6, pi/4, pi/3, 5*pi/12, pi/2])

@@ -1,0 +1,30 @@
+\documentclass[crop,tikz]{standalone}
+
+\begin{document}
+\begin{tikzpicture}
+    \def\ax{-3}
+    \def\bx{-1}
+    \def\cx{1}
+    \def\dx{3}
+    \def\ex{5}
+    \def\fx{7}
+
+    \coordinate (a) at (\ax, \ay);
+    \coordinate (b) at (\bx, \by);
+    \coordinate (c) at (\cx, \cy);
+    \coordinate (d) at (\dx, \dy);
+    \coordinate (e) at (\ex, \ey);
+    \coordinate (f) at (\fx, \fy); 
+    
+    \node [circle,fill=blue,inner sep=1.5pt] at (b) {};
+    \node [circle,fill=blue,inner sep=1.5pt] at (c) {};
+    \node [circle,fill=blue,inner sep=1.5pt] at (d) {};
+    \node [circle,fill=blue,inner sep=1.5pt] at (e) {};
+    \node [circle,fill=blue,inner sep=1.5pt] at (f) {};
+
+\end{tikzpicture}
+\end{document}
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

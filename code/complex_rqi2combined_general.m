@@ -1,23 +1,23 @@
-function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2combined(a,x,sigma,gamma,tolerance)
+function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = complex_rqi2combined_general(a,b,x,sigma,gamma,tolerance)
 % complex_rqi   Computes an eigenpair of a using the complex Rayleigh 
 % quotient iteration
 %
 %   See CLASSIC_RQI for description of return values. The parameters a, x, 
 %   sigma and tol are also described there.
 
-  if nargin < 4
+  if nargin < 5
     error("Too few arguments");
-  elseif nargin < 5
+  elseif nargin < 6
     tolerance = 10e-9;
   end
   m = size(a);
-  x = x / norm(x);
+  x = x / sqrt(x'*b*x);
     
   if sigma == inf
     sigma = x' * a * x;
   end
 
-  res = norm((a - sigma*speye(m))*x);
+  res = norm((a - sigma*b)*x);
   
   if gamma == inf
       if res > 1
@@ -32,27 +32,24 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
   residuals = [res];
   
   iterations = 0;
-    
+  
   while res >= tolerance
-    x = (a - (sigma + gamma*1i)*speye(m))\x;
-    x = x / norm(x);
-    sigma = x'*a*x;
-        
-    res = norm((a - sigma*speye(m))*x);
-    
+    x = (a - (sigma + gamma*1i)*b)\x;
+    x = x / sqrt(x'*b*x);
+    sigma = x' * a * x;
+    res = norm((a - sigma*b)*x);
     if res >= 1
-       gamma = res;
+       gamma = sqrt(res);
     else
        gamma = res^2;
     end
     eigval_iterates = [eigval_iterates, sigma]; %append current iterates
     eigvec_iterates = [eigvec_iterates, x];     % to list of approx.
+    resold = residuals(end);
     residuals = [residuals, res];
-        
+    
     iterations = iterations + 1;
   end
-  
   x = real(x) / norm(real(x));
-  sigma = x'*a*x;
-  residuals(end) = norm((a - sigma*speye(m))*x); 
+  sigma = real(sigma);
 end

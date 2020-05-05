@@ -32,7 +32,7 @@ nonetheless we remark again here that this means the number of correct
 digits \emph{triples} at each step once the error is small enough. And
 even if the method might not converge cubically from the beginning, in
 practice the preasymptotic phase rarely takes more than three
-steps.\todo{Citation [Parlett]}
+steps~\cite[77]{Parlett1998}.
 
 
 % It suffices to make these assumptions for the eigenvectors only
@@ -151,39 +151,41 @@ natural coordinate vectors.
   $\mu^{(i)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
   (note that this proves Lemma~\ref{lem:rq:quadestimate}). We obtain
   \begin{align*}
-    &\vec{y}^{(i+1)}= {(\mat{\Lambda} - \mu^{(i)})}^{-1} \vec{x}^{(i)} \\
-    &= {\left(
-      \frac{x^{(i)}_1}{\lambda_1 - \mu^{(i)}},
-      \frac{x^{(i)}_2}{\lambda_2 - \mu^{(i)}},
-      \cdots,
-      \frac{x^{(i)}_n}{\lambda_n - \mu^{(i)}}
-      \right)}^\tp
-    & \text{(since } {(\mat{\Lambda} - \mu^{(i)}\mat{I})}^{-1} = \diag\left(\frac{1}{(\lambda_j - \mu^{(i)})}\right)\text{)} \\
-    &= {\left(
-      \frac{1 + d^{(i)}_1}{\lambda_1 - \mu^{(i)}},
-      \frac{d^{(i)}_2}{\lambda_2 - \mu^{(i)}},
-      \cdots,
-      \frac{d^{(i)}_n}{\lambda_n - \mu^{(i)}},
-      \right)}^\tp
-    & \text{(since } \vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)} \text{)} \\
-    &= {\left(
-      \frac{1 - \epsilon^2/2 }{\eta},
-      \frac{d^{(i)}_2}{\lambda_2 - \lambda_1 + \eta},
-      \cdots,
-      \frac{d^{(i)}_n}{\lambda_n - \lambda_1 + \eta},
-      \right)}^\tp
-    & \text{(since } \mu^{(i)} = \lambda_1 - \eta, \ d^{(i)}_1 = -\epsilon^2/2 \text{)} \\
-    &= \frac{1 - \epsilon^2 / 2}{\eta} \,
-      {\left(
-      1,
-      \frac{d^{(i)}_2 \eta}{(1 - \epsilon^2/2)(\lambda_2 - \lambda_1 + \eta)},
-      \cdots,
-      \frac{d^{(i)}_n \eta}{(1 - \epsilon^2/2)(\lambda_n - \lambda_1 + \eta)},
-      \right)}^\tp \span \span \\
-    &\eqqcolon \frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})\,.
+    \vec{y}^{(i+1)}&= {(\mat{\Lambda} - \mu^{(i)})}^{-1} \vec{x}^{(i)} \\
+                   &= {\left(
+                     \frac{x^{(i)}_1}{\lambda_1 - \mu^{(i)}},
+                     \frac{x^{(i)}_2}{\lambda_2 - \mu^{(i)}},
+                     \cdots,
+                     \frac{x^{(i)}_n}{\lambda_n - \mu^{(i)}}
+                     \right)}^\tp\\
+                   &= {\left(
+                     \frac{1 + d^{(i)}_1}{\lambda_1 - \mu^{(i)}},
+                     \frac{d^{(i)}_2}{\lambda_2 - \mu^{(i)}},
+                     \cdots,
+                     \frac{d^{(i)}_n}{\lambda_n - \mu^{(i)}},
+                     \right)}^\tp\\
+                   &= {\left(
+                     \frac{1 - \frac{\epsilon^2}{2} }{\eta},
+                     \frac{d^{(i)}_2}{\lambda_2 - \lambda_1 + \eta},
+                     \cdots,
+                     \frac{d^{(i)}_n}{\lambda_n - \lambda_1 + \eta},
+                     \right)}^\tp \\
+                   &= \frac{1 - \frac{\epsilon^2}{2}}{\eta} \,
+                     {\left(
+                     1,
+                     \frac{d^{(i)}_2 \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_2 - \lambda_1 + \eta)},
+                     \cdots,
+                     \frac{d^{(i)}_n \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_n - \lambda_1 + \eta)},
+                     \right)}^\tp \span \span \\
+                   &\eqqcolon \frac{1 - \frac{\epsilon^2}{2}}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})\,,
   \end{align*}
-  \todo{Reformat this} If we denote by $\delta$ the gap between
-  $\lambda_1$ and the rest of the spectrum, \ie
+  where in the first step we used that the inverse of a diagonal
+  matrix consists of the inverse of the entries on the diagonal. The
+  next step holds since $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ by
+  assumption. After that we use that we can write
+  $\mu^{(i)} = \lambda_1 - \eta$ and $d^{(i)}_1 = -\epsilon^2/2$.  If
+  we denote again by $\delta$ the gap between $\lambda_1$ and the rest
+  of the spectrum, \ie
   \begin{equation*}
     \delta \coloneqq \min_{j=2}^n \abs{\lambda_j - \lambda_1}\,,
   \end{equation*}
@@ -195,11 +197,11 @@ natural coordinate vectors.
     \le
     \frac{
       \norm*{\vec{d}^{(i)}} \abs*{\eta}}{
-      (1 - \epsilon^2/2)(\delta - \abs*{\eta})}
+      (1 - \frac{\epsilon^2}{2})(\delta - \abs*{\eta})}
     \le
     \frac{
       2\norm{\Lambda}\epsilon^3}{
-      (1 - \epsilon^2/2)(\delta - 2 \norm{\Lambda}\epsilon^2)
+      (1 - \frac{\epsilon^2}{2})(\delta - 2 \norm{\Lambda}\epsilon^2)
     }
   \end{equation*}
   or $\norm*{\hat{\vec{d}}^{(i+1)}} =
@@ -222,8 +224,8 @@ natural coordinate vectors.
       \norm{\vec{e}_1 + \hat{\vec{d}}^{(i+1)}}
     }
   \end{equation*}
-  we see that also $\vec{d}^{(i+1)} = \mathcal{O}(\epsilon^3)$, which
-  concludes the proof.
+  we see that also $\norm{\vec{d}^{(i+1)}} = \mathcal{O}(\epsilon^3)$,
+  which concludes the proof.
 \end{proof}
 We see that the property that the Rayleigh Quotient yields
 quadratically accurate approximations of eigenvalues is indeed crucial
@@ -235,11 +237,11 @@ $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{v})$, \ie he shows
   \lim_{k \rightarrow \infty} \abs{\frac{\phi^{(k+1)}}{{\left( \phi^{(k)}\right)}^{3}}} \le 1\,.
 \end{equation*}
 In some texts that study inverse iteration in a more particularised
-fashion, cubic convergence is proofed by combining the quadratic
-accuracy of the Rayleigh Quotient together with convergence results
-from inverse iteration (since a single step of RQI is equivalent to a
-single step of inverse iteration with the Rayleigh quotient of the
-current iterate vector chosen as the shift), see for
+fashion, cubic convergence of RQI is proofed by combining the
+quadratic accuracy of the Rayleigh Quotient together with convergence
+results from inverse iteration (since a single step of RQI is
+equivalent to a single step of inverse iteration with the Rayleigh
+quotient of the current iterate vector chosen as the shift), see for
 example~\cite[208]{trefethen1997} or~\cite[89\psq]{boerm}.
 
 To conclude this chapter we briefly discuss some of the results
@@ -260,7 +262,7 @@ residual at step $k$ in RQI, \ie
 \end{lemma}
 
 Before giving the proof, we note that we can relate the $k$-th and
-$k+1$-th iterate of RQI by
+$(k+1)$-st iterate of RQI by
 \begin{equation*}
   \vec{x}^{(k)} = \beta \left(\mat{A} - \mu^{(k)}\mat{I}\right)\vec{x}^{(k+1)}\,,
 \end{equation*}
@@ -285,13 +287,13 @@ and thus
 \end{equation}
 \begin{proof}[Proof of Lemma~\ref{lem:monotoni:res}]
   \begin{align*}
-    \norm{\vec{r}^{(k+1)}} &= \norm{\left( \mat{A} - \mu^{(k+1)} \mat{I} \right) \vec{x}^{(k+1)}} \\
-                           &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{(Since $\mu^{(k+1)}$ minimises the residual norm)} \\
-                           &= \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}} && \text{(by~\eqref{eq:xk:parallel})} \\
-                           &\le \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} \norm{\vec{x}^{(k+1)}} && \text{(by the Cauchy-Schwarz inequality)} \\
-                           &= \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} && \text{(since $\vec{x}^{(k+1)}$ is a unit vector)} \\
-                           &= \norm{\left(\mat{A} - \mu^{(k)} \mat{I}\right)\vec{x}^{(k)}} && \text{(since $\mat{A}$ is symmetric)} \\
-                           &= \norm{\vec{r}^{(k)}} \,.
+    &\norm{\vec{r}^{(k+1)}} = \norm{\left( \mat{A} - \mu^{(k+1)} \mat{I} \right) \vec{x}^{(k+1)}} \\
+    &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{(since $\mu^{(k+1)}$ minimises the residual norm)} \\
+    &= \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}} && \text{(by~\eqref{eq:xk:parallel})} \\
+    &\le \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} \norm{\vec{x}^{(k+1)}} && \text{(by the Cauchy-Schwarz inequality)} \\
+    &= \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} && \text{(since $\vec{x}^{(k+1)}$ is a unit vector)} \\
+    &= \norm{\left(\mat{A} - \mu^{(k)} \mat{I}\right)\vec{x}^{(k)}} && \text{(since $\mat{A}$ is symmetric)} \\
+    &= \norm{\vec{r}^{(k)}} \,.
   \end{align*}
   
 \end{proof}
@@ -306,7 +308,7 @@ and thus
     ($\lambda_p + \lambda_q)/2$ and $\vec{x}^{(k)}$ oscillates between
     vectors converging to $\vec{v}_{pq}^+$ and vectors converging to
     $\vec{v}_{pq}^-$, where
-    $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{q}) / \sqrt{2}$, where
+    $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{v}_q) / \sqrt{2}$, where
     $\lambda_p$ and $\lambda_q$ are eigenvalues of $\mat{A}$ with
     corresponding eigenvectors $\vec{v}_p$ and $\vec{v}_q$.
   \end{enumerate}
@@ -352,6 +354,32 @@ The second case $\tau > 0$ is much harder to analyse and does also
 require a number of auxiliary results relating the eigenvectors of a
 matrix $\mat{A}$ to its square $\mat{A}^2$. Therefore, as mentioned
 above, we do not discuss this part of the proof here.
+
+\begin{example}
+  To illustrate the situation in the second part of the theorem
+  consider RQI applied to the diagonal matrix
+  $\mat{A} = \diag(1,\ 2,\ 4)$ with initial vector
+  \begin{gather*}
+    \vec{x}^{(0)} = {\left( \frac{1}{\sqrt{2}}\quad
+        \frac{1}{\sqrt{2}}\quad 0 \right)}^\tp\,.
+  \end{gather*}
+  It is easy to check that this results in $\mu^{(k)} = 1.5$ and
+  \begin{gather*}
+    \vec{x}^{(2k)} = {\left( \frac{1}{\sqrt{2}}\quad
+        \frac{1}{\sqrt{2}}\quad 0 \right)}^\tp\qquad \text{and}\qquad
+    \vec{x}^{(2k+1)} = {\left( -\frac{1}{\sqrt{2}}\quad
+        \frac{1}{\sqrt{2}}\quad 0 \right)}^\tp
+  \end{gather*}
+  for $k = 0,1,2\dotsc$. The instability mentioned in the theorem
+  essentially prevents the method from failing in practice since
+  roundoff errors will inevitably introduce perturbations of the
+  vector iterate. However, this can drastically increase the number of
+  steps before the cubic convergence takes place. In this particular
+  example, when executed in Matlab \todo{Matlab} the method needs 36
+  steps in total.
+\end{example}
+
+
 
 Parlett states in~\cite[61]{Parlett1998} and in~\cite[680]{parlettrqi}
 that RQI converges for almost all starting vectors but Batterson and

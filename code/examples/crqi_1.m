@@ -14,15 +14,16 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % where one of the interior eigenvectors is weighted heavier
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
-%weights = rand(N,1);
-%weights(targetIndex) = 10;
+weights = rand(N,1);
+weights(targetIndex) = 8;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
+v = V*weights;
+v = v / norm(v);
+
 disp(['Target eigenvalue: ', num2str(targetE)]);
 
-angle = 45;
-v = random_in_cone(targetV, angle);
 
 disp(['Residual = ', num2str(norm(a*v - rayleighquotient(a,v)*v))]);
 
@@ -44,7 +45,7 @@ disp(['Computed eigenvalue: ', num2str(e1), ' (', num2str(its1), ' Iterations)']
 disp(' ');
 
 q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 
 % Test complex RQI with gamma = res
 tic; [x2, e2, its2, e_its2, v_its2, res2] = complex_rqi2(a, v, inf, inf); toc;
@@ -57,14 +58,14 @@ else
 end
 
 q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 
 q = 1;
-diff2 = (real(e_its2(2:end)) - targetE) ./ (real(e_its2(1:end-1)) - targetE).^q 
+diff2 = (real(e_its2(2:end)) - targetE) ./ (real(e_its2(1:end-1)) - targetE).^q ;
 
 disp(' ');
 
@@ -79,11 +80,11 @@ else
 end
 
 q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 
 disp(' ');
 
@@ -99,11 +100,11 @@ else
 end
 
 q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q)
+diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 
 % Plot residuals
 semilogy(1:its1+1, res1, '-o'); hold on

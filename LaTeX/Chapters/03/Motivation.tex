@@ -1,0 +1,324 @@
+\section{Motivation}
+As was the case in the previous chapters we fix a real symmetric
+matrix $\mat{A} \in \R^{n \times n}$. Recall that since the
+eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$ of $\mat{A}$ form an
+orthonormal basis of $\R^n$ we can write every $\vec{u} \in \R^n$ as
+\[
+  \vec{u} = \sum_{i=1}^n \alpha_i \vec{v}_i
+\]
+for certain $\alpha_1, \dotsc, \alpha_n \in \R$. Suppose now that
+$\vec{u}$ is a good approximation for one of the eigenvectors, say for
+$\vec{v}_k$. Then
+\[
+  \alpha_k \approx 1 \qquad \text{and} \qquad \alpha_j \approx 0 \
+  \text{ for } \ j \neq k \,.
+\]
+Due to the pairwise orthogonality of the eigenvectors this implies
+\begin{equation}
+  \label{eq:guess_orthogonal}
+  \vec{u}^\tp \vec{v}_j \approx
+  \begin{cases} 
+    1 & \text{ if } j = k \,, \\
+    0 & \text{ if } j \neq k \,.
+  \end{cases}
+\end{equation}
+As already mentioned previously, when using classic RQI even good
+approximations of eigenvectors can lead to convergence to the wrong
+eigenpair when the gap between the target eigenvalue and eigenvalues
+nearby is very small. We will see in
+Section~\ref{sec:crqi:experiments} that classic RQI seems to barely
+make use of the information incorporated in the initial vector.  The
+main goal of complex RQI is to fix this, \ie to alter classic RQI in
+such a way that for sufficiently good approximations of eigenvectors
+convergence to this very eigenvector is guaranteed.
+
+To that end, the linear system that is solved at each step in RQI is
+perturbed in such a way that the wanted eigenvalue gets
+``isolated''. Of course this perturbed system will lead to wrong
+solutions and so we will decrease this perturbation successively until
+we arrive at the unperturbed problem and hope that by the time we
+reach the original problem, the shift is sufficiently close to the
+target eigenvalue.
+
+We make use of the fact that all eigenvalues of $\mat{A}$ are real and
+perturb the matrix in such a way that the eigenvalues are ``raised''
+into the complex plane. Of course, we do not want to raise them all
+equally but rather in such a way that the Euclidean distance between
+the target eigenvalue and the other eigenvalues is increased (since
+the close spacing of the spectrum is what makes computing the correct
+eigenvalue so hard in the first place). This is done by incorporating
+the approximation $\vec{u}$ of the target eigenvector $\vec{v}_k$ into
+the perturbed matrix. Let
+\begin{equation}
+  \label{eq:a:tilde}
+  \tilde{\mat{A}} \coloneqq \mat{A} - i \gamma (\mat{I} - \vec{u} \vec{u}^\tp)\,,
+\end{equation}
+where $\gamma > 0$ is positive real number and $i$ denotes the
+imaginary unit. Note that the matrix $\mat{I} - \vec{u} \vec{u}^\tp$
+defines the orthogonal projection onto the span of $\vec{u}$.
+Therefore, a vector $\vec{x}$ that is almost parallel to $\vec{u}$
+will barely see the imaginary part
+$i \gamma (\mat{I} - \vec{u} \vec{u}^\tp)$ when multiplied with
+$\tilde{\mat{A}}$ and so
+$\tilde{\mat{A}} \vec{x} \approx \mat{A}\vec{x}$. If, however, the
+vector $\vec{x}$ is almost perpendicular to $\vec{u}$ we have
+\begin{equation}
+  \label{eq:a:tilde:multorth}
+  \tilde{\mat{A}} \vec{x} = \mat{A}\vec{x} - i \gamma \vec{x} - \vec{u}
+  \underbrace{\vec{u}^\tp \vec{x}}_{\approx 0} \approx (\mat{A} - i \gamma \mat{I})\vec{x}\,.
+\end{equation}
+Since $\vec{u}$ approximates $\vec{v}_k$, the orthogonal complement of
+the span of $\vec{u}$ approximates the orthogonal complement of the
+span of $\vec{v}_k$. Since the latter is the subspace spanned by the
+remaining eigenvectors, we expect that the eigenvectors of
+$\tilde{\mat{A}}$ are similar to those of $\mat{A}$ and that the
+eigenvalues corresponding to eigenvectors $\vec{v}_j$, $j \neq k$ to
+approximately be $\lambda_j - i \gamma$. The eigenvalue corresponding
+to $\vec{v}_k$ would then be approximately equal to $\lambda_k$ since
+$\tilde{\mat{A}}\vec{v}_k \approx \mat{A}\vec{v}_k = \lambda_k
+\vec{v}_k$.
+
+To make this intuition more quantitative, we decompose
+$\tilde{\mat{A}}$ into the sum
+$\tilde{\mat{A}} = \tilde{\mat{A}}_{(0)} + \tilde{\mat{A}}_{(1)}$,
+where
+\begin{equation}
+  \label{eq:a:tilde0}
+  \tilde{\mat{A}}_{(0)} \coloneqq \mat{A} - i \gamma(\mat{I}- \vec{v}_k \vec{v}_k^\tp)
+\end{equation}
+and
+\begin{equation}
+  \label{eq:a:tilde1}
+  \tilde{\mat{A}}_{(1)} \coloneqq i \gamma ( \vec{u} \vec{u}^\tp - \vec{v}_k\vec{v}_k^\tp)
+\end{equation}
+and first analyse the individual summands. The proofs for the
+following results can be found in the Appendix.
+\begin{lemma}%
+  \label{lem:eigs:atilde0}
+  The matrix $\tilde{\mat{A}}_{(0)}$ has the same eigenvectors as
+  $\mat{A}$ with corresponding eigenvalues
+  $\lambda_j(\tilde{\mat{A}}_{(0)}) = \lambda_j(\mat{A}) - i \gamma$
+  for $j \neq k$ and
+  $\lambda_k(\tilde{\mat{A}}_{(0)}) = \lambda_k(\mat{A})$.
+\end{lemma}
+
+Since $\vec{u}$ approximates $\vec{v}_k$ we expect the effect on the
+\todo{Replace effect} eigenvalues of $\tilde{\mat{A}}_{(0)}$ due to
+the perturbation $\tilde{\mat{A}}_{(1)}$ to be small. The following
+lemma answers how ``big'' this perturbation is.
+
+% As long as both $\gamma$ and the angle between the vector $\vec{u}$
+% and the wanted eigenvector are sufficiently small this is indeed the
+% case as the following lemma shows.
+
+\begin{lemma}%
+  \label{lem:eigs:atilde1}
+  Let $\tilde{\mat{A}}_{(1)}$ be the matrix defined in
+  Equation~\eqref{eq:a:tilde1}. Then
+  \begin{equation}
+    \label{eq:a:tilde1:norm}
+    \norm{\tilde{\mat{A}}_{(1)}} = \gamma \sqrt{1 - {\langle \vec{u}, \vec{v}_k \rangle}^2}\,,
+  \end{equation}
+  where $\norm*{\cdot}$ denotes the spectral norm of a matrix.
+\end{lemma}
+For good approximations $\vec{u}$ we have
+${\langle \vec{u}, \vec{v}_k \rangle}^2 \approx 1$ and thus, if
+$\gamma$ is sufficiently small, $\norm*{\tilde{\mat{A}}_{(1)}} \ll 1$.
+We can give an estimate of the eigenvalues of $\tilde{\mat{A}}$.
+
+\begin{proposition}%
+  \label{prop:atilde:eigenvalues}
+  The eigenvalues of $\tilde{\mat{A}}$ satisfy
+  \begin{equation}
+    \label{eq:a:tilde:eigvalbound}
+    \lambda_j(\tilde{\mat{A}}) =
+    \lambda_j(\mat{A}) + i \gamma\left({\langle \vec{v}_j, \vec{u} \rangle}^2 - 1\right)
+    + \mathcal{O}\left(
+      \norm{\tilde{\mat{A}}_{(1)}}^2
+    \right)\,.
+  \end{equation}
+\end{proposition}
+
+To see why this estimate matches our intuitive arguments from above we
+consider the middle part of~\eqref{eq:a:tilde:eigvalbound}. For
+$j \neq k$ the scalar product is approximately zero and thus, if we
+ignore the last term of the sum (which is small according to the
+previous lemma), we get
+\begin{equation*}
+  \lambda_j(\tilde{\mat{A}}) \approx \lambda_j(\mat{A}) - i \gamma\,.
+\end{equation*}
+For $j = k$ the middle part is small due to the scalar product being
+approximately one and so
+$\lambda_k(\tilde{\mat{A}}) \approx \lambda_k(\mat{A})$. In summary,
+the eigenvalue corresponding to the wanted eigenvector stays near the
+real line whereas the remaining eigenvalues are raised into the lower
+complex half-plane.
+
+If we would use this matrix in RQI, the results would of course not be
+the target eigenpair but an eigenpair of $\tilde{\mat{A}}$. Thus,
+instead of keeping this matrix fixed, we replace the vector $\vec{u}$
+by the current iterate $\vec{x}^{(k)}$ and the scalar $\gamma$ by a
+sequence $\gamma^{(k)}$ that converges to zero. Ideally, in the
+beginning of the iteration $\gamma^{(k)}$ should be sufficiently large
+such that the target eigenvalue is properly isolated. As the iterates
+get closer to the target eigenpair, $\gamma^{(k)}$ should decrease
+such that in the end $\tilde{\mat{A}} \approx \mat{A}$. A possible
+choice that comes to mind is the norm of the current residual
+$\vec{r}^{(k)}$ or related quantities such as the square of the
+residual norm. How the choice of this shift influences the convergence
+behaviour is discussed in Section~\ref{sec:crqi:experiments}.
+
+To summarise the idea of CRQI we consider one step of the iteration of
+classic RQI.\@ The system that has to be solved is now of the form
+\begin{equation}
+  \label{eq:crqi:linearsystem}
+  \left( \mat{A} - i \gamma^{(k)}\left(\mat{I} - \vec{x}^{(k)} {(\vec{x}^{(k)})}^\ast \right) - \mu^{(k)}\mat{I} \right) \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
+\end{equation}
+As $\gamma^{(k)} \rightarrow 0$ this becomes the same linear system as
+in classic RQI.\@ The remaining steps are essentially the same except
+that every transpose (\eg in the computation of the Rayleigh Quotient)
+has to be replaced by a complex conjugate transpose.
+
+Obviously, we cannot expect this method to possess the same
+convergence properties as classic RQI. The matrix $\tilde{\mat{A}}$ is
+neither real symmetric nor Hermitian but \emph{complex symmetric}. As
+we will see shortly, however, if good approximations of the wanted
+eigenvector are used for the initial vector, the method often requires
+merely three or four additional steps compared to classic RQI.
+
+Another problem seems to be that if $\mat{A}$ is sparse,
+$\tilde{\mat{A}}$ will in general not be sparse. In fact, the
+perturbed matrix will quite possibly posses only few, if any, zero
+entries. Although this might seem like a serious disadvantage it will
+shortly be resolved. We will see that it is not necessary to perturb
+the matrix by $- i \gamma(\mat{I} - \vec{u}\vec{u}^\tp)$ but that it
+suffices to subtract from $\mat{A}$ the diagonal matrix
+$i \gamma \mat{I}$. The way that we introduced the method above was
+merely for motivational purposes. The resulting matrix is still
+complex symmetric but now only the diagonal entries are altered and
+sparsity is preserved. We begin by showing the following result.
+
+\begin{lemma}
+  Define the matrices
+  \begin{equation*}
+    % \label{eq:rayleigh_quotient_complex}
+    \mat{B} \coloneqq \mat{A} - \mu\mat{I} -  i \gamma \mat{I}
+  \end{equation*}
+  and
+  \begin{equation*}
+    % \label{eq:rayleigh_quotient_proj}
+    \mat{C} \coloneqq { \mat{A} - i \gamma( \mat{I} - \vec{u} \vec{u}^\herm) - \mu \mat{I}} \,,
+  \end{equation*}
+  where $\mu, \gamma > 0$ are positive real numbers. Then
+  $\mat{B}^{-1} \vec{u}$ is a scalar multiple of
+  $\mat{C}^{-1} \vec{u}$.
+  % and
+  % \begin{equation}
+  %   \label{eq:rq_equal}
+  %   \rq_{\mat{A}}(\mat{B}^{-1} \vec{u}) = \rq_{\mat{A}}(\mat{C}^{-1} \vec{u} ) \,.
+  % \end{equation}
+\end{lemma}
+\begin{proof}
+  Let $\hat{\mat{A}} \coloneqq \mat{A} - \mu \mat{I}$ and rewrite
+  $\mat{B}$ and $\mat{C}$ as
+  \begin{equation*}
+    \mat{B} = \hat{\mat{A}} - i\gamma \mat{I} \qquad \text{and} \qquad \mat{C} = \hat{\mat{A}} - i \gamma (\mat{I} - \vec{u}\vec{u}^\ast)\,,
+  \end{equation*}
+  respectively. Now observe that
+  $\mat{C} = \mat{B} + i \gamma \vec{u}\vec{u}^\herm$. Using the
+  Sherman-Morrison formula (\cite[50]{golub1996}) and letting
+  $\alpha \coloneqq 1 + i \gamma \vec{u}^\herm \mat{B}^{-1} \vec{u} \,
+  \in \C$ we obtain
+  \begin{align*}
+    \mat{C}^{-1} \vec{u} &= {\left( \mat{B} + i \gamma \vec{u} \vec{u}^\herm \right)}^{-1} \vec{u} \\
+                         &= \left(
+                           \mat{B}^{-1} - \alpha^{-1} \mat{B}^{-1} \vec{u} i \gamma \vec{u}^\herm \mat{B}^{-1}
+                           \right) \vec{u} \\
+                         &= \mat{B}^{-1} \vec{u} -\mat{B}^{-1} \vec{u} \underbrace{\alpha^{-1} i \gamma \vec{u}^\herm \mat{B}^{-1} \vec{u} }_{ \in \C} \\
+                         &= \mat{B}^{-1} \vec{u} ( 1 - \alpha^{-1} i \gamma \vec{u}^\herm \mat{B}^{-1} \vec{u}) \,.    
+  \end{align*}
+  Thus, the vector $\mat{C}^{-1} \vec{u}$ is a scalar multiple of
+  $\mat{B}^{-1} \vec{u}$.
+  % and the result follows from
+  % Lemma~\ref{lem:rq:properties} (i) (the Homogeneity of the Rayleigh
+  % Quotient).
+\end{proof}
+
+This result shows that it suffices to perturb the matrix by the
+diagonal matrix $\gamma^{(k)} i \mat{I}$ instead of
+$i\gamma^{(k)}(\mat{I} - \vec{x}^{(k)}{(\vec{x}^{(k)})}^\herm
+)$. Consider the linear system from~\eqref{eq:crqi:linearsystem}.  The
+lemma states that there exists a scalar $\alpha \in C$ such
+that~\eqref{eq:crqi:linearsystem} is equivalent to
+\begin{equation}
+  \label{eq:crqi:linearsystem2}
+  \alpha\left(
+    \mat{A} - i \gamma^{(k)} \mat{I} - \mu^{(k)} \mat{I}
+  \right)
+  \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
+\end{equation}
+Hence, the solution of~\eqref{eq:crqi:linearsystem2} \emph{without}
+the factor $\alpha$ is a scalar multiple of the solution
+from~\eqref{eq:crqi:linearsystem}. Since the result gets normalised
+immediately after, both solutions will result in the same vector that
+is used in the next iteration. The Rayleigh Quotient that is computed
+using this vector consequently is the same in either of the variants.
+
+Thus, it does indeed suffice to perturb the matrix only by the
+diagonal matrix $-i \gamma^{(k)} \mat{I}$. We can collect the real
+shift $\mu^{(k)}$ and the imaginary shift $\gamma^{(k)} i$ into a
+complex-valued shift
+\begin{equation*}
+  \sigma^{(k)} \coloneqq \mu^{(k)} + i\gamma^{(k)}
+\end{equation*}
+and can define Complex Rayleigh Quotient Iteration as it is given in
+Algorithm~\ref{alg:crqi}.
+
+\begin{algorithm}[htpb]
+  \DontPrintSemicolon%
+  \KwData{Nonzero initial vector $\vec{x}^{(0)}$ with $\norm*{\vec{x}^{(0)}} = 1$}
+  \Begin{
+    $\mu^{(0)} \gets {(\vec{x}^{(0)})}^\tp \mat{A} \vec{x}^{(0)}$\;
+    $\gamma^{(0)} \gets \norm*{(\mat{A} - \mu^{(0)}\mat{I}) \vec{x}^{(0)}}$\;
+    $\sigma^{(0)} \gets \mu^{(0)} + i \gamma^{(0)}$\;
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      Solve $( \mat{A} - \sigma^{(k)}\mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}$\;
+      $\vec{x}^{(k+1)} \gets \tilde{\vec{x}}^{(k+1)} / \norm*{\tilde{\vec{x}}^{(k+1)}}$\;
+      $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A} \vec{x}^{(k+1)}$\;
+      $\gamma^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I}) \vec{x}^{(k+1)}}$\;
+      $\sigma^{(k+1)} \gets \mu^{(k+1)} + i \gamma^{(k+1)}$\;
+    }
+    $\vec{x} \gets \Re({\vec{x}^{(k+1)}})$\;
+    $\vec{x} \gets \vec{x} / \norm*{\vec{x}}$\;
+    $\mu \gets \vec{x}^\tp \mat{A} \vec{x}$
+  }
+  \caption{Complex Rayleigh Quotient Iteration}\label{alg:crqi}
+\end{algorithm}
+The last three steps after the loop remove the imaginary part that
+might be ``left'' in the vector approximation ($\Re(\cdot)$ extracts
+the real part of a complex vector). Since we again use a stopping
+criterion based on the norm of the residual, the same error bounds we
+discussed earlier in Chapter~\ref{chapter:rqi} hold and thus the
+vector iterates could still contain a small imaginary part. This does
+also imply that the final residual norm
+$\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ will be larger than the
+residual norm computed in the last iteration. In practice,
+\todo{Finish this part}
+
+Note, that although the step where the linear system is solved looks
+almost identical to the respective step in classic RQI, this algorithm
+is still different. The shift $\sigma^{(k)}$ is not the Rayleigh
+Quotient of the vector iterate $\vec{x}^{(k)}$ as is the case in
+classic RQI. One could try to interpret the method as classic RQI
+applied to the matrix $\mat{A} - i \gamma^{(k)}\mat{I}$ but this is
+also not true since this matrix changes from one step to the next.
+
+Hence, we can obviously not expect the convergence results of classic
+RQI to straightforwardly carry over. Since we were also unable to
+derive any convergence results for this new method we provide a wide
+variety of numerical examples to gain insight in the algorithms
+typical behaviour.
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "../../main"
+%%% End:
