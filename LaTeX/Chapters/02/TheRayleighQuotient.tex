@@ -16,10 +16,10 @@ at each step.
     $r_{\mat{A}}(\vec{x})$, $\sigma_{\mat{A}}(\vec{x})$ or
     $\uprho_{\mat{A}}(\vec{x})$.}
 \end{definition}
-For real vectors, we have
-\begin{equation*}
-  \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}\,.
-\end{equation*}
+% For real vectors, we have
+% \begin{equation*}
+%   \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}\,.
+% \end{equation*}
 
 We begin by discussing some basic facts.
 \begin{lemma}%
@@ -76,8 +76,8 @@ We begin by discussing some basic facts.
     \end{equation*}
   \item By again writing the Rayleigh Quotient as
     in~\eqref{eq:rq:innerprod} and using the semi-linearity in the
-    first and linearity in the second argument of the inner product,
-    we obtain
+    first and linearity in the second argument of the inner product we
+    obtain
     \begin{equation*}
       \rq_{\beta \mat{A}}(\alpha \vec{x}) = \frac{
         \langle \alpha \vec{x}, \beta \mat{A} (\alpha \vec{x} )\rangle
@@ -173,7 +173,8 @@ Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for
 obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
 estimate. Rayleigh Quotient Iteration is essentially a combination of
 those two methods where each step consists of one step of Shifted
-Inverse Iteration and the computation of the Rayleigh Quotient.
+Inverse Iteration and the computation of the Rayleigh Quotient. We
+summarise the results in Algorithm~\ref{alg:rqi}.
 \begin{algorithm}[htbp]
   \DontPrintSemicolon%
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
@@ -185,6 +186,10 @@ Inverse Iteration and the computation of the Rayleigh Quotient.
   } 
   \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
 \end{algorithm}
+Note, that in the computation of the Rayleigh Quotient the division by
+${(\vec{x}^{(k)})}^\ast \vec{x}^{(k)}$ can be omitted. The vector is
+already normalised at the previous step so that the denominator of the
+Rayleigh Quotient is equal to one.
 
 We have yet to define what we mean by ``until convergence'' in this
 Algorithm but also in the simple vector iterations from
@@ -202,9 +207,8 @@ is a user-given error tolerance. In Algorithm~\ref{alg:power:method}
 (Power method) and Algorithm~\ref{alg:sii} (Inverse Iteration) the
 Rayleigh Quotient of the current vector iterate
 $\mu^{(k)} = {(\vec{x}^{(k)})}^\herm \mat{A} \vec{x}^{(k)}$ is not
-computed. Therefore, for this \emph{residual-based error control} to
-work, the computation of $\mu^{(k)}$ has to be added to these
-algorithms.
+computed. Therefore, the computation of $\mu^{(k)}$ has to be added to
+these algorithms.
 
 Obviously, if for some $k$ the tuple $(\mu^{(k)}, \vec{x}^{(k)})$ is
 an eigenpair we have $\vec{r}^{(k)} = \vec{0}$. For approximate

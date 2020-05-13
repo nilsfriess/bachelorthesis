@@ -1,11 +1,10 @@
 clf
+tic;
+test = 5;
+size = 80;
+weight_target = 25;
 
-N = 200;
-a = sprandsym(N,0.3);
-
-% a = load("fe_matrix.mat");
-% a = a.Ahat;
-% [N,~] = size(a);
+[a,N] = test_matrix(test,size);
 
 [V,D] = eigs(a,N);
 D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
@@ -15,12 +14,13 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
 weights = rand(N,1);
-weights(targetIndex) = 8;
+weights(targetIndex) = weight_target;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
 v = V*weights;
 v = v / norm(v);
+fprintf("Matrix size: %d\n\n", N);
 
 disp(['Target eigenvalue: ', num2str(targetE)]);
 
@@ -33,19 +33,22 @@ disp(' ');
 
 % sqrt(1 - (v'*targetV)^2)
 
-gamma = 1;
-atilde = a - gamma*1i*(speye(N) - v*v');
-[Vtilde, Dtilde] = eigs(atilde, N);
-Dtilde = diag(Dtilde); % extract eigenvalues
+% gamma = 1;
+% atilde = a - gamma*1i*(speye(N) - v*v');
+% [Vtilde, Dtilde] = eigs(atilde, N);
+% Dtilde = diag(Dtilde); % extract eigenvalues
 
 % Test classic RQI
 tic; [x1, e1, its1, e_its1, v_its1, res1] = classic_rqi(a, v, inf); toc;
 disp('Result of classic RQI');
 disp(['Computed eigenvalue: ', num2str(e1), ' (', num2str(its1), ' Iterations)']);
-disp(' ');
+if abs(targetE - e1) < 10e-9
+    disp("Classic RQI succeded");
+else
+    disp("Classic RQI did not succeed");
+end
 
-q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
+disp(' ');
 
 % Test complex RQI with gamma = res
 tic; [x2, e2, its2, e_its2, v_its2, res2] = complex_rqi2(a, v, inf, inf); toc;
@@ -56,16 +59,6 @@ if abs(targetE - e2) < 10e-9
 else
     disp("Complex RQI did not succeed");
 end
-
-q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-
-q = 1;
-diff2 = (real(e_its2(2:end)) - targetE) ./ (real(e_its2(1:end-1)) - targetE).^q ;
 
 disp(' ');
 
@@ -78,13 +71,6 @@ if abs(targetE - e3) < 10e-9
 else
     disp("Complex RQI (square) did not succeed");
 end
-
-q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
 
 disp(' ');
 
@@ -99,27 +85,50 @@ else
     disp("Complex RQI (combined) did not succeed");
 end
 
-q = 1;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 2;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
-q = 3;
-diff = res1(2:end) ./ (res1(1:end-1) .^ q);
+% The iteration number of V3 (squared residual) might sometimes be
+% very high (> 1000), so we exclude it from the plots.
+maxits = 40;
+includeV3 = true;
+if its3 > maxits
+    includeV3 = false;
+end
 
 % Plot residuals
-semilogy(1:its1+1, res1, '-o'); hold on
-semilogy(1:its2+1, res2, '-x')
-semilogy(1:its3+1, res3, '-s')
-semilogy(1:its4+1, res4, '-^')
+semilogy(0:its1, res1, '-o'); hold on
+semilogy(0:its2, res2, '-x')
+if includeV3
+    semilogy(0:its3, res3, '-s')    
+end
+semilogy(0:its4, res4, '-^')
 pbaspect([1 1 1])
 
 xlabel("Iteration"); ylabel("Residual norm");
 
-axis([0 (max([its1, its2, its3, its4]) + 2) 10^(-17) 10^2])
 
-legend({'Classic RQI', ...
-        'Complex RQI (\gamma^{(k)} = r)', ...
-        'Complex RQI (\gamma^{(k)} = r^2)', ...
-        'Complex RQI (\gamma^{(k)} adaptive)'}, ...
-        'Location', 'southwest');
+if includeV3
+    max_x = max([its1,its2,its3,its4]);
+else
+    max_x = max([its1,its2,its4]);
+end
+
+min_y = min([res1, res2, res3, res4])/1000;
+max_y = max([res1, res2, res3 ,res4])*100;
+
+axis([0, max_x+2, min_y, max_y]);
+
+if includeV3
+    legend({'Classic RQI', ...
+            'Complex RQI (\gamma^{(k)} = r)', ...
+            'Complex RQI (\gamma^{(k)} = r^2)',...
+            'Complex RQI (\gamma^{(k)} adaptive)'}, ...
+            'Location', 'southwest');
+else
+    legend({'Classic RQI', ...
+            'Complex RQI (\gamma^{(k)} = r)', ...
+            'Complex RQI (\gamma^{(k)} adaptive)'}, ...
+            'Location', 'southwest');
+end
+
+toc;
+
 %export_fig 'crqi_residuals.eps' -transparent

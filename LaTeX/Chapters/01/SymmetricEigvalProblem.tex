@@ -41,13 +41,13 @@ computation of the coefficients of the polynomial is not
 stable~\cite[37]{golub2000eigenvalue}. And even if it was, it is
 well-known that even small perturbations in the coefficients of
 $\chi_{\mat{A}}(t)$ can lead to devastating errors in the
-roots~\cite[cf.][190]{trefethen1997}. Thus, other methods are
-necessary to solve~\eqref{eq:eigvalproblem} which gave rise to
-iterative algorithms. These methods date back to 1846 when Jacobi
-published a pioneering paper on a method to compute eigenvalues of
-symmetric matrices~\cite{jacobi1846}. Below we present essential facts
-from linear algebra preparing us for discussing such iterative methods
-in Section~\ref{sec:iterative:algorithms}.
+roots~\cite[190]{trefethen1997}. Thus, other methods are necessary to
+solve~\eqref{eq:eigvalproblem} which gave rise to iterative
+algorithms. These methods date back to 1846 when Jacobi published a
+pioneering paper on a method to compute eigenvalues of symmetric
+matrices~\cite{jacobi1846}. Below we present essential facts from
+linear algebra preparing us for discussing such iterative methods in
+Section~\ref{sec:iterative:algorithms}.
 
 \begin{remark}[Generalisations of eigenvalue problems]
   The problem stated in Equation~\eqref{eq:eigvalproblem} can be
@@ -80,7 +80,7 @@ in Section~\ref{sec:iterative:algorithms}.
     \mat{Q}(\lambda)\vec{v} = \vec{0}\,,
   \end{equation*}
   where $\mat{Q}(\lambda)$ is a nonlinear matrix-valued function.  In
-  this thesis, we consider only problems of the
+  this thesis, we almost exclusively consider problems of the
   form~\eqref{eq:eigvalproblem}.
   % We will briefly come back to problems
   % of the form~\eqref{eq:eigvalproblem:general} in the last chapter.
@@ -124,8 +124,8 @@ in particular for real symmetric matrices.
 \end{proposition}
 \begin{proof}
   Both (i) and (ii) are well-known results from linear algebra and the
-  proofs can be found in most standard literature (see for
-  example~\cite[Theorem 18 and Corollary, p.~314]{hoffmanlinalg}).
+  proofs can be found in most standard literature (see, for
+  example,~\cite[Theorem 18 and Corollary, p.~314]{hoffmanlinalg}).
   \begin{enumerate}
   \item[(iii)] Suppose $\mat{A}$ is invertible and let
     $(\lambda, \vec{v})$ be an eigenpair of $\mat{A}$ (note that since
@@ -159,7 +159,7 @@ the thesis $\mat{A}$ denotes a matrix of this type. The (real)
 eigenvalues are denoted by $\lambda_j(\mat{A}) = \lambda_j$ with
 corresponding (real) eigenvectors $\vec{v}_j$. Since any scalar
 multiple of an eigenvector is also an eigenvector, we assume that they
-are normalised \wrt the Euclidean norm, so that
+are normalised \wrt the Euclidean norm so that
 \begin{equation*}
   \norm{\vec{v}_i} \coloneqq \norm{\vec{v}_i}_2
   \coloneqq \sqrt{\vec{v}_i^\tp \vec{v}_i }

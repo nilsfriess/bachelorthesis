@@ -1,7 +1,13 @@
 clf
 
-N = 200;
-a = sprandsym(N,0.4);
+test = 1;
+size = 400;
+weight_target = 8;
+outbound = 13;
+
+[a,N] = test_matrix(test,size);
+fprintf("Matrix size: %d\n\n", N);
+
 
 % a = load("fe_matrix.mat");
 % a = a.Ahat;
@@ -15,7 +21,7 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
 weights = rand(N,1);
-weights(targetIndex) = 8;
+weights(targetIndex) = weight_target;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
@@ -37,9 +43,11 @@ disp(['Angle between v and target (rad): ', num2str((acos(v'* targetV)))]);
 disp(['Angle between v and remain (deg): ', num2str(rad2deg(acos(v'* sumOfEvecs)))]);
 disp(' ');
 
+initRQ = v'*a*v;
+fprintf('Initial Rayleigh Quotient: %.5f\n\n', initRQ);
 
-maxits = 100;
-shifts = linspace(min(D)-10, max(D)+10, maxits);
+maxits = 200;
+shifts = linspace(min(D)-outbound, max(D)+outbound, maxits);
 %shifts = linspace(-20,20,maxits);
 
 result_crqi = zeros(maxits,1);
@@ -83,9 +91,9 @@ pbaspect([1 1 1])
 
 p1 = plot(shifts, result_rqi, 'or'); 
 p2 = plot(shifts, result_crqi, 'xb');
-%p3 = plot([shifts(1), shifts(end)], [targetE, targetE], 'k');
-%plot([min(D), max(D)], [targetE, targetE], '^k');
-legend([p1,p2], {'Classic RQI', 'Complex RQI'}, 'Location', 'northwest')
+p3 = plot([shifts(1), shifts(end)], [targetE, targetE], 'k');
+p4 = plot([initRQ, initRQ], [(min(result_rqi)-1)-1,  (max(result_rqi)+1)+1], '--k');
+legend([p1,p2,p3,p4], {'Classic RQI', 'Complex RQI', 'Target Eigenvalue', 'Rayleigh Quotient of initial vector'}, 'Location', 'northwest')
 xlabel('Initial real shift') 
 ylabel('Computed eigenvalue')
 box on

@@ -4,42 +4,146 @@ understand the behaviour of CRQI. Throughout the section we will
 always compare the method to classic RQI. All experiments were
 executed in Matlab 9~\cite{MATLAB}. The criterion for convergence was
 $\norm*{\vec{r}^{(k)}} = \norm*{\mat{A}\vec{x}^{(k)} - \mu^{(k)}
-  \vec{x}^{(k)}} < 10^{-8}$. The source codes for both classic and
-complex RQI can be found in the Appendix. The methods are defined
-slightly differently from the Algorithms given above. They both allow
-to explicitly set the initial shifts $\mu^{(0)}$ and $\gamma^{(0)}$ to
-specific values whereas in Algorithm~\ref{alg:rqi} and
-Algorithm~\ref{alg:crqi:proj} the initial shifts are always
-initialised as the Rayleigh Quotient of the initial vector and the
-initial residual, respectively.
+  \vec{x}^{(k)}} < 10^{-9}$. The source codes for both classic and
+complex RQI can be found in the Appendix. Note, that he methods are
+defined slightly differently from the Algorithms given above. They
+both allow to explicitly set the initial shifts $\mu^{(0)}$ and
+$\gamma^{(0)}$ to specific values whereas in Algorithm~\ref{alg:rqi}
+and Algorithm~\ref{alg:crqi} the initial shifts are always initialised
+as the Rayleigh Quotient of the initial vector and the initial
+residual, respectively. This will become useful when investigating how
+the initial shift influences the outcome of the method.
 
-The rest of this section is split into two parts. First, we give a
-more qualititative study, \ie we examine how the algorithm acts under
-changing input parameters to get a rough\todo{Better word} insight in
-the method's behaviour. Thereafter, we discuss some test problems
-which are common for assessing eigenvalue algorithms.
+All of the experiments were carried out for different matrices that
+are common for assessing eigenvalue algorithms. In particular, they
+have been used to evaluate shift-and-invert type algorithms and
+algorithms related to classic RQI, see for example~\cite{dax2003} and
+the references therein. They are described below. Recall that we are
+particularly interested in problems with closely spaced eigenvalues
+and, except for the first two examples, all of the test matrices will
+lead to such problems. Since in three of the test problems the spacing
+even becomes closer the larger the matrix gets, we will also study the
+algorithm's behaviour under increasing matrix size.
 
-In the first few examples the matrix $\mat{A}$ was a pseudo-randomly
-generated sparse symmetric $200 \times 200$ matrix. To simulate that a
-good approximation of the initial vector is available we computed the
-full set of eigenvectors collected as columns of the matrix
-$\mat{V}$. Next, a weight vector $\vec{w}$ of uniformly distributed
-numbers between $0$ and $1$ is created. One of the components is set
-to a higher value than the others, \eg $w_{50} = 10$ (in most examples
-the index of the component was also chosen randomly). The initial
-vector is then set to a weighted linear combination of the
-eigenvectors, \ie $\vec{x}^{(0)} = \beta \mat{V} \vec{w}$, where
-$\beta$ has to be chosen such that $\vec{x}^{(0)}$ is normalised. Now,
-$\vec{x}^{(0)}$ is a vector with a strong component in the direction
-of the target eigenvector and random (smaller) contributions in the
-directions of the other eigenvectors.
+\paragraph{Random matrices}
+These matrices are pseudo-randomly generated using the Matlab command
+``sprandsym''. Apart from being sparse and symmetric, they have no
+special structure or properties.
+
+\paragraph{The matrix $[1,2,1]$} This matrix is a tridiagonal matrix
+with all diagonal elements set to 2 and all off-diagonal elements set
+to 1. The eigenvalues of this matrix are all distinct and their exact
+values are known to be
+\begin{equation*}
+  \lambda_k = 4 \sin^2\left(\frac{\pi k}{2(n+1)} \right)
+\end{equation*}
+where $n$ denotes the order (\ie the number of rows) of the
+matrix~\cite[299--307]{wilkinson}. Thus, for every $n$, the
+eigenvalues lie in the interval $[0,4]$ and so consequently their
+spacing gets smaller the larger the matrix gets.
+
+\paragraph{Wilkinson's matrix $\mat{W}^+$}
+This tridiagonal matrix was extensively studied by Wilkinson
+in~\cite{wilkinson}, hence its name. It is of order $n = 2p + 1$ for
+some $p \in \N$. The $i$-th diagonal entry is set to $\abs{p+1-i}$ and
+all off-diagonal entries are set to 1. For instance, for $p=2$ this
+yields the $5 \times 5$ matrix
+\begin{equation*}
+  \mat{W}^+_5 = 
+  \begin{bmatrix}
+    2 & 1 \\
+    1 & 1 & 1 \\
+    & 1 & 0 & 1 \\
+    && 1 & 1 & 1 \\
+    &&& 1 & 2
+  \end{bmatrix}\,.
+\end{equation*}
+The spectrum consists of pairs of nearly, but not exactly, equal
+eigenvalues. For example, the two largest eigenvalues of
+$\mat{W}^+_{21}$ agree to 15 significant
+decimals.~\cite[300--309]{wilkinson}
+
+\paragraph{The Martin-Wilkinson matrix $\mat{MW}$}
+If we denote by $a_{ij}$ the $j$-th entry of the $i$-th row of
+$\mat{MW}$, this matrix is defined by
+\begin{align*}
+  a_{ii} &= 6 \quad &&\text{for } i = 2,\dotsc,n-1 \quad \text{but } a_{11} = a_{nn} = 5, \\
+  a_{i,i-1} = a_{i-1,i} &= -4 \quad &&\text{for } i = 2,\dotsc,n, \\
+  a_{i,i-2} = a_{i-2,i} &= 1 \quad &&\text{for } i = 2, \dotsc, n\,.
+\end{align*}
+The eigenvalues are known to be~\cite[39]{galligani}
+\begin{equation*}
+  \lambda_k = 16 \sin^4\left(\frac{k \pi}{2(n+1)} \right)
+\end{equation*}
+and thus, independent of $n$, the eigenvalues lie in the interval
+$[0,16]$. Hence, the eigenvalues become increasingly close the larger
+the size of the matrix.
+% \footnote{We adopted the name \emph{Martin-Wilkkinson matrix}
+% from~\cite{dax2003}. The author refers to a paper of Martin and
+% Wilkinson where this matrix is used to }
+
+\paragraph{Laplace matrix $\mat{L}$}
+This matrix arises, for instance, when discretizing the Laplace
+operator using a five-point stencil in the finite difference method
+(see, for example,~\cite[270--272]{demmel}). Let $m$ be an integer and
+define the $m \times m$ matrix
+\begin{equation*}
+  \mat{T} =
+  \begin{bmatrix}
+    4 & -1 \\
+    -1 & 4 & -1 \\
+    & \ddots & \ddots & \ddots \\
+    && -1 & 4 & -1 \\
+    &&& -1 & 4
+  \end{bmatrix}\,.
+\end{equation*}
+The Laplace matrix is a block tridiagonal matrix of order $n = m^2$
+defined as
+\begin{equation*}
+  \mat{L} =
+  \begin{bmatrix}
+    \mat{T} & -\mat{I} \\
+    -\mat{I} & \mat{T} & -\mat{I} \\
+    & \ddots & \ddots & \ddots \\
+    && -\mat{I} & \mat{T} & -\mat{I} \\
+    &&& -\mat{I} & \mat{T}
+  \end{bmatrix}
+\end{equation*}
+where $\mat{I}$ is the $m \times m$ identity matrix. Again, the
+eigenvalues can be computed analytically and all lie in an interval
+that is independent of the matrix's size; in this case they are all
+contained in the interval $[0,8]$.
+
+\bigskip%
+Below we give some numerical examples that highlight different
+behavioural aspects of the algorithm. Plots and/or tables that
+illustrate our findings are given for each of the test matrices. They
+are either included directly within the example or can be found in the
+appendix. Those included in this section are the ones we found most
+meaningful for the particular example.
+
+Recall that we assume that a good approximation of the wanted is
+available. To simulate this, the full set of eigenvectors is computed
+using built-in Matlab routines. These vectors are then collected as
+columns of a matrix $\mat{V}$. Next, a weight vector $\vec{w}$ of
+uniformly distributed numbers between $0$ and $1$ is created. One of
+the components is set to a higher value than the others, \eg
+$w_{50} = 10$ (in most examples the index of the component was also
+chosen randomly). The initial vector is then set to a weighted linear
+combination of the eigenvectors, \ie
+$\vec{x}^{(0)} = \beta \mat{V} \vec{w}$, where $\beta$ has to be
+chosen such that $\vec{x}^{(0)}$ is normalised. Now, $\vec{x}^{(0)}$
+is a vector with a strong component in the direction of the target
+eigenvector (in this case this would be $\vec{v}_{50}$) and random
+(smaller) contributions in the directions of the other eigenvectors.
 
 The first example demonstrates how difference choices for the
-imaginary shift $i\gamma^{(k)}$ affect the convergence speed.  We run
+imaginary shift $i\gamma^{(k)}$ affect the convergence speed. We run
 three different variants of CRQI:\@ The first uses
-$\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, the second uses the square of
-the residual norm, the third is explained shortly. A plot of the
-residuals against the iteration number for all three approaches
+$\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, which is the same as in
+Algorithm~\ref{alg:crqi} above. The second uses the square of the
+residual norm, the third approach is explained below. A plot of the
+residuals norm and the iteration number for all three approaches
 together with the results using classic RQI\footnote{Classic RQI is
   merely included for speed comparison. In most of the examples it
   failed to converge to the correct eigenvalue.} is given in
@@ -52,22 +156,24 @@ Figure~\ref{fig:residuals}.
     residuals of Classic RQI, Complex RQI with
     $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, Complex RQI with
     $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}^2$ and Complex RQI with the
-    imaginary shift chosen adaptively (see text). The last variant
-    seems to combine the advantages of the second and third
-    alternatives.}%
+    imaginary shift chosen adaptively (see text) using a random
+    matrix. The last variant seems to combine the advantages of the
+    second and third alternatives.}%
   \label{fig:residuals}
 \end{figure}
 
 We observe that in the initial phase of the iteration, the second
 variant (squared residual norm) seems to be slower than the
-first. Although it is not clearly observable in the figure, further
-investigation of other examples suggested that during the final steps
-of the iterations the second version was faster than the
-first. Consequently, by combining both approaches and thus changing
-the shift adaptively we expect faster convergence. The results are
-also plotted in Figure~\ref{fig:residuals} and are in accordance with
-the expectation. In this particular case, the shift was changed
-according to
+first. Although it might not be clearly observable in the figure,
+further investigation of other examples suggested that during the
+final steps of the iterations the second version was faster than the
+first (see also Figures~\ref{fig:imag_shift:mat2}
+to~\ref{fig:imag_shift:mat5} in the Appendix). Consequently, by
+combining both approaches and thus changing the shift adaptively we
+expect faster convergence. The results are also plotted in
+Figure~\ref{fig:residuals} (labeled with ``$\gamma^{(k)}$ adaptive'')
+and are in accordance with the expectation. In this particular case,
+the shift was changed according to
 \begin{equation*}
   \gamma^{(k)} =
   \begin{cases}
@@ -80,24 +186,26 @@ this adaptive choice of imaginary shifts.
 
 Running the same experiment but increasing the component of the
 initial vector in the direction of the target eigenvector led to a
-decrease of the number of additional steps required by CRQI. For
-eigenvectors that were very close to the target sometimes both classic
-RQI and complex RQI even finished within the same number of
+decrease of the number of additional steps required by CRQI; this
+observation is analysed in more detail again later. For eigenvectors
+that were very close to the target sometimes both classic RQI and
+complex RQI sometimes even finished within the same number of
 iterations. Still, even in these cases, classic RQI often failed to
 converge to the right eigenpair.
 
 In the next examples we will examine how the initial vector and
 initial (real) shift affect the results of RQI and CRQI. We have
 already discussed the sometimes erratic behaviour of classic RQI. As
-we will shortly see, a main problem of RQI is convergence often hardly
-depends on the initial vector but rather on the initial shift. This is
-why especially for eigenvalue problems with closely spaced eigenvalues
-RQI fails to compute the right eigenpair even if the method is started
-with a good approximation of the eigenvector. We start with an example
-where the algorithm was run many times with a fixed initial vector but
-varying initial shifts. To obtain the shifts we computed the spectrum
-of the matrix using built-in functions of Matlab and then extracted
-100 evenly spaced values form the interval
+we will shortly see, a main problem of RQI is that convergence often
+hardly depends on the initial vector but rather on the initial
+shift. This is why especially for problems with closely spaced
+eigenvalues RQI fails to compute the right eigenpair. CRQI seems to be
+more robust to changes in the initial shift.
+
+We start with an example where the algorithm was run many times with a
+fixed initial vector but varying initial shifts. To obtain the shifts
+we computed the spectrum of the matrix using built-in functions of
+Matlab and extracted 100 evenly spaced values form the interval
 $[\lambda_{\text{min}} - 10, \lambda_{\text{max}} + 10]$, where
 $\lambda_{\text{min}}$ and $\lambda_{\text{max}}$ are the smallest and
 largest eigenvalue of $\mat{A}$, respectively. The results are plotted
@@ -109,45 +217,46 @@ and~\ref{fig:varying shift small positive}), big in the third example
 (Figure~\ref{fig:varying shift big}) and not larger than the remaining
 components in the last example (\ie none of the weights was set to a
 larger value than any of the others, Figure~\ref{fig:varying shift
-  random}).
+  random}). In all of the remaining figures $N$ denotes the matrix
+order and $\alpha$ denotes the angle between the initial vector and
+the target eigenvector.
 
 \begin{figure}[htpb]
   \centering
   \begin{subfigure}[b]{0.475\textwidth}%
     \centering
-    \includegraphics[width=\textwidth]{Figures/crqi_varyingshift__initvec_small_direction_70deg_negative}%
-    \caption{{\small Small component in target direction, negative
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex2/mat_rand/ex2_residuals_mat1_400_54_72}%
+    \caption{{\small $N = 400$, $\alpha = 54.72^\circ$, positive
         eigenvalue}}%
     \label{fig:varying shift small negative}
   \end{subfigure}%
   \hfill
   \begin{subfigure}[b]{0.475\textwidth}%
     \centering
-    \includegraphics[width=\textwidth]{Figures/crqi_varyingshift__initvec_small_direction_70deg}%
-    \caption{{\small Small component in target direction, positive
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex2/mat_rand/ex2_residuals_mat1_400_55_32.pdf}%
+    \caption{{\small $N = 400$, $\alpha = 55.32^\circ$, negative
         eigenvalue}}%
     \label{fig:varying shift small positive}
   \end{subfigure}
   \vskip\baselineskip
   \begin{subfigure}[t]{0.475\textwidth}%
     \centering
-    \includegraphics[width=\textwidth]{Figures/crqi_varyingshift__initvec_suffctl_big}%
-    \caption{{\small Sufficiently big component in target direction}}%
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex2/mat_rand/ex2_rshift_mat1_400_38_29.pdf}%
+    \caption{{\small $N = 400$, $\alpha = 38.29^\circ$}}%
     \label{fig:varying shift big}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{0.475\textwidth}%
     \centering
-    \includegraphics[width=\textwidth]{Figures/crqi_varyingshift__initvec_random}%
-    \caption{{\small Random initial vector}}%
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex2/mat_rand/ex2_residuals_mat1_400_86_59.pdf}%
+    \caption{{\small $N = 400$, $\alpha = 86.59^\circ$}}%
     \label{fig:varying shift random}
   \end{subfigure}
   \caption[RQI and CRQI with varying initial shifts]{Plot of initial
     real shift against the computed eigenvalue using classic RQI and
-    CRQI. The dotted area encloses the initial shifts that lie in the
-    spectrum of $\mat{A}$. In the first two examples the initial
-    vector had only a small component in the direction of the target
-    eigenvector. }%
+    CRQI for a random matrix. The dotted area encloses the initial
+    shifts that lie in the spectrum of $\mat{A}$. The dashed line is
+    located at the Rayleigh quotient of the initial vector.}%
   \label{fig:vary shift}
 \end{figure}
 
@@ -155,8 +264,7 @@ We observe that RQI seems to depend heavily on the choice of the
 initial shift, especially when the shift lies between the upper and
 lower bound of the spectrum (indicated by the dotted area in the
 plots). This does not change even for initial vectors that are very
-close approximations of an eigenvector as we have already seen
-earlier, in Section~\ref{sec:rqi:recent}. In contrast, it appears that
+close approximations of an eigenvector. In contrast, it appears that
 CRQI does not depend so much on the shift but rather on the initial
 vector. In the first two examples, it seems as if in some cases the
 result of CRQI depends on the sign of the target eigenvalue. If the
@@ -164,71 +272,115 @@ eigenvalue is negative, shifts below this eigenvalue produced the
 correct result whereas shifts above the eigenvalue did not and
 analogously for positive eigenvalues. Further investigation revealed
 that this has actually nothing to do with the target eigenvalue being
-negative or positive but rather its location in the spectrum. If it is
+negative or positive but rather its location in the spectrum (see also
+the results using the other test matrices given in Figures). If it is
 below the centre of the spectrum the behaviour is as in
 Figure~\ref{fig:varying shift small negative} and for eigenvalues
 above the centre the results are similar to those in
 Figure~\ref{fig:varying shift small positive}. This observation could
 possibly be used if the initial vector is not that good of an
 approximation but some knowledge of the spectrum is available so that
-the initial shifts could be chosen accordingly.
+the initial shifts could be chosen accordingly. If one does not have
+any a priori knowledge about the distribution of the eigenvalues it
+seems best to use the algorithm as defined above, \ie to use the
+Rayleigh Quotient as the initial shift. Even in cases where the
+outcome of the method varied with changing initial shift, using the
+Rayleigh Quotient often produced the correct result, see for instance
+the first two examples of Figure~\ref{fig:real_shift:mat5}. Thus, for
+the remainder of the thesis, CRQI is run with the initial real shift
+set to the Rayleigh Quotient of the initial vector.
 
-We have examined the influence the initial shifts have on the
-convergence outcome. The last paramater we can adjust is the initial
-vector. In this next example, we study the relationship between the
-angle that the initial vector makes with the target eigenvector and
-the outcome of the method. To that end, we create an artificial
-approximation of the wanted eigenvector as explained above and
-succesively increase the contribution in the target direction.  In the
-motivational section of this chapter CRQI was introduced as an
-improvement of classic RQI in the sense that good approximations of
-eigenvectors should lead to convergence to this very eigenvector. The
-example confirms the expectations; in particular we will see that
+We have introduced CRQI as an improvement of classic RQI in the sense
+that good approximations of an eigenvector should lead to convergence
+to this very eigenvector. In the following examples we examine how
+good of an approximation the initial vector needs to be. We do this by
+studying the relationship between the angle that the initial vector
+makes with the target eigenvector and the outcome of the method. To
+that end, artificial approximations of the wanted eigenvector are
+created as explained above where the contribution in the target
+direction is successively increased throughout the experiment. We will
+see that
 \begin{enumerate}[label=(\alph*)]
 \item classic RQI indeed suffers from the problem that good
-  approximations of an eigenvector do not necesarrily lead to
-  convergence to this right eigenvector and that
+  approximations of an eigenvector do not necessarily lead to
+  convergence to this very eigenvector and that
 \item complex RQI seems to take much more advantage of the information
   in the initial vector.
 \end{enumerate}
-The results are given in Figure~\ref{fig:angle_test}. We see that
-complex RQI seems to converge to the right eigenvector much sooner;
+In Figure~\ref{fig:angle:mat5} we plotted the angle between the
+initial vector and the wanted eigenvector and the computed eigenvalue
+for classic RQI and CRQI. This particular example shows the results
+for the Laplace matrices of different sizes; the results for the
+remaining test problems are given in Figures~\ref{fig:angle:mat2}
+to~\ref{fig:angle:mat4} in the Appendix.
+
+\begin{figure*}
+  \centering
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex3/mat_laplace/ex3_angle_mat5_2500}
+    {{\small $N = 2500$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex3/mat_laplace/ex3_angle_mat5_5625}
+    {{\small $N = 5625$}}
+  \end{subfigure}
+  \vskip\baselineskip
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex3/mat_laplace/ex3_angle_mat5_6400}
+    {{\small $N = 6400$}}
+  \end{subfigure}
+  \hfill
+  \begin{subfigure}[b]{0.475\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex3/mat_laplace/ex3_angle_mat5_10000}
+    {{\small $N = 10000$}}
+  \end{subfigure}
+  \caption[Effect of the angle between the initial vector and the
+  target fpr the Laplce matrix]{Plot of the computed eigenvalue
+    against the angle between the initial vector and the target
+    eigenvector for the Laplace matrix. While classic RQI even fails
+    for very small angles, CRQI produces the correct result as soon as
+    the angle is sufficiently small, which in these examples means
+    below approximately $\pi/4$.}%
+  \label{fig:angle:mat5}
+\end{figure*}
+
+We see that complex RQI seems to converge to the right eigenvector
 once the angle between the initial vector and the target is
-sufficiently small (or the angle between the initial vector and the
-sum of the remaining eigenvectors is sufficiently big), CRQI produces
-the correct result. Classic RQI, on the other hand, still often
+sufficiently small; classic RQI, on the other hand, still often
 converges to the wrong eigenpair for very small angles. The figure
 suggests that ``sufficiently small'' means approximately below
-$\pi / 4$.
+$\pi / 4$; sometimes higher angles also produce the correct result but
+taking into account all the expirments we found that it seems almost
+impossible to make CRQI fail for angles below $\pi / 4$.
 
-\begin{figure}[htpb]
-  \centering
-  \begin{subfigure}[t]{0.45\textwidth}%
-    \centering
-    \includegraphics[width=\textwidth]{Figures/test_angle_plot}%
-    % \caption{{\small Plot of the angle between the target
-    % eigenvector
-    % and the initial vector and the computed eigenvalue}}%
-    \label{fig:angle_test:target}
-  \end{subfigure}%
-  \hfill
-  \begin{subfigure}[t]{0.45\textwidth}%
-    \centering
-    \includegraphics[width=\textwidth]{Figures/test_angle_plot_rem}%
-    % \caption{{\small Plot of the angle between the remaining
-    % eigenvectors and the initial vector and the computed
-    % eigenvalue}}%
-    \label{fig:angle_test:rem}
-  \end{subfigure}
-  \caption[RQI and CRQI with varying initial vectors]{Plot of the
-    computed eigenvalue against the angle between the initial vector
-    and the target eigenvector (left) and the remaining eigenvectors
-    (right), respectively.}%
-  \label{fig:angle_test}
-\end{figure}
-\todo{Fix caption below right figure}
 
-Test sentences
+
+% In the following example we use CRQI to compute eigenvalues and
+% eigenvectors in a simplified model problem from structural
+% mechanics. Consider the following PDE eigenvalue problem
+% \begin{subequations}
+%   \begin{align}
+%     - \Delta u(x,y) &= \lambda u(x,y), &&0<x,y<1\,,\\ 
+%     u(0,y) = u(1,y) = u(x,0) &= 0, && 0<x,y<1\,, \label{eq:laplace:bc1}\\
+%     \frac{\partial u}{\partial n}(x,1) &= 0, && 0<x<1\,, \label{eq:laplace:bc2}
+%   \end{align}
+% \end{subequations}
+% where $\Delta = \partial^2/\partial x^2 + \partial^2/\partial y^2$
+% is the Laplace operator and $\frac{\partial u}{\partial n}$ denotes
+% the derivative of $u$ in direction of the outer normal vector
+% $\vec{n}$. Such eigenvalue problems occur in the computation of
+% \emph{eigenfrequencies} of membranes. This particular problem
+% corresponds to a quadratic, homogeneous membrane with three fixed
+% and one free side, modelled by the boundary
+% conditions~\eqref{eq:laplace:bc1} and~\eqref{eq:laplace:bc2},
+% respectively. To solve this problem numerically we use the Finite
+% Element Method (FEM).
+
 %%% Local Variables: 
 %%% mode: latex
 %%% TeX-master: "../../main"

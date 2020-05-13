@@ -103,9 +103,9 @@ following results can be found in the Appendix.
 \end{lemma}
 
 Since $\vec{u}$ approximates $\vec{v}_k$ we expect the effect on the
-\todo{Replace effect} eigenvalues of $\tilde{\mat{A}}_{(0)}$ due to
-the perturbation $\tilde{\mat{A}}_{(1)}$ to be small. The following
-lemma answers how ``big'' this perturbation is.
+\todo{Rewrite} eigenvalues of $\tilde{\mat{A}}_{(0)}$ due to the
+perturbation $\tilde{\mat{A}}_{(1)}$ to be small. The following lemma
+answers how ``big'' this perturbation is.
 
 % As long as both $\gamma$ and the angle between the vector $\vec{u}$
 % and the wanted eigenvector are sufficiently small this is indeed the
@@ -302,8 +302,7 @@ discussed earlier in Chapter~\ref{chapter:rqi} hold and thus the
 vector iterates could still contain a small imaginary part. This does
 also imply that the final residual norm
 $\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ will be larger than the
-residual norm computed in the last iteration. In practice,
-\todo{Finish this part}
+residual norm computed in the last iteration.\todo{Finish this part}
 
 Note, that although the step where the linear system is solved looks
 almost identical to the respective step in classic RQI, this algorithm
@@ -314,10 +313,7 @@ applied to the matrix $\mat{A} - i \gamma^{(k)}\mat{I}$ but this is
 also not true since this matrix changes from one step to the next.
 
 Hence, we can obviously not expect the convergence results of classic
-RQI to straightforwardly carry over. Since we were also unable to
-derive any convergence results for this new method we provide a wide
-variety of numerical examples to gain insight in the algorithms
-typical behaviour.
+RQI to straightforwardly carry over.\todo{Conclude motivations}
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

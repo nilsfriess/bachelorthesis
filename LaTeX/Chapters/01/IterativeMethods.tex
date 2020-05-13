@@ -1,4 +1,4 @@
-\section{Iterative methods for eigenvalue problems}%
+\section{Iterative Methods for Eigenvalue Problems}%
 \label{sec:iterative:algorithms}
 With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
@@ -74,7 +74,7 @@ vector iterate $\vec{x}^{(k)}$ as
 \begin{equation*}
   \vec{x}^{(k)} = \vec{z} \cos \phi^{(k)} + \vec{u}^{(k)} \sin \phi^{(k)}\,.
 \end{equation*}
-We temporarily drop the superscripts and write
+We temporarily omit the superscripts and write
 $\vec{x} = \vec{x}^{(k)}$, $\vec{u} = \vec{u}^{(k)}$ and
 $\phi = \phi^{(k)}$. Then, using the identities
 $\sin^2(\phi / 2) = \frac{1 - \cos \phi}{2}$,
@@ -86,8 +86,7 @@ $\sin^2 \phi + \cos^2 \phi = 1$ and the Pythagorean theorem we obtain
                              &= 2(1 - \cos \phi) = 4 \sin^2( \phi / 2)\,.
 \end{align*}
 Thus, convergence orders \wrt the norm imply the same convergence
-orders in terms of the error angles and vice verca. Note that we did
-assume convergence of the sequence.
+orders in terms of the error angles and vice verca.
 
 \subsubsection{Power method}
 The \emph{power method} or \emph{Von Mises iteration} is one of the
@@ -225,7 +224,7 @@ Sections 2 and 3 of~\cite{tapia2018}.
 
 Of course there is a wide variety of other methods to compute
 eigenvalues and eigenvectors that are suitable for different kinds of
-problems. Some of them also compute only eigenvector (and/or
+problems. Some of them also compute only a single eigenvector (and/or
 eigenvalue) as the algorithms from above do, some compute the complete
 spectrum and full set eigenvectors while some computy only a fixed
 number of the eigenvalues and corresponding eigenvalues. Apart from
@@ -237,7 +236,7 @@ the different eigenvalue methods we refer to the historic
 survey~\cite{golub2000eigenvalue} and the references therein which
 include the classic monographs by Saad~\cite{saad2011} (that is
 concerned with large scale problems) and by Parlett~\cite{Parlett1998}
-(that considers the symmetric eigenvalue problem).
+(that considers the symmetric eigenvalue problem). 
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"
