@@ -137,21 +137,22 @@ is a vector with a strong component in the direction of the target
 eigenvector (in this case this would be $\vec{v}_{50}$) and random
 (smaller) contributions in the directions of the other eigenvectors.
 
-The first example demonstrates how difference choices for the
-imaginary shift $i\gamma^{(k)}$ affect the convergence speed. We run
-three different variants of CRQI:\@ The first uses
-$\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, which is the same as in
-Algorithm~\ref{alg:crqi} above. The second uses the square of the
-residual norm, the third approach is explained below. A plot of the
-residuals norm and the iteration number for all three approaches
-together with the results using classic RQI\footnote{Classic RQI is
-  merely included for speed comparison. In most of the examples it
-  failed to converge to the correct eigenvalue.} is given in
-Figure~\ref{fig:residuals}.
+\begin{example}
+  The first example demonstrates how difference choices for the
+  imaginary shift $i\gamma^{(k)}$ affect the convergence speed. We run
+  three different variants of CRQI:\@ The first uses
+  $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, which is the same as in
+  Algorithm~\ref{alg:crqi} above. The second uses the square of the
+  residual norm, the third approach is explained below. A plot of the
+  residuals norm and the iteration number for all three approaches
+  together with the results using classic RQI\footnote{Classic RQI is
+    merely included for speed comparison. In most of the examples it
+    failed to converge to the correct eigenvalue.} is given in
+  Figure~\ref{fig:residuals}.
 
 \begin{figure}[htpb]
   \centering
-  \includegraphics[width=0.7\textwidth]{Figures/crqi_residuals}
+  \includegraphics[width=0.65\textwidth]{Figures/crqi_residuals}
   \caption[Residuals for different choices of $\gamma^{(k)}$.]{Plot of
     residuals of Classic RQI, Complex RQI with
     $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, Complex RQI with
@@ -192,6 +193,7 @@ that were very close to the target sometimes both classic RQI and
 complex RQI sometimes even finished within the same number of
 iterations. Still, even in these cases, classic RQI often failed to
 converge to the right eigenpair.
+\end{example}
 
 In the next examples we will examine how the initial vector and
 initial (real) shift affect the results of RQI and CRQI. We have
@@ -202,24 +204,27 @@ shift. This is why especially for problems with closely spaced
 eigenvalues RQI fails to compute the right eigenpair. CRQI seems to be
 more robust to changes in the initial shift.
 
-We start with an example where the algorithm was run many times with a
-fixed initial vector but varying initial shifts. To obtain the shifts
-we computed the spectrum of the matrix using built-in functions of
-Matlab and extracted 100 evenly spaced values form the interval
-$[\lambda_{\text{min}} - 10, \lambda_{\text{max}} + 10]$, where
-$\lambda_{\text{min}}$ and $\lambda_{\text{max}}$ are the smallest and
-largest eigenvalue of $\mat{A}$, respectively. The results are plotted
-in Figure~\ref{fig:vary shift}. The initial vector was set to a
-weighted combination of the exact eigenvectors as described above.
-The component in the target direction was small in the first two
-examples (Figure~\ref{fig:varying shift small negative}
-and~\ref{fig:varying shift small positive}), big in the third example
-(Figure~\ref{fig:varying shift big}) and not larger than the remaining
-components in the last example (\ie none of the weights was set to a
-larger value than any of the others, Figure~\ref{fig:varying shift
-  random}). In all of the remaining figures $N$ denotes the matrix
-order and $\alpha$ denotes the angle between the initial vector and
-the target eigenvector.
+\begin{example}
+  We start with an example where the algorithm was run many times with
+  a fixed initial vector but varying initial shifts. To obtain the
+  shifts we computed the spectrum of the matrix using built-in
+  functions of Matlab and extracted 100 evenly-spaced values form the
+  interval $[\lambda_{\text{min}} - 10, \lambda_{\text{max}} + 10]$,
+  where $\lambda_{\text{min}}$ and $\lambda_{\text{max}}$ are the
+  smallest and largest eigenvalue of $\mat{A}$, respectively (the
+  numbers were slightly changed for the other test matrices). The
+  results using random matrices are plotted in Figure~\ref{fig:vary
+    shift}. The initial vector was set to a weighted combination of
+  the exact eigenvectors as described above.  The component in the
+  target direction was small in the first two examples
+  (Figure~\ref{fig:varying shift small negative} and~\ref{fig:varying
+    shift small positive}), big in the third example
+  (Figure~\ref{fig:varying shift big}) and not larger than the
+  remaining components in the last example (\ie none of the weights
+  was set to a larger value than any of the others,
+  Figure~\ref{fig:varying shift random}). In this figure and the
+  following ones $N$ denotes the matrix's order and $\alpha$ denotes
+  the angle between the initial vector and the target eigenvector.
 
 \begin{figure}[htpb]
   \centering
@@ -264,42 +269,69 @@ We observe that RQI seems to depend heavily on the choice of the
 initial shift, especially when the shift lies between the upper and
 lower bound of the spectrum (indicated by the dotted area in the
 plots). This does not change even for initial vectors that are very
-close approximations of an eigenvector. In contrast, it appears that
-CRQI does not depend so much on the shift but rather on the initial
-vector. In the first two examples, it seems as if in some cases the
-result of CRQI depends on the sign of the target eigenvalue. If the
-eigenvalue is negative, shifts below this eigenvalue produced the
-correct result whereas shifts above the eigenvalue did not and
-analogously for positive eigenvalues. Further investigation revealed
-that this has actually nothing to do with the target eigenvalue being
-negative or positive but rather its location in the spectrum (see also
-the results using the other test matrices given in Figures). If it is
-below the centre of the spectrum the behaviour is as in
-Figure~\ref{fig:varying shift small negative} and for eigenvalues
-above the centre the results are similar to those in
+accurate approximations of an eigenvector. In contrast, it appears
+that CRQI does not depend so much on the shift but rather on the
+initial vector. In the first two examples, it seems as if in some
+cases the result of CRQI depends on the sign of the target
+eigenvalue. If the eigenvalue is negative, shifts below this
+eigenvalue produced the correct result whereas shifts above the
+eigenvalue did not and analogously for positive eigenvalues. Further
+investigation revealed that this has actually nothing to do with the
+target eigenvalue being negative or positive but rather its location
+in the spectrum (see also the results using the other test matrices
+given in Figures). If it is below the centre of the spectrum the
+behaviour is as in Figure~\ref{fig:varying shift small negative} and
+for eigenvalues above the centre the results are similar to those in
 Figure~\ref{fig:varying shift small positive}. This observation could
 possibly be used if the initial vector is not that good of an
 approximation but some knowledge of the spectrum is available so that
-the initial shifts could be chosen accordingly. If one does not have
-any a priori knowledge about the distribution of the eigenvalues it
-seems best to use the algorithm as defined above, \ie to use the
-Rayleigh Quotient as the initial shift. Even in cases where the
-outcome of the method varied with changing initial shift, using the
-Rayleigh Quotient often produced the correct result, see for instance
-the first two examples of Figure~\ref{fig:real_shift:mat5}. Thus, for
-the remainder of the thesis, CRQI is run with the initial real shift
-set to the Rayleigh Quotient of the initial vector.
+the initial shifts could be chosen accordingly.
+
+If one does not have any a priori knowledge about the distribution of
+the eigenvalues it seems best to use the algorithm as defined above,
+\ie to use the Rayleigh Quotient as the initial shift. Even in cases
+where the outcome of the method varied with changing initial shift,
+using the Rayleigh Quotient usually produced the correct result, see
+for instance the first two examples of
+Figure~\ref{fig:real_shift:mat5}. Thus, for the remainder of the
+thesis, CRQI is run with the initial real shift set to the Rayleigh
+Quotient of the initial vector.
+
+This example also revealed another property of CRQI. It seems that the
+method is in some sense more stable if the target eigenvalue lies near
+the centre of the spectrum. If we consider the examples where the
+initial vector was choosen completely random, \ie is \emph{not} an
+approximation of any of the eigenvectors, we see that the computed
+eigenvalues are not spread along the entire spectrum but are
+distributed inside a subinterval of
+$[\lambda_{\text{min}}, \lambda_{\text{max}}]$ (see
+Figures~\ref{fig:real_shift:mat2:d} and~\ref{fig:varying shift
+  random}). Furthermore, the method seems to be less stable if the
+target eigenvalue lies at either of the ends of the spectrum in the
+sense that it is more sensitive to changes in the initial real shift.
+This instability is depicted, for example, in
+Figures~\ref{fig:real_shift:mat2:a} and~\ref{fig:real_shift:mat2:c}.
+In the first plot, the target eigenvalue lies near the right end of
+the spectrum, while in the other example it lies near the centre. The
+angles between the initial vectors and the target eigenvectors are
+about the same size but the second variant leads to the correct result
+-- independent of the initial real shift. This observation will be
+confirmed in the next example. There we will see that sometimes a much
+more accurate eigenvector approximation is required for CRQI to
+succeed if the corresponding eigenvalue is close to either of the ends
+of the spectrum.
+\end{example}
 
 We have introduced CRQI as an improvement of classic RQI in the sense
 that good approximations of an eigenvector should lead to convergence
 to this very eigenvector. In the following examples we examine how
-good of an approximation the initial vector needs to be. We do this by
-studying the relationship between the angle that the initial vector
-makes with the target eigenvector and the outcome of the method. To
-that end, artificial approximations of the wanted eigenvector are
-created as explained above where the contribution in the target
-direction is successively increased throughout the experiment. We will
-see that
+good of an approximation the initial vector needs to be. This is
+achieved by studying the relationship between the angle that the
+initial vector makes with the target eigenvector and the outcome of
+the method. To that end, artificial approximations of the wanted
+eigenvector are created as explained above where the contribution in
+the target direction is successively increased throughout the
+experiment. We will see that
 \begin{enumerate}[label=(\alph*)]
 \item classic RQI indeed suffers from the problem that good
   approximations of an eigenvector do not necessarily lead to
@@ -307,12 +339,14 @@ see that
 \item complex RQI seems to take much more advantage of the information
   in the initial vector.
 \end{enumerate}
-In Figure~\ref{fig:angle:mat5} we plotted the angle between the
-initial vector and the wanted eigenvector and the computed eigenvalue
-for classic RQI and CRQI. This particular example shows the results
-for the Laplace matrices of different sizes; the results for the
-remaining test problems are given in Figures~\ref{fig:angle:mat2}
-to~\ref{fig:angle:mat4} in the Appendix.
+\begin{example}
+  In Figure~\ref{fig:angle:mat5} we plotted the angle between the
+  initial vector and the wanted eigenvector and the computed
+  eigenvalue for classic RQI and CRQI. This particular example shows
+  the results for the Laplace matrices of different sizes; the results
+  for the remaining test problems are given in
+  Figures~\ref{fig:angle:mat2} to~\ref{fig:angle:mat4} in the
+  Appendix.
 
 \begin{figure*}
   \centering
@@ -351,14 +385,63 @@ to~\ref{fig:angle:mat4} in the Appendix.
 
 We see that complex RQI seems to converge to the right eigenvector
 once the angle between the initial vector and the target is
-sufficiently small; classic RQI, on the other hand, still often
+sufficiently small. Classic RQI, on the other hand, still often
 converges to the wrong eigenpair for very small angles. The figure
 suggests that ``sufficiently small'' means approximately below
-$\pi / 4$; sometimes higher angles also produce the correct result but
-taking into account all the expirments we found that it seems almost
-impossible to make CRQI fail for angles below $\pi / 4$.
+$\pi / 4$. In some test cases where the target eigenvalue was very
+close to either end of the spectrum a much smaller angle was required
+for CRQI to succeed. If the eigenvalue is located in the interior of
+the spectrum, however, it seemed almost impossible to make CRQI fail
+for angles below $\pi / 4$. This substantiates the observation from
+the previous example that CRQI seems to be more robust when the
+eigenvalue is located near the centre of the spectrum.
+\end{example}
 
+\todo{Überleitung} What we did barely discuss in the previous examples
+is the speed of CRQI compared to classic RQI. This is what most of the
+remainder of the section will be devoted to.
+% Before we continue to investigate the speed of the algorithm we
+% briefly summarise the observation made thus far.
 
+\begin{example}
+  In the first example of this section we briefly looked at how many
+  iterations CRQI requires compared to classic RQI. This is now
+  studied in more detail. As we will see shortly, CRQI requires fewer
+  iterations the more accurate an eigenvector the initial vector is
+  and classic RQI seems to not possess this property. In
+  Figure~\ref{fig:iteration_angle:mat1} we plotted the number of
+  iterations against the initial error angle for classic RQI and
+  complex RQI, respectively. We also indicated wheter or not the
+  computed eigenvalue was the correct one (indicated by a circle) or
+  not (indicated by a cross). The results using classic RQI are
+  slightly shifted upwards so that the results can be better
+  distinguished.
+  
+  \begin{figure*}
+    \centering
+    \begin{subfigure}[t]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_rand/ex4_angle_mat1_400}
+      \caption{{\small $N = 400$}}%
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[t]{0.475\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_rand/ex4_angle_mat1_1000}
+      \caption{{\small $N = 1000$}}
+    \end{subfigure}
+    \caption[Number of iterations for different angles for a random
+    matrix]{Plot of the number of iterations of classic RQI and
+      complex RQI for a random matrix.}%
+    \label{fig:iteration_angle:mat1}
+  \end{figure*}
+
+  We can clearly see that the number of iterations of CRQI decreases
+  the closer the initial vector is to the target eigenvector. Clearly,
+  the number of iterations is in general higher compared to classic
+  RQI. Note, however, that classic RQI did often not produce the
+  correct result.
+\end{example}
 
 % In the following example we use CRQI to compute eigenvalues and
 % eigenvectors in a simplified model problem from structural

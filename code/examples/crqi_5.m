@@ -1,13 +1,13 @@
 clf;
 
-test = 5;
-size = 100;
-weight_target_max = 270;
+test = 4;
+size = 4000;
+weight_target_max = 180;
 
 y_d_min = 0.5;
 y_d_max = 0.5;
 
-tik_up = 0.3;
+tik_up = 0.22;
 
 
 [a,N] = test_matrix(test,size);
@@ -118,7 +118,9 @@ pbaspect([ 1 1 1 ])
 xlabel('Angle between initial vector and target')
 
 fprintf("Matrix size: %d\n\n", N);
+disp(['Target eigenvalue: ', num2str(targetE)]);
 
+box on;
 
 
 
