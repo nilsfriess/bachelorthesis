@@ -1,16 +1,27 @@
 \section{The Symmetric Eigenvalue Problem}%
-There is a plethora of examples which lead to eigenvalue problems in
-almost all of the natural sciences, in engineering but also other
-areas such as economics. In many cases the matrix of which the
-eigenvalues are sought is real and symmetric. The task of finding
-eigenvalues and eigenvectors is then referred to as the
-\emph{symmetric eigenvalue problem}. For completeness, we collect some
-general facts from linear algebra on eigenvalues and eigenvectors
-below.
+Eigenvalues and eigenvectors of matrices play an important role in
+many branches of science and engineering. A typical example from
+physics is the computation of the natural frequencies of a structure,
+\ie frequencies at which the structure is prone to vibrate. To
+determine these frequencies, an eigenvalue problem needs to be solved.
+Often, the actual problem is given for a differential operator and the
+matrix eigenvalue problem arises when the operator is discretized.  To
+accurately approximate the operator, the matrix often needs to be very
+large. We usually assume that a good approximation of the desired
+eigenvector is available. In problems from structural mechanics this
+might be the case when one of the natural frequencies needs to be
+recomputed after some of the model parameters (\eg certain material
+properties) change.
+
+In many cases the matrix for which the eigenvalues are sought is real
+and symmetric. The task of finding eigenvalues and eigenvectors is
+then referred to as the \emph{symmetric eigenvalue problem}. For
+completeness, we collect some general facts from linear algebra on
+eigenvalues and eigenvectors for the general complex case.
 
 \begin{definition}
   Let $\mat{A} \in \C^{n \times n}$. A scalar $\lambda \in \C$ is
-  called \emph{eigenvalue} of $\mat{A}$ if there exists a nonzero
+  called an \emph{eigenvalue} of $\mat{A}$ if there exists a nonzero
   vector $\vec{v} \in \C^n$ such that
   \begin{equation}
     \label{eq:eigvalproblem} 
@@ -27,9 +38,9 @@ Computing eigenpairs is a non-trivial task.
 Rewriting~\eqref{eq:eigvalproblem} gives
 $\mat{A}\vec{v} - \lambda \vec{v} = \vec{0}$ or
 $(\mat{A} - \lambda \mat{I}) \vec{v} = \vec{0}$, where $\mat{I}$ is
-the identity matrix. Since $\vec{v}$ cannot be the zero vector, this
-equation has a solution if and only if the matrix
-$\mat{A} - \lambda \mat{I}$ is singular. Thus, eigenvalues of
+the identity matrix. This equation has a solution if and only if the
+matrix $\mat{A} - \lambda \mat{I}$ is singular since by the definition
+above $\vec{v}$ must not be the zero vector. Thus, eigenvalues of
 $\mat{A}$ are exactly the roots of the \emph{characteristic
   polynomial}
 \[
@@ -38,16 +49,16 @@ $\mat{A}$ are exactly the roots of the \emph{characteristic
 This fact, despite being of theoretical importance, cannot be used to
 calculate eigenvalues numerically for two reasons. First, the
 computation of the coefficients of the polynomial is not
-stable~\cite[37]{golub2000eigenvalue}. And even if it was, it is
-well-known that even small perturbations in the coefficients of
-$\chi_{\mat{A}}(t)$ can lead to devastating errors in the
+stable~\cite[37]{golub2000eigenvalue}. Second, it is well-known that
+even small perturbations in the coefficients of $\chi_{\mat{A}}(t)$
+can lead to large errors in the calculation of the
 roots~\cite[190]{trefethen1997}. Thus, other methods are necessary to
-solve~\eqref{eq:eigvalproblem} which gave rise to iterative
+solve~\eqref{eq:eigvalproblem}, which has given rise to iterative
 algorithms. These methods date back to 1846 when Jacobi published a
 pioneering paper on a method to compute eigenvalues of symmetric
 matrices~\cite{jacobi1846}. Below we present essential facts from
-linear algebra preparing us for discussing such iterative methods in
-Section~\ref{sec:iterative:algorithms}.
+linear algebra preparing us for a discussion of such iterative methods
+in Section~\ref{sec:iterative:algorithms}.
 
 \begin{remark}[Generalisations of eigenvalue problems]
   The problem stated in Equation~\eqref{eq:eigvalproblem} can be
@@ -61,7 +72,7 @@ Section~\ref{sec:iterative:algorithms}.
   of the numerical algorithms for solving eigenvalue problems of the
   form~\eqref{eq:eigvalproblem} can be modified to
   solve~\eqref{eq:eigvalproblem:general}; often certain assumptions
-  have to be posed on $\mat{M}$ such as symmetry and positive
+  have to be posed on $\mat{M}$, such as symmetry and positive
   definiteness.
 
   Since matrices can be seen as representations of linear operators on
@@ -109,15 +120,16 @@ in particular for real symmetric matrices.
   \item All eigenvalues of $\mat{A}$ are real.
   \item There exists an orthonormal basis of $\C^n$ consisting of
     eigenvectors of $\mat{A}$. If $\mat{A}$ is a real symmetric
-    matrix, the eigenvectors form an orthonormal basis of $\R^n$.
+    matrix, then the eigenvectors form an orthonormal basis of $\R^n$.
     % $\vec{v}_i$ and $\vec{v}_j$ to two distinct eigenvalues
     % $\lambda_i$ and $\lambda_j$ are orthogonal. Hence, after
     % normalisation, we can choose eigenvectors of $\mat{A}$ that form
     % an orthonormal basis of $\R^n$.
-  \item If $\mat{A}$ is non-singular the eigenvalues of $\mat{A}^{-1}$
-    are given by $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with
-    eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$.
-  \item Let $\mu \in \R$ an arbitrary scalar. The eigenvalues of
+  \item If $\mat{A}$ is non-singular, then the eigenvalues of
+    $\mat{A}^{-1}$ are given by
+    $\lambda_1^{-1}, \dotsc, \lambda_n^{-1}$ with eigenvectors
+    $\vec{v}_1, \dotsc, \vec{v}_n$.
+  \item Let $\mu \in \R$ an arbitrary scalar. Then the eigenvalues of
     $\mat{A} - \mu \mat{I}$ are $\lambda_i - \mu$ with eigenvectors
     $\vec{v}_1, \dotsc, \vec{v}_n$.
   \end{enumerate}
@@ -138,7 +150,7 @@ in particular for real symmetric matrices.
     \end{gather*}
     hence $(\lambda^{-1}, \vec{v})$ is an eigenpair of $\mat{A}^{-1}$.
 
-  \item[(iv)] For $\mu \in \R$ and $(\lambda, \vec{v})$ an eigenpair
+  \item[(iv)] For $\mu \in \R$ and $(\lambda, \vec{v})$ an eigenpair,
     we have
     \begin{gather*}
       \mat{A}\vec{v} = \lambda \vec{v} \quad \Leftrightarrow \quad

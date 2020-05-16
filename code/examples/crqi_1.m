@@ -1,8 +1,8 @@
 clf
-tic;
-test = 5;
-size = 80;
-weight_target = 25;
+
+test = 2;
+size = 4000;
+weight_target = 35;
 
 [a,N] = test_matrix(test,size);
 
@@ -94,12 +94,12 @@ if its3 > maxits
 end
 
 % Plot residuals
-semilogy(0:its1, res1, '-o'); hold on
-semilogy(0:its2, res2, '-x')
+loglog(1:its1+1, res1, '-o'); hold on
+loglog(1:its2+1, res2, '-x')
 if includeV3
-    semilogy(0:its3, res3, '-s')    
+    loglog(1:its3+1, res3, '-s')    
 end
-semilogy(0:its4, res4, '-^')
+loglog(1:its4+1, res4, '-^')
 pbaspect([1 1 1])
 
 xlabel("Iteration"); ylabel("Residual norm");
@@ -111,7 +111,7 @@ else
     max_x = max([its1,its2,its4]);
 end
 
-min_y = min([res1, res2, res3, res4])/1000;
+min_y = min([res1, res2, res3, res4])/100;
 max_y = max([res1, res2, res3 ,res4])*100;
 
 axis([0, max_x+2, min_y, max_y]);
@@ -129,6 +129,5 @@ else
             'Location', 'southwest');
 end
 
-toc;
 
 %export_fig 'crqi_residuals.eps' -transparent

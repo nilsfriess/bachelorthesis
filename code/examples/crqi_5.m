@@ -1,9 +1,9 @@
 clf;
 
-test = 4;
-size = 4000;
-weight_target_max = 180;
-
+test = 2;
+size = 10000;
+weight_target_max = 210;
+ 
 y_d_min = 0.5;
 y_d_max = 0.5;
 
@@ -22,7 +22,8 @@ addWeights = linspace(0,weight_target_max,tests);
 % Create random linear combination of eigenvectors of A
 % where one of the interior eigenvectors is weighted heavier
 % than the rest (we later expect convergence to that very evec)
-targetIndex = randi([1,N]);
+%targetIndex = randi([1,N]);
+targetIndex = 100;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 

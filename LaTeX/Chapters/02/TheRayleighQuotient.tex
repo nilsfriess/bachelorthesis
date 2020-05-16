@@ -161,12 +161,13 @@ convergence behaviour of RQI.
   \end{equation*}
 \end{lemma}
 This result is often paraphrased as ``the Rayleigh Quotient is a
-\emph{quadratically accurate} estimate of an eigenvalue'' (see for
-example~\cite[204]{trefethen1997}). If $\mat{A}$ is non-normal, the
+\emph{quadratically accurate} estimate of an eigenvalue'' (see, for
+example,~\cite[204]{trefethen1997}). If $\mat{A}$ is non-normal, the
 Rayleigh quotient is still an estimate of order one, \ie
 \begin{equation*}
   \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}})\,.
 \end{equation*}
+
 We now have a method that allows us to obtain an estimation of an
 \emph{eigenvalue} from an \emph{eigenvector}. With the Shifted Inverse
 Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for

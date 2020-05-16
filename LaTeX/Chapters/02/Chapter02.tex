@@ -4,25 +4,6 @@ for short) and discuss some important results. Among others, we give a
 proof of the most appealing property of RQI, namely the (local) cubic
 convergence.
 
-As mentioned above, we want to find the eigenvalues and eigenvectors
-of a real symmetric matrix $\mat{A}$. We make the following additional
-assumptions:
-\begin{enumerate}[label=(A\arabic*),leftmargin=38pt]
-\item The matrix $\mat{A}$ is large.
-\item A good approximation of the wanted eigenvector is available.
-\item The wanted eigenvalue lies in the interior of the spectrum.
-\item The eigenvalues around the wanted eigenvalue are closely spaced.
-\end{enumerate}
-
-The first assumption prohibits us from using an algorithm that
-computes the full eigendecomposition. Due to the second assumption we
-would like a method that makes use of the approximation in the sense
-that it is faster the more accurate the approximation is. Assumption
-(A3) seems to pose no real constraint at first sight. However, many of
-the different eigenvalue algorithms are only capable of finding a few
-eigenvalues at either end of the spectrum or they are at least
-considerably faster/more likely to succeed in these cases.
-
 It will turn out that RQI is a suitable choice if we omit the last
 assumption. Although a different linear system has to be solved at
 each step, RQI often converges within a few steps when stared with a
@@ -36,6 +17,7 @@ design a method that overcomes this problem.
 \input{Chapters/02/TheRayleighQuotient}%
 \input{Chapters/02/History}%
 \input{Chapters/02/Convergence}%
+\input{Chapters/02/Conclusions}%
 
 %%% Local Variables:
 %%% mode: latex

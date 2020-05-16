@@ -230,7 +230,7 @@ unexpected.
     and the initial shift is
     $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx 1.7241$. In this case, RQI
     converges to the eigenpair $(2, \vec{e}_2)$, \ie not the
-    eigenvector that has the smallest angle with $\vec{x}^{(0)}$ but
+    eigenvector that makes the smallest angle with $\vec{x}^{(0)}$ but
     rather the one that corresponds to the eigenvalue to which the
     initial shift is closest.
   \end{enumerate}
@@ -291,7 +291,7 @@ computational cost for large problems. Another approach that was first
 studied for inverse iteration is to solve the linear system itself
 iteratively leading to an \emph{inexact shift-and-invert method}. The
 use of iterative inner solvers in RQI (for Hermitian matrices) was
-studied by Simoncini and Eld\'{e}n e in~\cite{simoncini2002rqi} and
+studied by Simoncini and Eld\'{e}n in~\cite{simoncini2002rqi} and
 Notay in~\cite{notay2003rqi}. They both analyse how the convergence of
 RQI is affected by solving the linear systems only approximately. This
 means at each iteration an approximate solution $\vec{y}^{(k)}$ to
@@ -311,14 +311,14 @@ is sought that satisfies
   } \le \tau^{(k)}\,,
 \end{equation*}
 where $\tau^{(k)}$ is a tolerance that might change at each
-step. Also~\cite{simoncini2002rqi} shows the equivalence of inexact
-RQI and another iterative eigenvalue method called the
+step. In~\cite{simoncini2002rqi} the authors also show the equivalence
+of inexact RQI and another iterative eigenvalue method called the
 \emph{Jacobi-Davidson method}. This result is extended to the
 non-Hermitian case by Freitag and Spence in~\cite{freitag2008rqi}.
-They also study how different preconditioners for the linear system
-can be used and ``tuned'' to improve the outer convergence. We will
-briefly come back to the idea of solving the inner system inexactly
-when discussing our new method in the next chapter.
+There, it is also studied how different preconditioners for the linear
+system can be used to improve the outer convergence. We will briefly
+come back to the idea of solving the inner system inexactly when
+discussing our new method in the next chapter.
  
 %%% Local Variables:
 %%% mode: latex

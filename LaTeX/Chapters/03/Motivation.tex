@@ -166,25 +166,37 @@ such that in the end $\tilde{\mat{A}} \approx \mat{A}$. A possible
 choice that comes to mind is the norm of the current residual
 $\vec{r}^{(k)}$ or related quantities such as the square of the
 residual norm. How the choice of this shift influences the convergence
-behaviour is discussed in Section~\ref{sec:crqi:experiments}.
+behaviour is discussed in Section~\ref{sec:crqi:experiments}. We
+summarise the idea of CRQI in Algorithm~\ref{alg:crqi:first}. Note tha
+this is not the full algorithm but only the inner loop. Since we will
+shortly change the algorithm slightly, we postpone the complete
+definition until later.
 
-To summarise the idea of CRQI we consider one step of the iteration of
-classic RQI.\@ The system that has to be solved is now of the form
-\begin{equation}
-  \label{eq:crqi:linearsystem}
-  \left( \mat{A} - i \gamma^{(k)}\left(\mat{I} - \vec{x}^{(k)} {(\vec{x}^{(k)})}^\ast \right) - \mu^{(k)}\mat{I} \right) \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
-\end{equation}
-As $\gamma^{(k)} \rightarrow 0$ this becomes the same linear system as
-in classic RQI.\@ The remaining steps are essentially the same except
-that every transpose (\eg in the computation of the Rayleigh Quotient)
-has to be replaced by a complex conjugate transpose.
+\begin{algorithm}[htpb]
+  \DontPrintSemicolon%
+  \For{$k = 1,2,\dotsc$ until convergence}{
+    Solve $\left( \mat{A} - i \gamma^{(k)}\left(\mat{I} - \vec{x}^{(k)} {(\vec{x}^{(k)})}^\ast \right) - \mu^{(k)}\mat{I} \right) \tilde{\vec{x}}^{(k+1)} = \vec{x}^{(k)}$\;
+    $\vec{x}^{(k+1)} \gets \tilde{\vec{x}}^{(k+1)} / \norm*{\tilde{\vec{x}}^{(k+1)}}$\;
+    $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A} \vec{x}^{(k+1)}$\;
+    $\gamma^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I}) \vec{x}^{(k+1)}}$\;
+  }
+  \caption{Complex Rayleigh Quotient Iteration (first version)}\label{alg:crqi:first}
+\end{algorithm}
+
+As $\gamma^{(k)} \rightarrow 0$ then linear system that is solved at
+each step becomes the same system as in classic RQI.\@ The remaining
+steps are essentially the same except that every transpose (\eg in the
+computation of the Rayleigh Quotient) has to be replaced by a complex
+conjugate transpose since the vectors might now contain a non-zero
+imaginary part.
 
 Obviously, we cannot expect this method to possess the same
 convergence properties as classic RQI. The matrix $\tilde{\mat{A}}$ is
 neither real symmetric nor Hermitian but \emph{complex symmetric}. As
-we will see shortly, however, if good approximations of the wanted
-eigenvector are used for the initial vector, the method often requires
-merely three or four additional steps compared to classic RQI.
+we will see in the next section, however, if good approximations of
+the wanted eigenvector are used for the initial vector, the method
+often requires merely three or four additional steps compared to
+classic RQI.
 
 Another problem seems to be that if $\mat{A}$ is sparse,
 $\tilde{\mat{A}}$ will in general not be sparse. In fact, the
@@ -196,7 +208,7 @@ suffices to subtract from $\mat{A}$ the diagonal matrix
 $i \gamma \mat{I}$. The way that we introduced the method above was
 merely for motivational purposes. The resulting matrix is still
 complex symmetric but now only the diagonal entries are altered and
-sparsity is preserved. We begin by showing the following result.
+sparsity is preserved. We begin with the following auxiliary result.
 
 \begin{lemma}
   Define the matrices
@@ -226,7 +238,8 @@ sparsity is preserved. We begin by showing the following result.
   \end{equation*}
   respectively. Now observe that
   $\mat{C} = \mat{B} + i \gamma \vec{u}\vec{u}^\herm$. Using the
-  Sherman-Morrison formula (\cite[50]{golub1996}) and letting
+  Sherman-Morrison formula (see, for example, \cite[50]{golub1996})
+  and letting
   $\alpha \coloneqq 1 + i \gamma \vec{u}^\herm \mat{B}^{-1} \vec{u} \,
   \in \C$ we obtain
   \begin{align*}
@@ -247,9 +260,9 @@ sparsity is preserved. We begin by showing the following result.
 This result shows that it suffices to perturb the matrix by the
 diagonal matrix $\gamma^{(k)} i \mat{I}$ instead of
 $i\gamma^{(k)}(\mat{I} - \vec{x}^{(k)}{(\vec{x}^{(k)})}^\herm
-)$. Consider the linear system from~\eqref{eq:crqi:linearsystem}.  The
-lemma states that there exists a scalar $\alpha \in C$ such
-that~\eqref{eq:crqi:linearsystem} is equivalent to
+)$. Consider the linear system from Algorithm~\ref{alg:crqi:first}.
+The lemma states that there exists a scalar $\alpha \in C$ such that
+solving this system is equivalent to solving
 \begin{equation}
   \label{eq:crqi:linearsystem2}
   \alpha\left(
@@ -258,11 +271,12 @@ that~\eqref{eq:crqi:linearsystem} is equivalent to
   \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
 \end{equation}
 Hence, the solution of~\eqref{eq:crqi:linearsystem2} \emph{without}
-the factor $\alpha$ is a scalar multiple of the solution
-from~\eqref{eq:crqi:linearsystem}. Since the result gets normalised
-immediately after, both solutions will result in the same vector that
-is used in the next iteration. The Rayleigh Quotient that is computed
-using this vector consequently is the same in either of the variants.
+the factor $\alpha$ is a scalar multiple of the result obtained by
+solving the linear from Algorithm~\ref{alg:crqi:first}. Since the
+result gets normalised immediately after, both solutions will result
+in the same vector that is used in the next iteration. The Rayleigh
+Quotient that is computed using this vector consequently is the same
+in either of the variants.
 
 Thus, it does indeed suffice to perturb the matrix only by the
 diagonal matrix $-i \gamma^{(k)} \mat{I}$. We can collect the real
@@ -271,8 +285,8 @@ complex-valued shift
 \begin{equation*}
   \sigma^{(k)} \coloneqq \mu^{(k)} + i\gamma^{(k)}
 \end{equation*}
-and can define Complex Rayleigh Quotient Iteration as it is given in
-Algorithm~\ref{alg:crqi}.
+and can now fully define Complex Rayleigh Quotient Iteration as it is
+given in Algorithm~\ref{alg:crqi}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon%
@@ -301,8 +315,10 @@ criterion based on the norm of the residual, the same error bounds we
 discussed earlier in Chapter~\ref{chapter:rqi} hold and thus the
 vector iterates could still contain a small imaginary part. This does
 also imply that the final residual norm
-$\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ will be larger than the
-residual norm computed in the last iteration.\todo{Finish this part}
+$\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ might be slightly larger than
+the residual norm computed in the last iteration. In practice,
+however, we observed that the final residual norm is still of the same
+order as the norm of the residual computed in the last iteration.
 
 Note, that although the step where the linear system is solved looks
 almost identical to the respective step in classic RQI, this algorithm

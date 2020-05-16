@@ -55,84 +55,94 @@ the \emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
       \norm{\vec{x}} \norm{\vec{y}}
     }\,.
   \end{equation*}
-  Often, the following identities are convenient
-  \begin{gather*}
-    \sin \angle(\vec{x}, \vec{y}) \coloneqq \sqrt{1 - \cos^2
-      \angle(\vec{x}, \vec{y})}\,, \qquad \tan \angle(\vec{x},
-    \vec{y}) \coloneqq \frac{ \sin \angle(\vec{x}, \vec{y}) }{ \cos
-      \angle(\vec{x}, \vec{y}) }\,.
-  \end{gather*}
+  % Often, the following trigonometric identities are convenient
+  % \begin{gather*}
+  %   \sin \angle(\vec{x}, \vec{y}) = \sqrt{1 - \cos^2 \angle(\vec{x},
+  %   \vec{y})}\,, \qquad \tan \angle(\vec{x}, \vec{y}) = \frac{ \sin
+  %   \angle(\vec{x}, \vec{y}) }{ \cos \angle(\vec{x}, \vec{y}) }\,.
+  % \end{gather*}
 \end{definition}
 
-To see why also the angle can be used to measure the convergence
-speed, suppose $\vec{x}^{(k)}$ converges to the unit vector
-$\vec{z}$. Let $\vec{u}^{(k)}$ be the unit vector that lies in the
-span of $\vec{x}^{(k)}$ and $\vec{z}$ and is orthogonal to $\vec{z}$
-and denote by $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{z})$ the error
-angle between the current vector iterate and the limit. Now, write the
-vector iterate $\vec{x}^{(k)}$ as
-\begin{equation*}
-  \vec{x}^{(k)} = \vec{z} \cos \phi^{(k)} + \vec{u}^{(k)} \sin \phi^{(k)}\,.
-\end{equation*}
-We temporarily omit the superscripts and write
-$\vec{x} = \vec{x}^{(k)}$, $\vec{u} = \vec{u}^{(k)}$ and
-$\phi = \phi^{(k)}$. Then, using the identities
-$\sin^2(\phi / 2) = \frac{1 - \cos \phi}{2}$,
-$\sin^2 \phi + \cos^2 \phi = 1$ and the Pythagorean theorem we obtain
-\begin{align*}
-  \norm{\vec{x} - \vec{z}}^2 &= \norm{\vec{z} \cos \phi + \vec{u} \sin \phi - \vec{z}}^2 \\
-                             &= \norm{\vec{z}(\cos \phi - 1)}^2 + \norm{\vec{u} \sin \phi}^2 \\
-                             &= {(\cos \phi - 1)}^2 + 1 - \cos^2 \phi \\
-                             &= 2(1 - \cos \phi) = 4 \sin^2( \phi / 2)\,.
-\end{align*}
-Thus, convergence orders \wrt the norm imply the same convergence
-orders in terms of the error angles and vice verca.
+For the error angle $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{z})$ to
+be zero it suffices that the vectors are a scalar multiple of each
+other. For the error norm $\norm*{\vec{x}^{(k)} - \vec{z}}$ to be zero
+they must also have the same norm. Since for eigenvectors only the
+direction is important, the angle is often a more natural measure for
+convergence and unnecessary normalisations can be avoided in the
+analysis.
+
+% To see why also the angle can be used to measure the convergence
+% speed, suppose $\vec{x}^{(k)}$ converges to the unit vector
+% $\vec{z}$. Let $\vec{u}^{(k)}$ be the unit vector that lies in the
+% span of $\vec{x}^{(k)}$ and $\vec{z}$ and is orthogonal to $\vec{z}$
+% and denote by
+% $ the error angle between the current vector iterate and the
+% limit. Now, write the vector iterate $\vec{x}^{(k)}$ as
+% \begin{equation*}
+%   \vec{x}^{(k)} = \vec{z} \cos \phi^{(k)} + \vec{u}^{(k)} \sin \phi^{(k)}\,.
+% \end{equation*}
+% We temporarily omit the superscripts and write $\vec{x} =
+% \vec{x}^{(k)}$, $\vec{u} = \vec{u}^{(k)}$ and $\phi =
+% \phi^{(k)}$. Then, using the identities $\sin^2(\phi / 2) = \frac{1
+% - \cos \phi}{2}$, $\sin^2 \phi + \cos^2 \phi =
+% 1$ and the Pythagorean theorem we obtain
+% \begin{align*}
+%   \norm{\vec{x} - \vec{z}}^2 &= \norm{\vec{z} \cos \phi + \vec{u} \sin \phi - \vec{z}}^2 \\
+%                              &= \norm{\vec{z}(\cos \phi - 1)}^2 + \norm{\vec{u} \sin \phi}^2 \\
+%                              &= {(\cos \phi - 1)}^2 + 1 - \cos^2 \phi \\
+%                              &= 2(1 - \cos \phi) = 4 \sin^2( \phi / 2)\,.
+% \end{align*}
+% Thus, convergence orders \wrt the norm imply the same convergence
+% orders in terms of the error angles and vice verca.
 
 \subsubsection{Power method}
 The \emph{power method} or \emph{Von Mises iteration} is one of the
 oldest iterative methods for computing eigenvectors. It is based on
-generating the sequence
-$\vec{x}^{(k)} \coloneqq \mat{A}^k \vec{x}^{(0)}$ where
-$\vec{x}^{(0)}$ is a non-zero unit vector. Of course, $\mat{A}^k$ does
-not have to be computed explicitly at each step since
+generating the sequence $\vec{x}^{(k)} \coloneqq \mat{A}^k
+\vec{x}^{(0)}$ where
+$\vec{x}^{(0)}$ is a non-zero unit vector. Of course,
+$\mat{A}^k$ does not have to be computed explicitly at each step since
 \[
   \mat{A}^k \vec{x} = \mat{A}(\mat{A}(\dotsc\mat{A}(\mat{A}
   \vec{x})\dotsc))\,.
 \]
-To prevent underflow and overflow errors, $\vec{x}^{(k)}$ is
-normalised at each step. In Algorithm~\ref{alg:power:method} we
-normalise by ensuring that the largest component of the current
-approximation is equal to one. Of course, other norms can be used. The
-sequence $\vec{x}^{(k)}$ converges to the eigenvector associated with
-the eigenvalue $\lambda_n$ under the assumptions that $\lambda_n$ is
-dominant (\ie $\abs{\lambda_n}$ is strictly greater than
-$\abs{\lambda_{n-1}}$) and that the starting vector $\vec{x}^{(0)}$
-has a non-vanishing component in the direction of $\vec{v}_n$. The
-advantage of normalising \wrt the maximum norm is that the largest
-component of $\abs*{\mat{A}\vec{x}^{(k-1)}}$ converges to the
-eigenvalue $\lambda_n$. Regardless of the normalisation chosen, the
-method converges linearly with convergence rate
+To prevent underflow and overflow errors,
+$\vec{x}^{(k)}$ is normalised at each step. In
+Algorithm~\ref{alg:power:method} we normalise by ensuring that the
+largest component of the current approximation is equal to one. Of
+course, other norms can be used. The sequence
+$\vec{x}^{(k)}$ converges to the eigenvector associated with the
+eigenvalue $\lambda_n$ under the assumptions that
+$\lambda_n$ is dominant (\ie
+$\abs{\lambda_n}$ is strictly greater than
+$\abs{\lambda_{n-1}}$) and that the starting vector
+$\vec{x}^{(0)}$ has a non-vanishing component in the direction of
+$\vec{v}_n$. The advantage of normalising \wrt the maximum norm is
+that the largest component of
+$\abs*{\mat{A}\vec{x}^{(k-1)}}$ converges to the eigenvalue
+$\lambda_n$. Regardless of the normalisation chosen, the method
+converges linearly with convergence rate
 \begin{equation}
   \label{eq:convergence:power}
   \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
 \end{equation}
 Thus, the method can be very slow if the distance between the
-eigenvalues $\lambda_n$ and $\lambda_{n-1}$ is very small. For a
-detailed convergence analysis, see~\cite[86\psq]{saad2011}.
+eigenvalues $\lambda_n$ and
+$\lambda_{n-1}$ is very small. For a detailed convergence analysis,
+see~\cite[86\psq]{saad2011}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon
-  \Begin{ Choose nonzero initial vector $\vec{x}^{(0)}$\;
-    \For{$k = 1,2,\dotsc$ until convergence}{
-      $\displaystyle \vec{x}^{(k)} =
-      \frac{1}{\alpha^{(k)}}\mat{A}\vec{x}^{(k-1)}$\; \tcc{$\alpha^{(k)}$ is the component of $\mat{A}\vec{x}^{(k-1)}$ with the maximum modulus}
-    }
+  \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
+  \For{$k = 1,2,\dotsc$ until convergence}{
+    $\alpha^{(k)} \gets \max\,\abs{\mat{A} \vec{x}^{(k)}}$\;
+    $\vec{x}^{(k)} \gets {\alpha^{(k)}}^{-1} \mat{A}\vec{x}^{(k-1)}$\;
   }
   \caption{Power method}\label{alg:power:method}
 \end{algorithm}
 
-Besides the possible slow convergence rate, the power method will
-always converge to an eigenvector associated with the dominant
+In addition to the possible slow convergence rate, the power method
+will always converge to an eigenvector associated with the dominant
 eigenvalue $\lambda_n$. In many applications, however, one already has
 a good approximation of another eigenvalue and wants to compute an
 eigenvector it belongs to. In this case, the following method can be
@@ -192,51 +202,73 @@ Therefore, the method is often used to compute an eigenvector of
 $\mat{A}$ if a good approximation of the corresponding eigenvalue is
 already available.
 
-Note, however, that a shift which is very close to an eigenvalue
-produces a very ill-conditioned linear system and one might expect
-inverse iteration to fail in this case since, in general, it is
-impossible to solve ill-conditioned systems accurately. Despite this
-seemingly obvious problem, in practice it was observed that the method
-produces good approximations. According to
-Parlett~\cite[84\psq]{Parlett1998}, it was Wilkinson who elucidated
-why the ill-conditioning is not a problem in most cases. Suppose
-$\sigma \approx \lambda$ where $\lambda$ is an eigenvalue of $\mat{A}$
-with corresponding eigenvector $\vec{v}$. Wilkinson illustrated that
-although $\tilde{\vec{x}}^{(k)}$ may be far from $\vec{v}$, the
-normalised solution
+Note, however, that a shift that is very close to an eigenvalue
+produces a very ill-conditioned linear system, and one might expect
+inverse iteration to fail in this case. Despite this seemingly obvious
+problem, in practice it was observed that the method produces good
+approximations. According to Parlett~\cite[84\psq]{Parlett1998}, it
+was Wilkinson who elucidated why the ill-conditioning is not a problem
+in most cases. Suppose $\sigma \approx \lambda$ where $\lambda$ is an
+eigenvalue of $\mat{A}$ with corresponding eigenvector
+$\vec{v}$. Wilkinson illustrated that although $\tilde{\vec{x}}^{(k)}$
+may be far from $\vec{v}$, the normalised solution
 $\vec{x}^{(k)} = \tilde{\vec{x}}^{(k)} /
 \norm*{\tilde{\vec{x}}^{(k)}}$ will not be far from $\vec{v}$ when the
-system is solved backwards-stably. For a detailed analysis of this
-problem, see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
+system is solved in a backwards-stable way. For a detailed analysis of
+this problem,
+see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
 and~\cite{petersWilkinson}. This will become important again later
 when we discuss Rayleigh Quotient Iteration. There, the system that is
 solved gets increasingly ill-conditioned at each step but for the same
 reason as above, in practice this poses no problem.
 
 At each step in the shifted inverse iteration, better approximations
-for the target eigenvector are computed. There a different techniques
-to obtain approximations of the corresponding eigenvalue. One of these
-methods, which leads to the \emph{Rayleigh Quotient Iteration}, is
-discussed in detail in the next chapter. For further discussion on the
-variants and developments of these so called \emph{shift-and-invert}
-methods see, e.\,g., the historic survey~\cite{ipsenhistory} or
-Sections 2 and 3 of~\cite{tapia2018}.
+for the target eigenvector are computed. There are different
+techniques to obtain approximations of the corresponding eigenvalue.
+One of these methods, which leads to the \emph{Rayleigh Quotient
+  Iteration}, is discussed in detail in the next chapter. For further
+discussion on the variants and developments of these so called
+\emph{shift-and-invert} methods see, e.\,g., the historic
+survey~\cite{ipsenhistory} or Sections 2 and 3 of~\cite{tapia2018}.
 
-Of course there is a wide variety of other methods to compute
-eigenvalues and eigenvectors that are suitable for different kinds of
-problems. Some of them also compute only a single eigenvector (and/or
+As mentioned above, we want to find the eigenvalues and eigenvectors
+of a real symmetric matrix $\mat{A}$. There is a wide variety of other
+algorithms, both direct and iterative, that are suitable for this
+problem. Some of them also compute only a single eigenvector (and/or
 eigenvalue) as the algorithms from above do, some compute the complete
-spectrum and full set eigenvectors while some computy only a fixed
-number of the eigenvalues and corresponding eigenvalues. Apart from
-Rayleigh Quotient Iteration and our new method called \emph{Complex
-  Rayleigh Quotient Iteration}, which are introduced in the second and
-third chapter, respectively, we do not discuss any of these other
-algorithms. For further discussion on the variants and developments of
-the different eigenvalue methods we refer to the historic
-survey~\cite{golub2000eigenvalue} and the references therein which
-include the classic monographs by Saad~\cite{saad2011} (that is
+spectrum and full set eigenvectors while some compute only a fixed
+number of the eigenvalues and corresponding eigenvalues. We make the
+following additional assumptions about the problem:
+\begin{enumerate}[label=(A\arabic*),leftmargin=38pt]
+\item The matrix $\mat{A}$ is large and sparse.
+\item A good approximation of the wanted eigenvector is available.
+\item The wanted eigenvalue lies in the interior of the spectrum.
+\item The eigenvalues around the wanted eigenvalue are closely spaced.
+\end{enumerate}
+
+The first assumption prohibits us from using an algorithm that
+computes the full eigendecomposition and rules out direct methods. Due
+to the second assumption we seek a method that makes use of the
+approximation in the sense that fewer iterations are required the more
+accurate the given approximation is. Assumption (A3) seems to pose no
+real constraint at first sight. However, many of the different
+eigenvalue algorithms are only capable of finding a few eigenvalues at
+either end of the spectrum or they are at least considerably
+faster/more likely to succeed in these cases. As we will see later,
+RQI is a suitable choice if we omit the last assumption, \ie for
+problems with well-separated eigenvalues. Since our novel method is
+based on RQI it is also suited for problems that fulfil the first
+three assumptions. Obviously, it is also adequate for problems with
+closely spaced eigenvalues since it is precisely designed for such
+problems.
+
+Apart from Rayleigh Quotient Iteration and our new method we do not
+discuss any other algorithms. For further discussion on the variants
+and developments of the different eigenvalue methods we refer to the
+historic survey~\cite{golub2000eigenvalue} and the references therein
+which include the classic monographs by Saad~\cite{saad2011} (that is
 concerned with large scale problems) and by Parlett~\cite{Parlett1998}
-(that considers the symmetric eigenvalue problem). 
+(that considers the symmetric eigenvalue problem).
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

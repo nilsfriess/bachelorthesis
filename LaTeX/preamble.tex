@@ -1,5 +1,5 @@
-% \usepackage{newpxtext}
-% \usepackage[euler-digits]{eulervm}
+%\usepackage{newpxtext}
+%\usepackage[euler-digits]{eulervm}
 \usepackage{lmodern}
 \usepackage[activate={true,nocompatibility},final,spacing=true,factor=1100,stretch=10,shrink=10]{microtype}
 \recalctypearea
@@ -15,6 +15,9 @@
 % -----------------------------------------------------
 \automark[section]{chapter}
 
+\widowpenalty10000
+\clubpenalty10000
+
 \usepackage[hidelinks]{hyperref}  
 \hypersetup{pdftitle={Rayleigh Quotient Iteration}}
 \hypersetup{pdfauthor={Nils Friess}}
@@ -22,6 +25,8 @@
 
 \RedeclareSectionCommand[beforeskip=0pt]{chapter}
 
+% Otherwise amsthm and the font dont work togehter
+\let\openbox\undefined
 % MATH PACKAGES
 \usepackage{mathtools}
 \usepackage{amsthm}
@@ -56,3 +61,5 @@
 %%% mode: latex
 %%% TeX-master: "main" 
 %%% End:
+
+

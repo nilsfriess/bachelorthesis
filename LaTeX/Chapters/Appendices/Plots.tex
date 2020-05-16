@@ -373,6 +373,7 @@ degrees).
     \centering
     \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_121/ex4_angle_mat2_2000}
     \caption{{\small $N = 2000$}}%
+    \label{fig:ex4:mat2:a}
   \end{subfigure}
   \hfill
   \begin{subfigure}[t]{0.475\textwidth}
@@ -389,8 +390,10 @@ degrees).
   \hfill
   \begin{subfigure}[t]{0.475\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_121/ex4_angle_mat2_12000}
-    \caption{{\small $N = 12000$}}%
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_121/ex4_angle_mat2_10000_e_3_999}
+    \caption{{\small $N = 10000$. Target eigenvalue was close to the
+        upper end of the spectrum ($\lambda \approx 3.999$).}}%
+    \label{fig:ex4:mat2:fail}
   \end{subfigure}
   \caption[Number of iterations for different angles for the
   {$[1,2,1]$} matrix]{Plot of the number of iterations of classic RQI
@@ -421,7 +424,8 @@ degrees).
   \begin{subfigure}[t]{0.475\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_wilkinson/ex4_angle_mat3_10001}
-    \caption{{\small $N = 10001$}}
+    \caption{{\small $N = 10001$}}%
+    \label{fig:ex4:mat3:d}
   \end{subfigure}
   \caption[Number of iterations for different angles for the Wilkinson
   matrix $\mat{W}^{+}$]{Plot of the number of iterations of classic
@@ -439,8 +443,10 @@ degrees).
   \hfill
   \begin{subfigure}[t]{0.475\textwidth}
     \centering
-    \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_martin_wilkinson/ex4_angle_mat4_4000}
-    \caption{{\small $N = 4000$}}
+    \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_martin_wilkinson/ex4_angle_mat4_4000_fail}
+    \caption{{\small $N = 4000$. Target eigenvalue was close to the
+        lower end of the spectrum ($\lambda \approx 0.000717$).}}%
+    \label{fig:ex4:mat4:fail}
   \end{subfigure}
   \vskip\baselineskip
   \begin{subfigure}[t]{0.475\textwidth}
@@ -452,7 +458,8 @@ degrees).
   \begin{subfigure}[t]{0.475\textwidth}
     \centering
     \includegraphics[width=\textwidth]{Figures/num_ex/ex4/mat_martin_wilkinson/ex4_angle_mat4_12000}
-    \caption{{\small $N = 12000$}}
+    \caption{{\small $N = 12000$}}%
+    \label{fig:ex4:mat4:d}
   \end{subfigure}
   \caption[Number of iterations for different angles for the
   Martin-Wilkinson matrix $\mat{MW}$]{Plot of the number of iterations
