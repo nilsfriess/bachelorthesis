@@ -1,5 +1,5 @@
 \chapter{Complex Rayleigh Quotient Iteration}
-In this chapter we introduce \emph{Complex Rayleigh Quotient
+In this chapter we introduce the \emph{Complex Rayleigh Quotient
   Iteration} (CRQI\footnote{We abbreviate the classic Rayleigh
   Quotient Iteration that was discussed in the previous chapter by
   \emph{RQI} or \emph{classic RQI} and the method introduced in this
@@ -9,6 +9,27 @@ this new method overcomes some of the disadvantages of classic RQI.
 In particular, it seems to perform well in cases when there are
 eigenvalues very close to the target eigenvalue but a good
 approximation of the eigenvector is known.
+
+The idea of the method can be outlined as follows. Using the
+eigenvector approximation, the original problem is perturbed such that
+the distance between the desired eigenvalue and the remaining
+eigenvalues is increased. In particular, we make use of the fact that
+the eigenvalues are all real and ``raise'' them into the complex
+plane. By making use of the orthogonality of the eigenvectors we are
+able to keep the target eigenvalue near the real line and push the
+remaining eigenvalues into the complex plane. RQI is then applied to
+this perturbed problem. Of course, this approach alone would yield
+incorrect results. We therefore decrease the perturbation successively
+until we finally arrive at the original problem and we hope by that
+time the current eigenvalue approximation is sufficiently close to the
+wanted eigenvalue so that RQI succeeds.
+
+After discussing this idea in more detail we provide various numerical
+experiments. The outcome of the examples is very promising; in
+particular we will see that the method seems to compute the correct
+result provided that the angle between the eigenvector approximation
+and the target eigenvector is below $45^\circ$ -- independent of the
+spacing of the eigenvalues.
 
 \input{Chapters/03/Motivation}
 \input{Chapters/03/NumericalExperiments}

@@ -1,8 +1,12 @@
 \section{Numerical Experiments}\label{sec:crqi:experiments}
-In this section we discuss different numerical examples to better
-understand the behaviour of CRQI. Throughout the section we will
-always compare the method to classic RQI. All experiments were
-executed in Matlab 9~\cite{MATLAB}. The criterion for convergence was
+The purpose of this section is twofold. First, we study various
+numerical examples to understand the behaviour of CRQI and demonstrate
+the good properties we already mentioned at the beginning of the
+chapter.  Second, we illustrate the erratic behaviour of classic RQI
+that we mentioned several times before. This is not done seperately
+but by running the same experiments for both methods and comparing the
+results throughout. All experiments were executed in Matlab
+9~\cite{MATLAB}. The criterion for convergence is
 $\norm*{\vec{r}^{(k)}} = \norm*{\mat{A}\vec{x}^{(k)} - \mu^{(k)}
   \vec{x}^{(k)}} < 10^{-9}$. The source codes for both classic and
 complex RQI can be found in the Appendix. Note, that he methods are
@@ -83,7 +87,7 @@ the size of the matrix.
 % from~\cite{dax2003}. The author refers to a paper of Martin and
 % Wilkinson where this matrix is used to }
 
-\paragraph{Laplace matrix $\mat{L}$}
+\paragraph{The Laplace matrix $\mat{L}$}
 This matrix arises, for instance, when discretizing the Laplace
 operator using a five-point stencil in the finite difference method
 (see, for example,~\cite[270--272]{demmel}). Let $m$ be an integer and
@@ -119,9 +123,9 @@ contained in the interval $[0,8]$.
 Below we give some numerical examples that highlight different
 behavioural aspects of the algorithm. Plots and/or tables that
 illustrate our findings are given for each of the test matrices. They
-are either included directly within the example or can be found in the
-appendix. Those included in this section are the ones we found most
-meaningful for the particular example.
+are either included directly within the example or can be found in
+Appendix~\ref{appendix:plots}. Those included in this section are the
+ones we found most meaningful for the particular example.
 
 Recall that we assume that a good approximation of the wanted
 eigenvector is available. To simulate this, the full set of
@@ -129,7 +133,7 @@ eigenvectors is computed using built-in Matlab routines. These vectors
 are then collected as columns of a matrix $\mat{V}$. Next, a weight
 vector $\vec{w}$ of uniformly distributed numbers between $0$ and $1$
 is created. One of the components is set to a higher value than the
-others, \eg $w_{50} = 10$ (in most examples the index of the component
+others, e.\,g., $w_{50} = 10$ (in most examples the index of the component
 was also chosen randomly). The initial vector is then set to a
 weighted linear combination of the eigenvectors, \ie
 $\vec{x}^{(0)} = \beta \mat{V} \vec{w}$, where $\beta$ has to be
@@ -262,7 +266,7 @@ more robust to changes in the initial shift.
     real shift against the computed eigenvalue using classic RQI and
     CRQI for a random matrix. The dotted area encloses the initial
     shifts that lie in the spectrum of $\mat{A}$. The dashed line is
-    located at the Rayleigh quotient of the initial vector.}%
+    located at the Rayleigh Quotient of the initial vector.}%
   \label{fig:vary shift}
 \end{figure}
 
@@ -445,22 +449,25 @@ remainder of the section is devoted to.
   \end{figure*}
 
   We can clearly see that the number of iterations of CRQI indeed
-  decreases as the initial vector becomes closer to the target
-  eigenvector. Classic RQI, on the other hand, sometimes requires a
-  higher number of iterations even for small angles while still
-  computing the wrong result. This again portrays another aspect of
-  the erratic behaviour of classic RQI. For the test problems where
-  the spacing between the eigenvalues is very small, classic RQI often
-  produced very few correct results while CRQI showed the same
-  behaviour as describe above -- independent of the matrix's size and
-  hence the distance between the eigenvalues (see for example
-  Figures~\ref{fig:ex4:mat2:a} or~\ref{fig:ex4:mat4:d}).
+  decreases as the initial error angle gets smaller once the angle is
+  approximately below $45^\circ$. Classic RQI, on the other hand,
+  sometimes requires a higher number of iterations even for small
+  angles while still computing the wrong result. This again portrays
+  another aspect of the erratic behaviour of classic RQI. For the test
+  problems where the spacing between the eigenvalues is very small,
+  classic RQI often produced very few correct results while CRQI
+  showed the same behaviour as describe above -- independent of the
+  matrix's size and hence the distance between the eigenvalues (see
+  for example Figures~\ref{fig:ex4:mat2:a} or~\ref{fig:ex4:mat4:d}).
 
   We have also included some plots that illustrate the fact that a
   smaller angle is required in cases where the target eigenvalue is
   very close to either end of the spectrum which we already mentioned
   above, see Figures~\ref{fig:ex4:mat2:fail}
-  and~\ref{fig:ex4:mat4:fail} in the Appendix.
+  and~\ref{fig:ex4:mat4:fail} in the Appendix. In these cases the
+  behaviour is still the same as in the other examples in the sense
+  that the number of iterations is decreasing as the initial error
+  angles becomes smaller. However, the
 \end{example}
 
 % In the following example we use CRQI to compute eigenvalues and

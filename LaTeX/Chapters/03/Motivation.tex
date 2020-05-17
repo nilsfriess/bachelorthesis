@@ -64,7 +64,7 @@ $\tilde{\mat{A}} \vec{x} \approx \mat{A}\vec{x}$. If, however, the
 vector $\vec{x}$ is almost perpendicular to $\vec{u}$ we have
 \begin{equation}
   \label{eq:a:tilde:multorth}
-  \tilde{\mat{A}} \vec{x} = \mat{A}\vec{x} - i \gamma \vec{x} - \vec{u}
+  \tilde{\mat{A}} \vec{x} = \mat{A}\vec{x} - i \gamma \vec{x} + \vec{u}
   \underbrace{\vec{u}^\tp \vec{x}}_{\approx 0} \approx (\mat{A} - i \gamma \mat{I})\vec{x}\,.
 \end{equation}
 Since $\vec{u}$ approximates $\vec{v}_k$, the orthogonal complement of
@@ -103,9 +103,9 @@ following results can be found in the Appendix.
 \end{lemma}
 
 Since $\vec{u}$ approximates $\vec{v}_k$ we expect the effect on the
-\todo{Rewrite} eigenvalues of $\tilde{\mat{A}}_{(0)}$ due to the
-perturbation $\tilde{\mat{A}}_{(1)}$ to be small. The following lemma
-answers how ``big'' this perturbation is.
+eigenvalues of $\tilde{\mat{A}}_{(0)}$ due to the perturbation
+$\tilde{\mat{A}}_{(1)}$ to be small. The following lemma answers how
+``big'' this perturbation is.
 
 % As long as both $\gamma$ and the angle between the vector $\vec{u}$
 % and the wanted eigenvector are sufficiently small this is indeed the
@@ -124,7 +124,7 @@ answers how ``big'' this perturbation is.
 For good approximations $\vec{u}$ we have
 ${\langle \vec{u}, \vec{v}_k \rangle}^2 \approx 1$ and thus, if
 $\gamma$ is sufficiently small, $\norm*{\tilde{\mat{A}}_{(1)}} \ll 1$.
-We can give an estimate of the eigenvalues of $\tilde{\mat{A}}$.
+We can now give an estimate of the eigenvalues of $\tilde{\mat{A}}$.
 
 \begin{proposition}%
   \label{prop:atilde:eigenvalues}
@@ -167,9 +167,9 @@ choice that comes to mind is the norm of the current residual
 $\vec{r}^{(k)}$ or related quantities such as the square of the
 residual norm. How the choice of this shift influences the convergence
 behaviour is discussed in Section~\ref{sec:crqi:experiments}. We
-summarise the idea of CRQI in Algorithm~\ref{alg:crqi:first}. Note tha
-this is not the full algorithm but only the inner loop. Since we will
-shortly change the algorithm slightly, we postpone the complete
+summarise the idea of CRQI in Algorithm~\ref{alg:crqi:first}. Note
+that this is not the full algorithm but only the inner loop. Since we
+will shortly change the algorithm slightly, we postpone the complete
 definition until later.
 
 \begin{algorithm}[htpb]

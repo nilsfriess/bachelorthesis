@@ -1,14 +1,15 @@
 \chapter{Introduction}\label{chapter:intro}%
 In this thesis we propose a novel shift-and-invert method to compute
 eigenvalues and eigenvectors of real symmetric matrices. The method is
-a modification of the \emph{Rayleigh Quotient Iteration} (RQI). It is
-well-known that RQI is often unpredictable in the sense that even when
-executed with accurate eigenvector approximations it does not
-necessarily yield the correct eigenpair. This problem becomes worse in
-cases where the distance between the wanted eigenvalue and its
-neighbours is very small. In our new method we perturb the original
-problem in such a way that the spacing between the target eigenvalue
-and the other eigenvalues is increased and apply RQI to this perturbed
+a modification of the \emph{Rayleigh Quotient Iteration} (RQI)
+designed to overcome some of the drawbacks of RQI. It is well-known
+that RQI is often unpredictable in the sense that even when executed
+with accurate eigenvector approximations it does not necessarily yield
+the correct eigenpair. This problem becomes worse in cases where the
+distance between the wanted eigenvalue and its neighbours is very
+small. In our new method we perturb the original problem in such a way
+that the spacing between the target eigenvalue and the other
+eigenvalues is increased and apply RQI to this perturbed
 problem. Obviously, this approach alone would lead to incorrect
 results. Therefore, the perturbation is successively decreased until
 we finally arrive at the original problem and we hope that by that
@@ -33,11 +34,13 @@ chapter we introduce our novel method that we call \emph{Complex
   Rayleigh Quotient Iteration}. After motivating the method, different
 numerical experiments are carried out for various test problems to
 better understand its behaviour and to illustrate the good properties
-mentioned above. The aim of this thesis is not to carry out a
-mathematical analysis of the method but rather to discuss numerical
-examples that illustrate different behavioural aspects of the
-algorithm. We leave a detailed analysis of the method based on our
-observations for future work.
+mentioned above.
+
+The aim of this thesis is not to carry out a mathematical analysis of
+the method but rather to discuss various numerical examples that
+illustrate different behavioural aspects of the algorithm. We leave a
+detailed analysis of the method based on our observations for future
+work.
 
 % \input{Chapters/01/objectives}%
 \input{Chapters/01/SymmetricEigvalProblem}%

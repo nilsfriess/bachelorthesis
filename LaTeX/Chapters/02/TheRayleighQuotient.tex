@@ -1,7 +1,7 @@
 \section{The Rayleigh Quotient}\label{sec:rqi:rq}
 In Chapter~\ref{chapter:intro} we briefly introduced some simple
 iterative eigenvalue methods. In essence, RQI is shifted inverse
-iteration where the shift is replaced by the \emph{Rayleigh quotient}
+iteration where the shift is replaced by the \emph{Rayleigh Quotient}
 at each step.
 
 \begin{definition}[Rayleigh Quotient]
@@ -10,7 +10,7 @@ at each step.
     \rq_{\mat{A}} : \C^n \setminus \{\vec{0}\} \rightarrow \C, \qquad
     \vec{x} \mapsto \frac{\vec{x}^\herm \mat{A} \vec{x}}{\vec{x}^\herm \vec{x}}
   \end{equation*}
-  is called the \emph{Rayleigh quotient} corresponding to the matrix
+  is called the \emph{Rayleigh Quotient} corresponding to the matrix
   $\mat{A}$.\footnote{Other notations that are popular in the
     literature include $R_{\mat{A}}(\vec{x})$, $R(\mat{A}, \vec{x})$,
     $r_{\mat{A}}(\vec{x})$, $\sigma_{\mat{A}}(\vec{x})$ or
@@ -133,8 +133,9 @@ the \emph{residual} norm for the eigenvalue problem. The following
 result specifies how good of an estimate the Rayleigh Quotient is.
 According to Parlett this is the property to which ``the phenomenal
 convergence rate [of RQI] can be attributed''~\cite[77]{Parlett1998}.
-We postpone the proof of this statement until when we discuss the
-convergence behaviour of RQI.
+We postpone the proof of this statement until
+Section~\ref{sec:convergence} where we discuss the convergence
+behaviour of RQI.
 
 \begin{lemma}[Eigenvalue estimate]%
   \label{lem:rq:quadestimate}
@@ -163,7 +164,7 @@ convergence behaviour of RQI.
 This result is often paraphrased as ``the Rayleigh Quotient is a
 \emph{quadratically accurate} estimate of an eigenvalue'' (see, for
 example,~\cite[204]{trefethen1997}). If $\mat{A}$ is non-normal, the
-Rayleigh quotient is still an estimate of order one, \ie
+Rayleigh Quotient is still an estimate of order one, \ie
 \begin{equation*}
   \abs{\rq_{\mat{A}}(\vec{x}) - \rq_{\mat{A}}(\vec{v})} = \mathcal{O}(\norm{\vec{x} - \vec{v}})\,.
 \end{equation*}
@@ -194,7 +195,7 @@ Rayleigh Quotient is equal to one.
 
 We have yet to define what we mean by ``until convergence'' in this
 Algorithm but also in the simple vector iterations from
-Chapter~\ref{chapter:intro}. Now that we the defined the Rayleigh
+Chapter~\ref{chapter:intro}. Now that we have defined the Rayleigh
 Quotient, we can define the following stopping criterion. Run the
 iteration until
 \begin{equation}
@@ -218,7 +219,7 @@ approximations.  Details on this residual-based error control can be
 found in~\cite[Section~3.2]{saad2011}
 or~\cite[Section~5.2]{boerm}. Here, we give only some important
 results without proof. A popular result, usually referred to as the
-\emph{Bauer-Fike theorem} (see, \eg~\cite[59]{saad2011}) states that
+\emph{Bauer-Fike Theorem} (see, \eg~\cite[59]{saad2011}) states that
 there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}

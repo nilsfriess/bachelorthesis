@@ -1,14 +1,13 @@
 \section{History and Recent Developments}
-Now that we have defined the Rayleigh Quotient and Rayleigh Quotient
-Iteration we give an overview of the historic developments of RQI. We
-also discuss recent contributions that are relevant to this thesis.
-Some of the results, mainly the ones that are concerned with the
+In this section we give an overview on the history of RQI. We also
+discuss recent contributions that are relevant to this thesis.  Some
+of the results, mainly the ones that are concerned with the
 convergence of RQI, are discussed in more detail in
 Section~\ref{sec:convergence}.
 
 \subsection{Chronology of Rayleigh Quotient Iteration}
 It took about 60 years from the first mention of what is now called
-the Rayleigh quotient until RQI was fully defined as it is given in
+the Rayleigh Quotient until RQI was fully defined as it is given in
 Algorithm~\ref{alg:rqi}. In this section we give an overview of some
 important milestones within this 60 years. Large parts of this
 overview are based on Section 4 of~\cite{tapia2018}.
@@ -19,26 +18,26 @@ Rayleigh~\cite[110]{rayleigh}, proposed the following iteration for
 improving an approximate eigenvector $\vec{x}^{(0)}$:
 \begin{equation}
   \label{eq:rayleigh:iteration}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I})\, \vec{x}^{(i+1)} = \vec{e}_1\,,
+  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I})\, \vec{x}^{(k+1)} = \vec{e}_1\,,
 \end{equation}
 where $\vec{e}_1$ denotes the first natural coordinate vector, \ie the
-first column of the identity matrix and $\vec{x}^{(i)}$ and
-$\vec{x}^{(i+1)}$ denote the current and next iterate,
+first column of the identity matrix, and $\vec{x}^{(k)}$,
+$\vec{x}^{(k+1)}$ denote the current and next iterate,
 respectively. In fact, Lord Rayleigh considered the generalised
 eigenvalue problem and so in his text, the iteration reads
 \begin{equation*}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{M})\, \vec{x}^{(i+1)} = \vec{e}_1\,.
+  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{M})\, \vec{x}^{(k+1)} = \vec{e}_1\,.
 \end{equation*}
 
 \paragraph{1949 --- \textsc{Kohn}}
 In a letter to the editor Walter Kohn~\cite{kohn} suggests the
 following iteration
 \begin{equation*}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{e}_k\,,
+  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{e}_m\,,
 \end{equation*}
-where $\vec{e}_k$ is \emph{any} of the natural coordinate
+where $\vec{e}_m$ is \emph{any} of the natural coordinate
 vectors. Without a rigorous proof Kohn argues that
-$\rq_{\mat{A}}(\vec{x}^{(i)})$ converges quadratically to an
+$\rq_{\mat{A}}(\vec{x}^{(k)})$ converges quadratically to an
 eigenvalue of $\mat{A}$ (provided that $\vec{x}^{(0)}$ is sufficiently
 close to an eigenvector of $\mat{A}$). Despite the similarity
 to~\eqref{eq:rayleigh:iteration}, Kohn does not mention Lord
@@ -46,32 +45,33 @@ Rayleigh's method and it is not known whether or not he was aware of
 it.
 
 \paragraph{1951 --- \textsc{Crandall}}
-In a text communicated to the Royal society of London Stephen
+In a text communicated to the Royal Society of London Stephen
 Crandall~\cite{crandall} suggests
 \begin{equation}
   \label{eq:unnormalised:rqi}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x}^{(i)}\,.
+  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
 \end{equation}
 Actually, Crandall also considered the generalised eigenproblem but
 for our comparative purposes it is sufficient to consider the case
 $\mat{M} = \mat{I}$. Note, that this algorithm is RQI without the
-normalisation step. Based on the assumption that the sequence of
-vectors $\vec{x}^{(k)}$ converges, Crandall establishes cubic
-convergence in this sequence and the approximate eigenvalue
-sequence. To see why the assumption is wrong, we assume the contrary,
-\ie suppose that the sequence converges to an eigenvector, say
-$\vec{v}_k$.  From~\eqref{eq:unnormalised:rqi} we have
+normalisation step. Crandall establishes cubic convergence of the
+sequence of vector iterates and the approximate eigenvalue sequence
+$\rq_{\mat{A}}(\vec{x}^{(k)})$. His analysis is based on the
+assumption that the sequence of vectors $\vec{x}^{(k)}$ does converge.
+To see why the assumption is wrong, we assume the contrary, \ie
+suppose that the sequence converges to an eigenvector, say
+$\vec{v}_j$.  From~\eqref{eq:unnormalised:rqi} we have
 \begin{equation*}
-  \quad \mat{A}\vec{v}_k - \rq_{\mat{A}}(\vec{v}_k) \vec{v}_k = \vec{v}_k
+  \quad \mat{A}\vec{v}_j - \rq_{\mat{A}}(\vec{v}_j) \vec{v}_j = \vec{v}_j
   \qquad \Leftrightarrow \qquad
-  \mat{A}\vec{v}_k = (1 + \rq_{\mat{A}}(\vec{v}_k)) \vec{v}_k\,,
+  \mat{A}\vec{v}_j = (1 + \rq_{\mat{A}}(\vec{v}_j)) \vec{v}_j\,,
 \end{equation*}
-and so $\vec{v}_k$ is an eigenvector of $\mat{A}$ with corresponding
-eigenvalue $1 + \rq_{\mat{A}}(\vec{v}_k)$. Since we know that for any
-eigenvector, the value of $\rq_{\mat{A}}(\vec{v}_k)$ is the eigenvalue
+and so $\vec{v}_j$ is an eigenvector of $\mat{A}$ with corresponding
+eigenvalue $1 + \rq_{\mat{A}}(\vec{v}_j)$. Since we know that for any
+eigenvector, the value of $\rq_{\mat{A}}(\vec{v}_j)$ is the eigenvalue
 it belongs to, this implies
 \begin{equation*}
-  \rq_{\mat{A}}(\vec{v}_k) = 1 + \rq_{\mat{A}}(\vec{v}_k)
+  \rq_{\mat{A}}(\vec{v}_j) = 1 + \rq_{\mat{A}}(\vec{v}_j)\,,
 \end{equation*}
 which is a contradiction.
 
@@ -98,9 +98,9 @@ He rigorously establishes a \emph{quadratic} convergence rate for the
 sequence of Rayleigh Quotients $\rq_{\mat{A}}(\vec{x}^{(i)})$. He then
 refers to a paper of Wielandt~\cite{wielandt} and his
 \emph{fractional} or \emph{broken iteration} (German: \emph{gebrochene
-  Iteration}). Inspired by Wielandt`s method he suggests replacing the
+  Iteration}). Inspired by Wielandt's method he suggests replacing the
 fixed vector $\bm{\eta}$ in the right hand side
-of~\eqref{eq:rqi:ostrowski:first} to the solution from the previous
+of~\eqref{eq:rqi:ostrowski:first} by the solution from the previous
 step
 \begin{equation}
   \label{eq:rqi:unnormalised:ostrowski}
@@ -108,7 +108,7 @@ step
 \end{equation}
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
-sequence of Rayleigh quotients
+sequence of Rayleigh Quotients
 $\mu_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie
 \begin{equation}
   \label{eq:rqi:cubic}
@@ -144,7 +144,7 @@ following note was added:
 \end{quotation}
 
 In the beginning of the second paper~\cite{ostrowskiII} Ostrowski
-discusses this in more detail and remarks that Crandall proofed the
+discusses this in more detail and remarks that Crandall proved the
 $r$-cubic convergence of the sequence of eigenvalue iterates, while he
 showed $q$-cubic convergence.
 
@@ -157,14 +157,14 @@ defined RQI as it is known today.
 The third paper~\cite{ostrowskiIII} of the series addresses the
 non-symmetric case for which Ostrowski is also able to define a method
 that attains local cubic convergence. This method uses a generalised
-notion of the Rayleigh quotient and comes at the expense of solving
+notion of the Rayleigh Quotient and comes at the expense of solving
 two linear systems at each step instead of one. The remaining papers
 are also mainly concerned with the non-symmetric and non-Hermitian
 case and are thus not of particular interest for this thesis.
 
 This concludes the overview of the development of RQI from Lord
 Rayleigh's iteration that lacks the changing right hand side and the
-normalisation of the vector iterate to the complete definition of RQI
+normalisation of the vector iterate, to the complete definition of RQI
 by Ostrowski.
 
 \subsection{Further Developments and Recent
@@ -178,9 +178,9 @@ another ten years until a first important result concerning the
 \emph{global} convergence behaviour of RQI was presented. In 1968
 Parlett and Kahan~\cite{parlettkahan} showed that RQI applied to
 symmetric matrices converges for almost all starting vectors and in
-1974 Parlett~\cite{parlettrqi} generalised the result for the case
-when $\mat{A}$ is normal. A slightly more concise version of the proof
-has been again published in Parlett's book~\cite{Parlett1998}.
+1974 Parlett~\cite{parlettrqi} generalised the result to the case when
+$\mat{A}$ is normal. A slightly more concise version of the proof has
+been again published in Parlett's book~\cite{Parlett1998}.
 
 Of course, not only is it of interest \emph{that} the method converges
 but also \emph{which} eigenpair it converges to. The following example
@@ -202,7 +202,8 @@ unexpected.
         0.5775725022046341
       \end{pmatrix}\,.
     \end{equation*}
-    This produces the eigenpair $(1, \vec{e}_1)$ although
+    This results in the eigenpair $(1, \vec{e}_1)$ although the
+    Rayleigh Quotient of the initial shift is
     \begin{equation*}
       \rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729\,.
     \end{equation*}
@@ -219,9 +220,9 @@ unexpected.
     \begin{equation*}
       \vec{x}^{(0)} = {\left(
           0.74278,\ 0.55709,\ 0.37139
-        \right)}^\tp
+        \right)}^\tp\,.
     \end{equation*}
-    the angles are
+    The corresponding angles are
     \begin{equation*}
       \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.73358\,, \quad
       \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 0.97992\,, \quad
@@ -244,20 +245,14 @@ understood. Ostrowski~\cite{ostrowskiI} defined explicit estimates of
 \emph{convergence neighbourhoods} for the shift, \ie intervals around
 an eigenvalue in which convergence to this eigenvalue is
 assured. However, these intervals depend on quantities that are not
-known beforehand so they are of little practical use.
+known beforehand, and so they are of little practical use.
 
 Efforts have been made to obtain local convergence regions with as
 little knowledge about the spectrum as possible. For example, Beattie
-and Fox~\cite{beattiefox} derive conditions under which convergence is
-assured to be in a given interval assuming the number of eigenvalues
-contained in the interval is known. Recently, Rommes~\cite{rommes}
-derived sharper bounds for local convergence neighbourhoods. He
-compares RQI to a related algorithm, called the Dominant Pole
-Algorithm (DPA). Further, he observes that RQI does not take much
-advantage of the information in the initial vector $\vec{x}^{(0)}$. In
-other words, even if the initial vector is a very good approximation
-of the wanted eigenvector, RQI might fail. We will come back to this
-observation in the next chapter.
+and Fox~\cite{beattiefox} derive computable criteria that ensure that
+the iterates and thus the computed eigenvalue stay within a given
+interval; only the number of eigenvalues contained in the interval
+needs to be known.
 
 Szyld~\cite{szyld} suggests combining shifted inverse iteration and
 RQI to ensure that the computed eigenvalue lies in a given
@@ -266,6 +261,14 @@ algorithms to benefit from their respective advantages (inverse
 iteration is guaranteed to converge to the nearest eigenvalue but
 convergence is merely linear; RQI possesses local cubic convergence
 but the global convergence behaviour is possibly erratic).
+
+Recently, Rommes~\cite{rommes} derived sharper bounds for local
+convergence neighbourhoods. He compares RQI to a related algorithm,
+called the Dominant Pole Algorithm (DPA). Further, he observes that
+RQI does not take much advantage of the information in the initial
+vector $\vec{x}^{(0)}$. In other words, even if the initial vector is
+a very good approximation of the wanted eigenvector, RQI might
+fail. We will come back to this observation in the next chapter.
 
 The task of identifying global convergence regions in terms of the
 initial vector seems to be more difficult. Parlett noted in 1980 that

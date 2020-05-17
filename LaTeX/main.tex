@@ -5,7 +5,8 @@ numbers      = noenddot,%
 % parskip      = half,
 DIV = calc,%
 BCOR = 5mm,
-headsepline%
+headsepline,%
+listof=totoc
 ]{scrreprt}
 
 \usepackage[utf8]{inputenc}%
@@ -16,7 +17,7 @@ headsepline%
 backref, hyperref]{biblatex}%
 \addbibresource{bibliography.bib}%
 
-\usepackage[page,toc,titletoc,title]{appendix}
+\usepackage[page]{appendix}
 
 \include{meta}
 \include{preamble}
@@ -30,13 +31,24 @@ backref, hyperref]{biblatex}%
 \begin{document}
 
 \include{titlepage}
+\include{declaration}
 \include{abstract}
 
+\pagenumbering{roman}%
 \cleardoublepage%
+\setcounter{page}{1}
 \tableofcontents%
-\listoffigures \listofalgorithms%
-\listoftodos%
+\listoffigures%
 
+\cleardoublepage%
+\addcontentsline{toc}{chapter}{List of Algorithms}%
+\listofalgorithms%
+
+\cleardoublepage%
+\listoftodos%
+\newpage%
+\pagenumbering{arabic}%
+\setcounter{page}{1}%
 \include{Chapters/01/Chapter01}
 \include{Chapters/02/Chapter02}
 \include{Chapters/03/Chapter03}
@@ -45,7 +57,7 @@ backref, hyperref]{biblatex}%
 \begin{appendices}
   \include{Chapters/Appendices/Proofs}
   \include{Chapters/Appendices/Plots}
-%  \include{Chapters/Appendices/Algorithms}
+  % \include{Chapters/Appendices/Algorithms}
 \end{appendices}
 
 \printbibliography[heading=bibintoc]
