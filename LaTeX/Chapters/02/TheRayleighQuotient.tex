@@ -188,6 +188,7 @@ summarise the results in Algorithm~\ref{alg:rqi}.
   } 
   \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
 \end{algorithm}
+
 Note, that in the computation of the Rayleigh Quotient the division by
 ${(\vec{x}^{(k)})}^\ast \vec{x}^{(k)}$ can be omitted. The vector is
 already normalised at the previous step so that the denominator of the
@@ -219,7 +220,7 @@ approximations.  Details on this residual-based error control can be
 found in~\cite[Section~3.2]{saad2011}
 or~\cite[Section~5.2]{boerm}. Here, we give only some important
 results without proof. A popular result, usually referred to as the
-\emph{Bauer-Fike Theorem} (see, \eg~\cite[59]{saad2011}) states that
+\emph{Bauer-Fike Theorem} (see, \eg\cite[59]{saad2011}) states that
 there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 \begin{equation}
   \label{eq:bauer-fike}

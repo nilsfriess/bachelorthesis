@@ -1,5 +1,5 @@
 \section{Conclusions}%
-In this chapter we have seen that RQI posseses some very favourable
+In this chapter we have seen that RQI possesses some very favourable
 properties. It is practically impossible to make RQI fail to converge
 to any eigenpair and convergence is locally cubic.  However, we have
 also discussed that in some cases it seems to be difficult, if not
@@ -7,25 +7,23 @@ impossible, to predict which eigenpair the method will converge to. As
 we will see in the next chapter, for problems with closely spaced
 eigenvalues even very accurate eigenvector approximations can lead to
 the wrong result. While virtually every publication that discusses RQI
-mentiones its appealing properties, almost all of them do also mention
-this erratic behaviour. For instance,~\cite{beattiefox, dax2003}
-and~\cite{pantazisszyld} refer to the ``unpredictability'' of RQI.
-Parlett stated it as an exercise to find a $3 \times 3$ example that
-shows this behaviour in his book~\cite{Parlett1998}. Beattie and
-Fox~\cite{beattiefox} and Dax~\cite{dax2003} claim that this might be
-one of the reasons why RQI is not as widely used (another reason being
-its high cost).
+mentions its appealing properties, almost all of them do also mention
+this erratic behaviour. For instance, the papers~\cite{beattiefox,
+  dax2003} and~\cite{pantazisszyld} refer to the ``unpredictability''
+of RQI.  In Parlett's book~\cite{Parlett1998} it is posed as an
+exercise to find a $3 \times 3$ example that shows this
+behaviour. Beattie and Fox~\cite{beattiefox} and Dax~\cite{dax2003}
+claim that this might be one of the reasons why RQI is not as widely
+used (another reason being its high cost).
 
-The main purpose of our novel method is to alter RQI such that this
-problem is overcome. Although this cannot be done without loosing some
-of the beneficial properties of RQI, the observations from the
-numerical experiments in the next chapter are very promising.  The
-algorithm does generally require more iterations but is much more
+The main purpose of our novel method is to alter RQI in such a way
+that this problem is overcome. Although this cannot be done without
+loosing some of the beneficial properties of RQI, the observations
+from the numerical experiments in the next chapter are very promising.
+The algorithm does generally require more iterations but is much more
 predictable; once the error angle between the initial vector and the
 target eigenvector is sufficiently small, it will always yield the
 correct result.
-
-
 
 %%% Local Variables:
 %%% mode: latex

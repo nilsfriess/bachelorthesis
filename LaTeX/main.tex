@@ -4,17 +4,13 @@ paper        = a4,%
 numbers      = noenddot,%
 % parskip      = half,
 DIV = calc,%
-BCOR = 5mm,
-headsepline,%
-listof=totoc
-]{scrreprt}
+BCOR = 5mm, headsepline,%
+listof=totoc ]{scrreprt}
 
 \usepackage[utf8]{inputenc}%
 \usepackage[T1]{fontenc}
 
-\usepackage[backend=biber, style=numeric-comp,
-% sortcites, sorting=nty,
-backref, hyperref]{biblatex}%
+\usepackage[backend=biber, style=numeric-comp,hyperref]{biblatex}%
 \addbibresource{bibliography.bib}%
 
 \usepackage[page]{appendix}
@@ -25,8 +21,7 @@ backref, hyperref]{biblatex}%
 
 \pagestyle{scrheadings}
 
-% DRAFT PACKAGES
-% \usepackage{showlabels}
+% DRAFT PACKAGES \usepackage{showlabels}
 
 \begin{document}
 
@@ -38,14 +33,16 @@ backref, hyperref]{biblatex}%
 \cleardoublepage%
 \setcounter{page}{1}
 \tableofcontents%
-\listoffigures%
 
 \cleardoublepage%
 \addcontentsline{toc}{chapter}{List of Algorithms}%
 \listofalgorithms%
 
+\listoffigures%
+
+
+
 \cleardoublepage%
-\listoftodos%
 \newpage%
 \pagenumbering{arabic}%
 \setcounter{page}{1}%

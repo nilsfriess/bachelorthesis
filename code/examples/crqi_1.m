@@ -1,8 +1,8 @@
 clf
 
-test = 2;
-size = 4000;
-weight_target = 35;
+test = 1;
+size = 200;
+weight_target = 10;
 
 [a,N] = test_matrix(test,size);
 

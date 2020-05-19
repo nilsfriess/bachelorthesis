@@ -327,9 +327,19 @@ Quotient of the vector iterate $\vec{x}^{(k)}$ as is the case in
 classic RQI. One could try to interpret the method as classic RQI
 applied to the matrix $\mat{A} - i \gamma^{(k)}\mat{I}$ but this is
 also not true since this matrix changes from one step to the next.
+Hence, we cannot expect that CRQI possesses the same appealing
+convergence properties as classic RQI. However, numerical examples
+suggest that convergence is still fast and often merely three or four
+additional steps are required compard to classic RQI. Moreover, we did
+not encounter an example where CRQI failed to converge to any
+eigenpair.
 
-Hence, we can obviously not expect the convergence results of classic
-RQI to straightforwardly carry over.\todo{Conclude motivations}
+This concludes the motivation part of this section. As mentioned in
+the beginning of this thesis, our aim is not to provide a detailed
+mathematical analysis of the method. Instead, we discuss various
+numerical examples to demonstrate that the idea introduced above
+works.
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "../../main"

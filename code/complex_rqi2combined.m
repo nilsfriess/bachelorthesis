@@ -8,7 +8,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
   if nargin < 4
     error("Too few arguments");
   elseif nargin < 5
-    tolerance = 10e-9;
+    tolerance = 1e-11;
   end
   m = size(a);
   x = x / norm(x);

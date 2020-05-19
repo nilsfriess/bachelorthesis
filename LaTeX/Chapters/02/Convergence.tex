@@ -84,12 +84,11 @@ $\mat{Q} \hat{\vec{y}}^{(i+1)} = {(\mat{A} -
   {(\mat{\Lambda} - \mu^{(i)}\mat{I})}^{-1}\hat{\vec{x}}^{(i)}\,,
 \end{equation*}
 where we used $\mat{Q}^\tp = \mat{Q}^{-1}$, the orthogonality of
-$\mat{Q}$. We see that running RQI with $\mat{A}$\todo{Explain more
-  detailed} and $\vec{x}^{(0)}$ is equivalent to running RQI with
-$\mat{\Lambda}$ and $\hat{\vec{x}}^{(0)}$. Thus, we assume that
-$\mat{A} = \mat{\Lambda}$ is already diagonal which in particular
-implies that the eigenvectors of $\mat{A}$ are $\vec{e}_i$, the
-natural coordinate vectors.
+$\mat{Q}$. We see that running RQI with $\mat{A}$ and $\vec{x}^{(0)}$
+is equivalent to running RQI with $\mat{\Lambda}$ and
+$\hat{\vec{x}}^{(0)}$. Thus, we assume that $\mat{A} = \mat{\Lambda}$
+is already diagonal which in particular implies that the eigenvectors
+of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
 \begin{proof}[Proof of Theorem~\ref{thm:rqi:cubic}]
   Suppose without loss of generality that $\vec{x}^{(i)}$ converges to
   $\vec{e}_1$. Remember that we assume that the current iterate is a
@@ -117,9 +116,9 @@ natural coordinate vectors.
   Since the vectors are normalised at each step we have
   \begin{align*}
     1 = {(\vec{x}^{(i)})}^\tp (\vec{x}^{(i)})
-    &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp (\vec{e}_1 + \vec{d}^{(i)})
-      = \vec{e}_1^\tp \vec{e}_1 + 2 \vec{e}_1^\tp \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \vec{d}^{(i)} \\
-    &= 1 + 2 d^{(i)}_1 + \epsilon^2\,.
+    &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp (\vec{e}_1 + \vec{d}^{(i)}) \\
+    &= \vec{e}_1^\tp \vec{e}_1 + 2 \vec{e}_1^\tp \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \vec{d}^{(i)} \\
+    &= 1 + 2 d^{(i)}_1 + \epsilon^2\,,
   \end{align*}
   where $d^{(i)}_1$ denotes the first component of the vector
   $\vec{d}^{(i)}$. Rewriting gives $d^{(i)}_1 = -\epsilon^2/ 2$ and
@@ -131,14 +130,17 @@ natural coordinate vectors.
     \end{equation*}
   } of $\mat{\Lambda}$ we obtain
   \begin{align*}
-    \mu^{(i)} &= {(\vec{x}^{(i)})}^\tp \mat{\Lambda}\vec{x}^{(i)}
-                = {(\vec{e}_1 + \vec{d}^{(i)})}^\tp \mat{\Lambda} {(\vec{e}_1 + \vec{d}^{(i)})} \\
-              &= \vec{e}_1^\tp \mat{\Lambda} \vec{e}_1 + 2\vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1 - \eta\,,
+    \mu^{(i)} &= {(\vec{x}^{(i)})}^\tp \mat{\Lambda}\vec{x}^{(i)} \\
+              &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp \mat{\Lambda} {(\vec{e}_1 + \vec{d}^{(i)})} \\
+              &= \vec{e}_1^\tp \mat{\Lambda} \vec{e}_1 + 2\vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}\\
+              &= \lambda_1 - \eta\,,
   \end{align*}
   where
-  $\eta \coloneqq -2 \vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} -
-  {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1
-  \epsilon^2 - {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}$.
+  \begin{equation*}
+    \eta \coloneqq -2 \vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} -
+    {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1
+    \epsilon^2 - {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}\,.
+  \end{equation*}
   Using the fact that the spectral norm of a symmetric matrix is equal
   to its spectral radius, \ie the absolute value of the largest
   eigenvalue $\lambda_{\max}$, we can bound $\abs{\eta}$ as follows
@@ -149,7 +151,8 @@ natural coordinate vectors.
   \end{equation}
   and we see that
   $\mu^{(i)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
-  (note that this proves Lemma~\ref{lem:rq:quadestimate}). We obtain
+  (note that this proves Lemma~\ref{lem:rq:quadestimate}, the
+  quadratic accuracy of the Rayleigh Quotient). We obtain
   \begin{align*}
     \vec{y}^{(i+1)}&= {(\mat{\Lambda} - \mu^{(i)})}^{-1} \vec{x}^{(i)} \\
                    &= {\left(
@@ -236,15 +239,15 @@ $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{v})$, \ie he shows
 \begin{equation*}
   \lim_{k \rightarrow \infty} \abs{\frac{\phi^{(k+1)}}{{\left( \phi^{(k)}\right)}^{3}}} \le 1\,.
 \end{equation*}
-In some texts that study inverse iteration in a more particularised
-fashion, cubic convergence of RQI is proofed by combining the
-quadratic accuracy of the Rayleigh Quotient together with convergence
-results from inverse iteration (since a single step of RQI is
-equivalent to a single step of inverse iteration with the Rayleigh
-Quotient of the current iterate vector chosen as the shift), see for
-example~\cite[208]{trefethen1997} or~\cite[89\psq]{boerm}.
+In some texts that study inverse iteration in greater detail, cubic
+convergence of RQI is proved by combining the quadratic accuracy of
+the Rayleigh Quotient together with convergence results from inverse
+iteration (since a single step of RQI is equivalent to a single step
+of inverse iteration with the Rayleigh Quotient of the current iterate
+vector chosen as the shift), see for example~\cite[208]{trefethen1997}
+or~\cite[89\psq]{boerm}.
 
-To conclude this chapter we briefly discuss some of the results
+To conclude this section we briefly discuss some of the results
 concerning the global convergence behaviour of RQI. Essential for
 showing that RQI is globally convergent is the following fact which,
 according to Parlett~\cite[85]{Parlett1998}, is due to
@@ -334,8 +337,8 @@ ${\left(\rq_{\mat{A}}(\vec{x}^{(k)}), \vec{x}^{(k)}\right)}_{k \in
 $(\rho, \vec{z})$. This point is the limit of a subsequence
 ${\left(\rq_{\mat{A}}(\vec{x}^{(j)}), \vec{x}^{j}\right)}_{j \in
   \mathcal{J}}$ for some index set $\mathcal{J}$. Using the fact that
-the Rayleigh Quotient is a continuous function on the unit sphere we
-see that
+the Rayleigh Quotient is a continuous function on the unit sphere
+Parlett concludes that
 \begin{gather*}
   \rq_{\mat{A}}(\vec{z}) = \lim_j \rq_{\mat{A}}(\vec{x}^{(j)}) = \rho
 \end{gather*}
@@ -351,9 +354,9 @@ convergence theorem to conclude that indeed
 $\lim_{k \rightarrow \infty} \vec{x}^{(k)} = \vec{z}$.
 
 The second case $\tau > 0$ is much harder to analyse and does also
-require a number of auxiliary results relating the eigenvectors of a
-matrix $\mat{A}$ to its square $\mat{A}^2$. Therefore, as mentioned
-above, we do not discuss this part of the proof here.
+require a number of auxiliary results relating the eigenvectors of
+$\mat{A}$ to its square $\mat{A}^2$. Therefore, as mentioned above, we
+do not discuss this part of the proof here.
 
 \begin{example}
   To illustrate the situation in the second part of the theorem
@@ -375,16 +378,14 @@ above, we do not discuss this part of the proof here.
   roundoff errors will inevitably introduce perturbations of the
   vector iterate. However, this can drastically increase the number of
   steps before the cubic convergence takes place. In this particular
-  example, when executed in Matlab \todo{Matlab} the method needs 36
-  steps in total.
+  example, when executed in Matlab~\cite{MATLAB} the method requires
+  36 steps in total.
 \end{example}
-
-
 
 Parlett states in~\cite[61]{Parlett1998} and in~\cite[680]{parlettrqi}
 that RQI converges for almost all starting vectors but Batterson and
 Smillie claim that this assertion is not
-proofed~\cite[625]{battersonsmillie}. They proceed to give a proof of
+proved~\cite[625]{battersonsmillie}. They proceed to give a proof of
 this fact which is formulated in their paper as follows.
 
 \begin{theorem}

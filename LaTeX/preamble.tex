@@ -42,8 +42,11 @@
 \usepackage[labelformat=simple]{subcaption}
 \renewcommand\thesubfigure{(\alph{subfigure})}
 \usepackage{enumitem}
-
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{pdflscape}
 \usepackage{blindtext}
+\usepackage{float}
 
 % NEW DEFINITIONS AND OTHER SETUP
 \newcommand{\HRule}{\rule{.9\linewidth}{.6pt}}
@@ -57,9 +60,18 @@
 \newcommand{\eg}{e.\,g.\ }
 \newcommand{\wrt}{w.\,r.\,t.\ }
 
+\renewcommand*{\sqspace}{}
+
+\DefineBibliographyStrings{english}{%
+  sequens = {f\adddot},
+  sequentes = {ff\adddot},
+}
+
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+\newcommand{\ul}[1]{\underline{#1}}
+
 %%% Local Variables:
 %%% mode: latex
 %%% TeX-master: "main" 
 %%% End:
-
 

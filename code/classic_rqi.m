@@ -18,7 +18,7 @@ function [x, sigma, iterations, eigval_iterates, eigvec_iterates, residuals] = c
         error("Too few arguments");
     elseif nargin < 4
         % if no tolerance provided, use 10e-9
-        tolerance = 1e-9; 
+        tolerance = 1e-11; 
     end
 
     m = size(a);

@@ -1,4 +1,4 @@
-\chapter{Additional Plots}\label{appendix:plots}
+\chapter{Additional Plots and Tables}\label{appendix:plots}
 In this chapter we include some additional plots for the examples of
 Section~\ref{sec:crqi:experiments}. We fix the following notation: $N$
 denotes the order of the test matrix that was used in the respective
@@ -131,6 +131,39 @@ degrees).
     different choices of imaginary shifts for the Laplace matrix.}%
   \label{fig:imag_shift:mat5}
 \end{figure*}
+
+\begin{landscape}
+  \mbox{}\vfill
+  \begin{table}[htb!]
+    \centering%
+    \ra{1.3}%
+    \begin{tabular}{@{}ccccccc@{}}
+      \toprule
+      \multirow{2}{*}{It.} & \phantom{a} & \multicolumn{2}{c}{Classic RQI} & \phantom{a} & \multicolumn{2}{c}{Complex RQI} \\
+      \cmidrule{3-4}\cmidrule{6-7}
+                           && Residual norm & Eigenvalue approx. && Residual norm & Eigenvalue approx. \\ \midrule
+      0 && 4.988771234471549 & \ul{-1.}356761316880883 && 4.988771234471549 & \ul{-1.}356761316880883 \\ 
+      1 && 0.299574076827218 & \ul{-1.}670940785795473 && 2.643902978677971 & \ul{-1.}548973644619087 \\
+      2 && 0.016273891784549 & \ul{-1.71}2599523046921 && 1.031117447928710 & \ul{-1.}648235887691692 \\
+      3 && 0.000050858811562 & \ul{-1.7133960}87264200 && 0.280137375907241 & \ul{-1.}699935574796257 \\
+      4 && 0.000000000004228 & \ul{-1.71339609969155}8 && 0.017265270986613 & \ul{-1.7133}04367059983 \\
+      5 && \multicolumn{2}{c}{conv.}                   && 0.000018910192652 & \ul{-1.713396}100366165 \\
+      6 &&                   &                         && 0.000000000000041 & \ul{-1.71339609969155}9 \\\bottomrule
+    \end{tabular}  
+    \caption{Residuals norms and eigenvalue iterates for classic RQI
+      and CRQI applied to a $200 \times 200$ random matrix. The
+      correct digits of the eigenvalue approximations are
+      underlined. Both algorithms were run with the same initial
+      vector. The eigenvalue approximation in the first line
+      (iteration 0) is the Rayleigh Quotient of the initial
+      vector. Although CRQI requires more steps, it seems that it is
+      merely the preasymptotic stage that takes more iterations; once
+      the eigenvalue approximation is sufficiently accurate the
+      algorithm converges within three steps.}%
+    \label{tab:ex1:convergence}
+  \end{table}
+  \vfill
+\end{landscape}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%% EXAMPLE 2 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

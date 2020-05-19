@@ -36,8 +36,8 @@
   the trace of $\mat{E}$ defined as the sum of the diagonal entries of
   the matrix.
   \begin{enumerate}
-  \item The trace is the sum of the eigenvalues of $\mat{E}$,
-    \ie\todo{eigenvalues * algebraic multiplicity}
+  \item Since only two eigenvalues of $\mat{E}$ are non-zero, the
+    trace is the sum of these eigenvalues, \ie
     \begin{equation}
       \label{eq:trace:sumeigenvalues}
       \tr(\mat{E}) = \mu_1 + \mu_2\,.
@@ -54,7 +54,7 @@
   entries and thus, using the additivity of the trace and the fact
   that both vectors are assumed to be normalised, we get
   \begin{equation*}
-    \tr(\mat{E}) = \norm*{\vec{u}} - \norm*{\vec{v}_k} = 0
+    \tr(\mat{E}) = \norm*{\vec{u}}^2 - \norm*{\vec{v}_k}^2 = 0\,,
   \end{equation*}
   which in conjunction with~\eqref{eq:trace:sumeigenvalues} implies
   $\mu_1 = -\mu_2$.  We expand $\mat{E}^2$ and obtain
@@ -62,13 +62,13 @@
     \mat{E}^2 &= (\vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp)(\vec{u} \vec{u}^\tp - \vec{v}_k \vec{v}_k^\tp) \\
               &= \vec{u}\vec{u}^\tp\vec{u}\vec{u}^\tp
                 - \vec{v}_k\vec{v}_k^\tp\vec{u}\vec{u}^\tp
-                - \vec{u}\vec{u}^\tp\vec{v_k}\vec{v_k}^\tp
+                - \vec{u}\vec{u}^\tp\vec{v}_k\vec{v}_k^\tp
                 + \vec{v}_k\vec{v}_k^\tp\vec{v}_k\vec{v}_k^\tp \\
-              &= \vec{u}\vec{u}^\tp + \vec{v}_k \vec{v}_k^\tp - \langle \vec{u}, \vec{v}_k \rangle \left(\vec{u}\vec{v}_k^\tp + \vec{v}_k\vec{u}^\tp\right)\,.
+              &= \vec{u}\vec{u}^\tp + \vec{v}_k \vec{v}_k^\tp - \langle \vec{u}, \vec{v}_k \rangle \left(\vec{v}_k\vec{u}^\tp + \vec{u}\vec{v}_k^\tp \right)\,.
   \end{align*}
   Therefore,
   \begin{align*}
-    \tr(\mat{E}^2) &= \norm*{\vec{u}} + \norm*{\vec{v}_k} - \langle \vec{u}, \vec{v}_k \rangle
+    \tr(\mat{E}^2) &= \norm*{\vec{u}}^2 + \norm*{\vec{v}_k}^2 - \langle \vec{u}, \vec{v}_k \rangle
                      (\langle \vec{u}, \vec{v}_k \rangle + \langle \vec{u}, \vec{v}_k \rangle) \\
                    &= 2 - 2{\langle \vec{u}, \vec{v}_k \rangle}^2\,.
   \end{align*}

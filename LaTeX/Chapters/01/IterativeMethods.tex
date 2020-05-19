@@ -64,9 +64,9 @@ the \emph{error angle} between $\vec{x}^{(k)}$ and $\vec{z}$.
 \end{definition}
 
 For the error angle $\phi^{(k)} = \angle(\vec{x}^{(k)}, \vec{z})$ to
-be zero it suffices that the vectors are a scalar multiple of each
+be zero it suffices that the vectors are scalar multiples of each
 other. For the error norm $\norm*{\vec{x}^{(k)} - \vec{z}}$ to be zero
-they must also have the same norm. Since for eigenvectors only the
+they must also have the same norm. Since for eigenvectors only their
 direction is important, the angle is often a more natural measure for
 convergence and unnecessary normalisations can be avoided in the
 analysis.
@@ -129,13 +129,13 @@ converges linearly with convergence rate
 Thus, the method can be very slow if the distance between the
 eigenvalues $\lambda_n$ and
 $\lambda_{n-1}$ is very small. For a detailed convergence analysis,
-see~\cite[86\psq]{saad2011}.
+see~\cite[85--87]{saad2011}.
 
 \begin{algorithm}[htpb]
   \DontPrintSemicolon
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
   \For{$k = 1,2,\dotsc$ until convergence}{
-    $\alpha^{(k)} \gets \max\,\abs{\mat{A} \vec{x}^{(k)}}$\;
+    $\alpha^{(k)} \gets \max\,\abs{\mat{A} \vec{x}^{(k-1)}}$\;
     $\vec{x}^{(k)} \gets {\alpha^{(k)}}^{-1} \mat{A}\vec{x}^{(k-1)}$\;
   }
   \caption{Power method}\label{alg:power:method}
@@ -145,8 +145,8 @@ In addition to the possible slow convergence rate, the power method
 will always converge to an eigenvector associated with the dominant
 eigenvalue $\lambda_n$. In many applications, however, one already has
 a good approximation of another eigenvalue and wants to compute an
-eigenvector it belongs to. In this case, the following method can be
-used.
+eigenvector it belongs to. In this situation, the following method can
+be used.
 
 \subsubsection{(Shifted) Inverse Iteration}
 The \emph{inverse iteration} is the power method applied to
