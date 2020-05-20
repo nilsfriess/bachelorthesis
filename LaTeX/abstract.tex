@@ -7,7 +7,12 @@ convergence but the behaviour of the method is sometimes erratic.
 Even when started with accurate approximations of an eigenvalue, the
 algorithm might converge to a different eigenpair than the desired one
 and this becomes worse when the eigenvalues around the target are
-closely spaced. In this thesis we propose a modification of RQI 
+closely spaced. In this thesis we propose a modification of RQI that
+ensures convergence to the desired eigenpair provided that the angle
+between the initial vector and the target eigenvector is sufficiently
+small. Numerical examples suggest that ``sufficiently small'' means
+approximately below $45^\circ$---independent of the spacing of the
+eigenvalues.
 
 \selectlanguage{ngerman}%
 
@@ -22,7 +27,13 @@ unberechenbar. Selbst wenn RQI mit guten Approximationen eines
 Eigenvektores ausgeführt wird, ist nicht sichergestellt, dass das
 berechnete Eigenpaar das gewünschte ist. Dieses Verhalten tritt
 besonders dann auf, wenn die Eigenwerte um den gesuchten Eigenwert
-einen sehr geringen Abstand zu diesem Eigenwert haben.
+einen sehr geringen Abstand zu diesem Eigenwert haben. In dieser
+Arbeit schlagen wir eine Abwandlung von RQI vor, die sicherstellt,
+dass die Methode das gewünschten Eigenpaar berechnet, vorausgesetzt
+der Winkel zwischen Anfangsvektor und dem Ziel-Eigenvektor ist
+hinreichend klein. Numerische Beispiele weisen darauf hin, dass
+\glqq{}hinreichend klein\grqq{} bedeutet, dass der Winkel ungefähr
+kleiner als $45^\circ$ ist -- unabhängig vom Abstand der Eigenwerte.
 
 \selectlanguage{english}
 %%% Local Variables:

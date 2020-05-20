@@ -2,7 +2,7 @@ clf
 
 test = 1;
 size = 200;
-weight_target = 10;
+weight_target = 0;
 
 [a,N] = test_matrix(test,size);
 
@@ -14,7 +14,7 @@ D = diag(D); % D is diagonal matrix, extract eigenvalues and store back
 % than the rest (we later expect convergence to that very evec)
 targetIndex = randi(N);
 weights = rand(N,1);
-weights(targetIndex) = weight_target;
+weights(targetIndex) = weights(targetIndex) + weight_target;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 

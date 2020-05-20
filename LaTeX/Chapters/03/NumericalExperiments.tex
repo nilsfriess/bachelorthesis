@@ -337,9 +337,9 @@ Figures~\ref{fig:real_shift:mat2:a} and~\ref{fig:real_shift:mat2:c}.
 In the first plot, the target eigenvalue lies near the right end of
 the spectrum, while in the other example it lies near the centre. The
 angles between the initial vectors and the target eigenvectors are
-about the same size but the second variant leads to the correct result
--- independent of the initial real shift. This observation will be
-confirmed in the next examples. There we will see that sometimes a
+about the same size but the second variant leads to the correct
+result, independent of the initial real shift. This observation will
+be confirmed in the next examples. There we will see that sometimes a
 much more accurate eigenvector approximation is required for CRQI to
 succeed if the corresponding eigenvalue is close to either of the ends
 of the spectrum.
@@ -396,13 +396,12 @@ experiment. We will see that
     \includegraphics[width=\textwidth]{Figures/num_ex/ex3/mat_laplace/ex3_angle_mat5_10000}
     \caption{{\small $N = 10000$}}
   \end{subfigure}
-  \caption[Effect of the angle between the initial vector and the
-  target for the Laplce matrix]{Plot of the computed eigenvalue
-    against the angle between the initial vector and the target
-    eigenvector for the Laplace matrix. While classic RQI even fails
-    for very small angles, CRQI produces the correct result as soon as
-    the angle is sufficiently small, which in these examples means
-    approximately below $\pi/4$.}%
+  \caption[Effect of the initial error angle]{Plot of the computed
+    eigenvalue against the angle between the initial vector and the
+    target eigenvector for the Laplace matrix. While classic RQI even
+    fails for very small angles, CRQI produces the correct result as
+    soon as the angle is sufficiently small, which in these examples
+    means approximately below $\pi/4$.}%
   \label{fig:angle:mat5}
 \end{figure*}
 
@@ -474,9 +473,8 @@ seems to not possess this property.
   again portrays another aspect of the erratic behaviour of classic
   RQI. For the test problems where the spacing between the eigenvalues
   is very small, classic RQI often produced very few correct results
-  while CRQI showed the same behaviour as describe above --
-  independent of the matrix's size and hence the distance between the
-  eigenvalues.
+  while CRQI showed the same behaviour as describe above, independent
+  of the matrix's size and hence the distance between the eigenvalues.
 
   We have also included some plots that illustrate the fact that a
   smaller angle is required in cases where the target eigenvalue is
@@ -489,8 +487,7 @@ seems to not possess this property.
   for the method to succeed at all needs to be lower.
 \end{example}
 
-We conclude the discussion of the numerical examples with a summary of
-the findings.
+We conclude this chapter with a summary of the findings. 
 
 % In the following example we use CRQI to compute eigenvalues and
 % eigenvectors in a simplified model problem from structural

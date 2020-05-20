@@ -19,7 +19,7 @@ Demmel~\cite[215 \psq]{demmel}.
 Before giving the proof, we make some remarks. \emph{Locally} here
 means that
 \begin{enumerate}
-\item it is assumed that the sequence $(\vec{x}^{(i)})_i$ does
+\item it is assumed that the sequence $(\vec{x}^{(k)})_i$ does
   converge to an eigenvector of $\mat{A}$ and
 \item there is a finite number of iterations for which convergence
   might not be cubic (the \emph{preasymptotic phase}). For some
@@ -51,13 +51,13 @@ orthogonal matrix consisting of the eigenvectors of $\mat{A}$ as its
 columns and $\mat{\Lambda} = \diag(\lambda_1, \dotsc, \lambda_n)$ is
 the diagonal matrix of eigenvalues. We discard the superscripts for a
 moment and change variables in RQI\footnote{Recall the notation from
-  Algorithm~\ref{alg:rqi} where $\vec{y} = \vec{y}^{(i)}$ denotes the
-  unnormalised $i$-th iterate and $\vec{x} = \vec{x}^{(i)}$ denotes
-  the same iterate after normalisation.}  to
+  Algorithm~\ref{alg:rqi} where $\vec{y} = \vec{y}^{(k)}$ denotes the
+  unnormalised $k$th iterate and $\vec{x} = \vec{x}^{(k)}$ denotes the
+  same iterate after normalisation.}  to
 $\hat{\vec{x}} \coloneqq \mat{Q}^\tp \vec{x}$ and
 $\hat{\vec{y}} \coloneqq \mat{Q}^\tp \vec{y}$. Then
 \begin{equation*}
-  \mu^{(i)} = \mu = \rq_{\mat{A}}(\vec{x}) = \frac{
+  \mu^{(k)} = \mu = \rq_{\mat{A}}(\vec{x}) = \frac{
     \vec{x}^\tp \mat{A} \vec{x}
   }{
     \vec{x}^\tp \vec{x}
@@ -72,17 +72,16 @@ $\hat{\vec{y}} \coloneqq \mat{Q}^\tp \vec{y}$. Then
   } =
   \rq_{\mat{\Lambda}}(\hat{\vec{x}})
   =
-  \rq_{\mat{\Lambda}}(\hat{\vec{x}}^{(i)})\,,
+  \rq_{\mat{\Lambda}}(\hat{\vec{x}}^{(k)})\,,
 \end{equation*}
 and
-$\mat{Q} \hat{\vec{y}}^{(i+1)} = {(\mat{A} -
-  \mu^{(i)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(i)}$. Hence,
-\begin{equation*}
-  \hat{\vec{y}}^{(i+1)} =
-  \mat{Q}^\tp {(\mat{A} - \mu^{(i)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(i)} =
-  {(\mat{Q}^\tp \mat{A} \mat{Q} - \mu^{(i)}\mat{I})}^{-1}\hat{\vec{x}}^{(i)} =
-  {(\mat{\Lambda} - \mu^{(i)}\mat{I})}^{-1}\hat{\vec{x}}^{(i)}\,,
-\end{equation*}
+$\mat{Q} \hat{\vec{y}}^{(k+1)} = {(\mat{A} -
+  \mu^{(k)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(k)}$. Hence,
+\begin{align*}
+  \hat{\vec{y}}^{(k+1)} &= \mat{Q}^\tp {(\mat{A} - \mu^{(k)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(k)} \\
+                        &= {(\mat{Q}^\tp \mat{A} \mat{Q} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)} =
+                          {(\mat{\Lambda} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)}\,,
+\end{align*}
 where we used $\mat{Q}^\tp = \mat{Q}^{-1}$, the orthogonality of
 $\mat{Q}$. We see that running RQI with $\mat{A}$ and $\vec{x}^{(0)}$
 is equivalent to running RQI with $\mat{\Lambda}$ and
@@ -90,38 +89,38 @@ $\hat{\vec{x}}^{(0)}$. Thus, we assume that $\mat{A} = \mat{\Lambda}$
 is already diagonal which in particular implies that the eigenvectors
 of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
 \begin{proof}[Proof of Theorem~\ref{thm:rqi:cubic}]
-  Suppose without loss of generality that $\vec{x}^{(i)}$ converges to
+  Suppose without loss of generality that $\vec{x}^{(k)}$ converges to
   $\vec{e}_1$. Remember that we assume that the current iterate is a
-  sufficiently good estimate of $\vec{e}_1$, such that for some $i$ we
-  can write $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ with
-  $\norm*{\vec{d}^{(i)}} = \epsilon \ll 1$. To show cubic convergence,
+  sufficiently good estimate of $\vec{e}_1$, such that for some $k$ we
+  can write $\vec{x}^{(k)} = \vec{e}_1 + \vec{d}^{(k)}$ with
+  $\norm*{\vec{d}^{(k)}} = \epsilon \ll 1$. To show cubic convergence,
   we have to verify that
   \begin{equation*}
     \lim_{i \rightarrow \infty} \frac{
-      \norm*{\vec{x}^{(i+1)} - \vec{e}_1}
+      \norm*{\vec{x}^{(k+1)} - \vec{e}_1}
     }{
-      \norm*{\vec{x}^{(i)} - \vec{e}_1}^3
+      \norm*{\vec{x}^{(k)} - \vec{e}_1}^3
     }
     <
     M\,,
   \end{equation*}
   for some positive constant $M$. We know that
-  $\norm*{\vec{x}^{(i)} - \vec{e}_1}^3 = \epsilon^3$, hence it
+  $\norm*{\vec{x}^{(k)} - \vec{e}_1}^3 = \epsilon^3$, hence it
   suffices to show that
-  $\norm*{\vec{x}^{(i+1)} - \vec{e}_1} = \mathcal{O}(\epsilon^3)$. In
+  $\norm*{\vec{x}^{(k+1)} - \vec{e}_1} = \mathcal{O}(\epsilon^3)$. In
   other words we have to show that
-  $\vec{x}^{(i+1)} = \vec{e}_1 + \vec{d}^{(i+1)}$ with
-  $\norm*{\vec{d}^{(i+1)}} = \mathcal{O}(\epsilon^3)$.
+  $\vec{x}^{(k+1)} = \vec{e}_1 + \vec{d}^{(k+1)}$ with
+  $\norm*{\vec{d}^{(k+1)}} = \mathcal{O}(\epsilon^3)$.
 
   Since the vectors are normalised at each step we have
   \begin{align*}
-    1 = {(\vec{x}^{(i)})}^\tp (\vec{x}^{(i)})
-    &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp (\vec{e}_1 + \vec{d}^{(i)}) \\
-    &= \vec{e}_1^\tp \vec{e}_1 + 2 \vec{e}_1^\tp \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \vec{d}^{(i)} \\
-    &= 1 + 2 d^{(i)}_1 + \epsilon^2\,,
+    1 = {(\vec{x}^{(k)})}^\tp (\vec{x}^{(k)})
+    &= {(\vec{e}_1 + \vec{d}^{(k)})}^\tp (\vec{e}_1 + \vec{d}^{(k)}) \\
+    &= \vec{e}_1^\tp \vec{e}_1 + 2 \vec{e}_1^\tp \vec{d}^{(k)} + {(\vec{d}^{(k)})}^\tp \vec{d}^{(k)} \\
+    &= 1 + 2 d^{(k)}_1 + \epsilon^2\,,
   \end{align*}
-  where $d^{(i)}_1$ denotes the first component of the vector
-  $\vec{d}^{(i)}$. Rewriting gives $d^{(i)}_1 = -\epsilon^2/ 2$ and
+  where $d^{(k)}_1$ denotes the first component of the vector
+  $\vec{d}^{(k)}$. Rewriting gives $d^{(k)}_1 = -\epsilon^2/ 2$ and
   using the symmetry\footnote{For a symmetric matrix
     $\mat{B} = \mat{B}^\tp$ holds
     \begin{equation*}
@@ -130,76 +129,76 @@ of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
     \end{equation*}
   } of $\mat{\Lambda}$ we obtain
   \begin{align*}
-    \mu^{(i)} &= {(\vec{x}^{(i)})}^\tp \mat{\Lambda}\vec{x}^{(i)} \\
-              &= {(\vec{e}_1 + \vec{d}^{(i)})}^\tp \mat{\Lambda} {(\vec{e}_1 + \vec{d}^{(i)})} \\
-              &= \vec{e}_1^\tp \mat{\Lambda} \vec{e}_1 + 2\vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} + {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}\\
+    \mu^{(k)} &= {(\vec{x}^{(k)})}^\tp \mat{\Lambda}\vec{x}^{(k)} \\
+              &= {(\vec{e}_1 + \vec{d}^{(k)})}^\tp \mat{\Lambda} {(\vec{e}_1 + \vec{d}^{(k)})} \\
+              &= \vec{e}_1^\tp \mat{\Lambda} \vec{e}_1 + 2\vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(k)} + {(\vec{d}^{(k)})}^\tp \mat{\Lambda} \vec{d}^{(k)}\\
               &= \lambda_1 - \eta\,,
   \end{align*}
   where
   \begin{equation*}
-    \eta \coloneqq -2 \vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(i)} -
-    {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)} = \lambda_1
-    \epsilon^2 - {(\vec{d}^{(i)})}^\tp \mat{\Lambda} \vec{d}^{(i)}\,.
+    \eta \coloneqq -2 \vec{e}_1^\tp \mat{\Lambda} \vec{d}^{(k)} -
+    {(\vec{d}^{(k)})}^\tp \mat{\Lambda} \vec{d}^{(k)} = \lambda_1
+    \epsilon^2 - {(\vec{d}^{(k)})}^\tp \mat{\Lambda} \vec{d}^{(k)}\,.
   \end{equation*}
   Using the fact that the spectral norm of a symmetric matrix is equal
   to its spectral radius, \ie the absolute value of the largest
   eigenvalue $\lambda_{\max}$, we can bound $\abs{\eta}$ as follows
   \begin{equation}
     \label{eq:eta:bound}
-    \abs{\eta} \le \abs{\lambda_1} \epsilon^2 + \norm{\mat{\Lambda}}\norm*{\vec{d}^{(i)}}^2
+    \abs{\eta} \le \abs{\lambda_1} \epsilon^2 + \norm{\mat{\Lambda}}\norm*{\vec{d}^{(k)}}^2
     \le \abs{\lambda_{\max}} \epsilon^2 + \norm{\mat{\Lambda}} \epsilon^2 = 2 \norm{\mat{\Lambda}} \epsilon^2
   \end{equation}
   and we see that
-  $\mu^{(i)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
+  $\mu^{(k)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
   (note that this proves Lemma~\ref{lem:rq:quadestimate}, the
   quadratic accuracy of the Rayleigh Quotient). We obtain
   \begin{align*}
-    \vec{y}^{(i+1)}&= {(\mat{\Lambda} - \mu^{(i)})}^{-1} \vec{x}^{(i)} \\
+    \vec{y}^{(k+1)}&= {(\mat{\Lambda} - \mu^{(k)})}^{-1} \vec{x}^{(k)} \\
                    &= {\left(
-                     \frac{x^{(i)}_1}{\lambda_1 - \mu^{(i)}},
-                     \frac{x^{(i)}_2}{\lambda_2 - \mu^{(i)}},
+                     \frac{x^{(k)}_1}{\lambda_1 - \mu^{(k)}},
+                     \frac{x^{(k)}_2}{\lambda_2 - \mu^{(k)}},
                      \cdots,
-                     \frac{x^{(i)}_n}{\lambda_n - \mu^{(i)}}
+                     \frac{x^{(k)}_n}{\lambda_n - \mu^{(k)}}
                      \right)}^\tp\\
                    &= {\left(
-                     \frac{1 + d^{(i)}_1}{\lambda_1 - \mu^{(i)}},
-                     \frac{d^{(i)}_2}{\lambda_2 - \mu^{(i)}},
+                     \frac{1 + d^{(k)}_1}{\lambda_1 - \mu^{(k)}},
+                     \frac{d^{(k)}_2}{\lambda_2 - \mu^{(k)}},
                      \cdots,
-                     \frac{d^{(i)}_n}{\lambda_n - \mu^{(i)}},
+                     \frac{d^{(k)}_n}{\lambda_n - \mu^{(k)}},
                      \right)}^\tp\\
                    &= {\left(
                      \frac{1 - \frac{\epsilon^2}{2} }{\eta},
-                     \frac{d^{(i)}_2}{\lambda_2 - \lambda_1 + \eta},
+                     \frac{d^{(k)}_2}{\lambda_2 - \lambda_1 + \eta},
                      \cdots,
-                     \frac{d^{(i)}_n}{\lambda_n - \lambda_1 + \eta},
+                     \frac{d^{(k)}_n}{\lambda_n - \lambda_1 + \eta},
                      \right)}^\tp \\
                    &= \frac{1 - \frac{\epsilon^2}{2}}{\eta} \,
                      {\left(
                      1,
-                     \frac{d^{(i)}_2 \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_2 - \lambda_1 + \eta)},
+                     \frac{d^{(k)}_2 \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_2 - \lambda_1 + \eta)},
                      \cdots,
-                     \frac{d^{(i)}_n \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_n - \lambda_1 + \eta)},
+                     \frac{d^{(k)}_n \eta}{(1 - \frac{\epsilon^2}{2})(\lambda_n - \lambda_1 + \eta)},
                      \right)}^\tp \span \span \\
-                   &\eqqcolon \frac{1 - \frac{\epsilon^2}{2}}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})\,,
+                   &\eqqcolon \frac{1 - \frac{\epsilon^2}{2}}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(k+1)})\,,
   \end{align*}
   where in the first step we used that the inverse of a diagonal
   matrix consists of the inverse of the entries on the diagonal. The
-  next step holds since $\vec{x}^{(i)} = \vec{e}_1 + \vec{d}^{(i)}$ by
+  next step holds since $\vec{x}^{(k)} = \vec{e}_1 + \vec{d}^{(k)}$ by
   assumption. After that we use that we can write
-  $\mu^{(i)} = \lambda_1 - \eta$ and $d^{(i)}_1 = -\epsilon^2/2$.  If
+  $\mu^{(k)} = \lambda_1 - \eta$ and $d^{(k)}_1 = -\epsilon^2/2$.  If
   we denote again by $\delta$ the gap between $\lambda_1$ and the rest
   of the spectrum, \ie
   \begin{equation*}
     \delta \coloneqq \min_{j=2}^n \abs{\lambda_j - \lambda_1}\,,
   \end{equation*}
-  we can bound the denominators of $\hat{\vec{d}}^{(i+1)}$ using
+  we can bound the denominators of $\hat{\vec{d}}^{(k+1)}$ using
   $\abs{\lambda_j - \lambda_1 + \eta} \ge \delta - \abs{\eta}$, and in
   conjunction with~\eqref{eq:eta:bound} we get
   \begin{equation*}
-    \norm{\hat{\vec{d}}^{(i+1)}}
+    \norm{\hat{\vec{d}}^{(k+1)}}
     \le
     \frac{
-      \norm*{\vec{d}^{(i)}} \abs*{\eta}}{
+      \norm*{\vec{d}^{(k)}} \abs*{\eta}}{
       (1 - \frac{\epsilon^2}{2})(\delta - \abs*{\eta})}
     \le
     \frac{
@@ -207,27 +206,27 @@ of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
       (1 - \frac{\epsilon^2}{2})(\delta - 2 \norm{\Lambda}\epsilon^2)
     }
   \end{equation*}
-  or $\norm*{\hat{\vec{d}}^{(i+1)}} =
+  or $\norm*{\hat{\vec{d}}^{(k+1)}} =
   \mathcal{O}(\epsilon^3)$. Finally, since
-  $\vec{x}^{(i+1)} = \vec{e}_1 + \vec{d}^{(i+1)} = \vec{y}^{(i+1)} /
-  \norm*{\vec{y}^{(i+1)}}$ and
+  $\vec{x}^{(k+1)} = \vec{e}_1 + \vec{d}^{(k+1)} = \vec{y}^{(k+1)} /
+  \norm*{\vec{y}^{(k+1)}}$ and
   \begin{equation*}
     \frac{
-      \vec{y}^{(i+1)}}{
-      \norm*{\vec{y}^{(i+1)}
+      \vec{y}^{(k+1)}}{
+      \norm*{\vec{y}^{(k+1)}
       }} =
     \frac{
-      \frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})
+      \frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(k+1)})
     }{
-      \norm{\frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(i+1)})}
+      \norm{\frac{1 - \epsilon^2 / 2}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(k+1)})}
     } =
     \frac{
-      \vec{e}_1 + \hat{\vec{d}}^{(i+1)}
+      \vec{e}_1 + \hat{\vec{d}}^{(k+1)}
     }{
-      \norm{\vec{e}_1 + \hat{\vec{d}}^{(i+1)}}
+      \norm{\vec{e}_1 + \hat{\vec{d}}^{(k+1)}}
     }
   \end{equation*}
-  we see that also $\norm{\vec{d}^{(i+1)}} = \mathcal{O}(\epsilon^3)$,
+  we see that also $\norm{\vec{d}^{(k+1)}} = \mathcal{O}(\epsilon^3)$,
   which concludes the proof.
 \end{proof}
 We see that the property that the Rayleigh Quotient yields
@@ -264,8 +263,8 @@ residual at step $k$ in RQI, \ie
   \end{equation*}
 \end{lemma}
 
-Before giving the proof, we note that we can relate the $k$-th and
-$(k+1)$-st iterate of RQI by
+Before giving the proof, we note that we can relate the $k$th and
+$(k+1)$st iterate of RQI by
 \begin{equation*}
   \vec{x}^{(k)} = \beta \left(\mat{A} - \mu^{(k)}\mat{I}\right)\vec{x}^{(k+1)}\,,
 \end{equation*}
@@ -291,11 +290,11 @@ and thus
 \begin{proof}[Proof of Lemma~\ref{lem:monotoni:res}]
   \begin{align*}
     &\norm{\vec{r}^{(k+1)}} = \norm{\left( \mat{A} - \mu^{(k+1)} \mat{I} \right) \vec{x}^{(k+1)}} \\
-    &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{(since $\mu^{(k+1)}$ minimises the residual norm)} \\
+    &\le \norm{\left( \mat{A} - \mu^{(k)} \mat{I} \right) \vec{x}^{(k+1)}} && \text{($\mu^{(k+1)}$ minimises the residual norm)} \\
     &= \abs{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right) \vec{x}^{(k+1)}} && \text{(by~\eqref{eq:xk:parallel})} \\
     &\le \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} \norm{\vec{x}^{(k+1)}} && \text{(by the Cauchy-Schwarz inequality)} \\
-    &= \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} && \text{(since $\vec{x}^{(k+1)}$ is a unit vector)} \\
-    &= \norm{\left(\mat{A} - \mu^{(k)} \mat{I}\right)\vec{x}^{(k)}} && \text{(since $\mat{A}$ is symmetric)} \\
+    &= \norm{{\left( \vec{x}^{(k)} \right)}^\herm \left(\mat{A} - \mu^{(k)} \mat{I}\right)} && \text{($\vec{x}^{(k+1)}$ is a unit vector)} \\
+    &= \norm{\left(\mat{A} - \mu^{(k)} \mat{I}\right)\vec{x}^{(k)}} && \text{($\mat{A}$ is symmetric)} \\
     &= \norm{\vec{r}^{(k)}} \,.
   \end{align*}
   
@@ -311,8 +310,8 @@ and thus
     ($\lambda_p + \lambda_q)/2$ and $\vec{x}^{(k)}$ oscillates between
     vectors converging to $\vec{v}_{pq}^+$ and vectors converging to
     $\vec{v}_{pq}^-$, where
-    $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{v}_q) / \sqrt{2}$, where
-    $\lambda_p$ and $\lambda_q$ are eigenvalues of $\mat{A}$ with
+    $\vec{v}_{pq}^\pm = (\vec{v}_p \pm \vec{v}_q) / \sqrt{2}$ and
+    $\lambda_p$, $\lambda_q$ are eigenvalues of $\mat{A}$ with
     corresponding eigenvectors $\vec{v}_p$ and $\vec{v}_q$.
   \end{enumerate}
   The latter is unstable under perturbations of $\vec{x}^{(k)}$.
@@ -320,9 +319,8 @@ and thus
 
 As mentioned above, we do not give a complete proof of this result;
 below we outline a rough sketch of the first statement based on the
-proof by Parlett in~\cite{Parlett1998}.
-
-We begin by observing that the monotonicity of the residuals implies
+proof by Parlett in~\cite{Parlett1998}. We begin by observing that the
+monotonicity of the residuals implies
 \begin{gather*}
   \norm{\vec{r}^{(k)}} \longrightarrow \tau \ge 0 \quad \text{as } k
   \rightarrow \infty\,.

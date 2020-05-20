@@ -76,7 +76,23 @@ eigenvalues corresponding to eigenvectors $\vec{v}_j$, $j \neq k$ to
 approximately be $\lambda_j - i \gamma$. The eigenvalue corresponding
 to $\vec{v}_k$ would then be approximately equal to $\lambda_k$ since
 $\tilde{\mat{A}}\vec{v}_k \approx \mat{A}\vec{v}_k = \lambda_k
-\vec{v}_k$.
+\vec{v}_k$. In the figure below we plotted the spectrum of $\mat{A}$
+together with the spectrum of the perturbed matrix $\tilde{\mat{A}}$
+for $\gamma = 1$. In this example we had
+$\vec{u}^\tp \vec{v}_k \approx 0.83568$, where $\vec{v}_k$ is the
+target eigenvector.  The wanted eigenvalue stays near the real line
+while the rest of the spectrum gets ``pushed down'' into the complex
+plane.\footnote{The matrix $\mat{A}$ we used here is a
+  $200 \times 200$ Martin-Wilkinson matrix which is defined in the
+  next section.}
+
+\begin{figure}[htpb]
+  \centering
+  \includegraphics[width=0.85\textwidth]{Figures/perturbed_spectrum}
+  \caption{Spectrum of the original problem and the perturbed
+    problem}%
+  \label{fig:perturbed_spectrum}
+\end{figure}
 
 To make this intuition more quantitative, we decompose
 $\tilde{\mat{A}}$ into the sum
@@ -302,23 +318,24 @@ given in Algorithm~\ref{alg:crqi}.
       $\gamma^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I}) \vec{x}^{(k+1)}}$\;
       $\sigma^{(k+1)} \gets \mu^{(k+1)} + i \gamma^{(k+1)}$\;
     }
-    $\vec{x} \gets \Re({\vec{x}^{(k+1)}})$\;
+    $\vec{x} \gets \operatorname{Re}({\vec{x}^{(k+1)}})$\;
     $\vec{x} \gets \vec{x} / \norm*{\vec{x}}$\;
     $\mu \gets \vec{x}^\tp \mat{A} \vec{x}$
   }
   \caption{Complex Rayleigh Quotient Iteration}\label{alg:crqi}
 \end{algorithm}
 The last three steps after the loop remove the imaginary part that
-might be ``left'' in the vector approximation ($\Re(\cdot)$ extracts
-the real part of a complex vector). Since we again use a stopping
-criterion based on the norm of the residual, the same error bounds we
-discussed earlier in Chapter~\ref{chapter:rqi} hold and thus the
-vector iterates could still contain a small imaginary part. This does
-also imply that the final residual norm
-$\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ might be slightly larger than
-the residual norm computed in the last iteration. In practice,
-however, we observed that the final residual norm is still of the same
-order as the norm of the residual computed in the last iteration.
+might be ``left'' in the vector approximation
+($\operatorname{Re}(\cdot)$ extracts the real part of a complex
+vector). Since we again use a stopping criterion based on the norm of
+the residual, the same error bounds we discussed earlier in
+Chapter~\ref{chapter:rqi} hold and thus the vector iterates could
+still contain a small imaginary part. This does also imply that the
+final residual norm $\norm*{\mat{A}\vec{x} - \mu \vec{x}}$ might be
+slightly larger than the residual norm computed in the last
+iteration. In practice, however, we observed that the final residual
+norm is still of the same order as the norm of the residual computed
+in the last iteration.
 
 Note, that although the step where the linear system is solved looks
 almost identical to the respective step in classic RQI, this algorithm
