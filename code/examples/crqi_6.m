@@ -2,7 +2,7 @@ clf
 
 test = 4;
 size = 100;
-weight_target = 60;
+weight_target = 10;
 gamma = 1;
 
 [a,N] = test_matrix(test,size);
@@ -19,7 +19,8 @@ weights(targetIndex) = weights(targetIndex) + weight_target;
 targetV = V(:,targetIndex);
 targetE = D(targetIndex);
 
-v = V*weights;
+v = randn(N,1);
+v = v + weight_target * targetV;
 v = v / norm(v);
 fprintf("Matrix size: %d\n\n", N);
 
