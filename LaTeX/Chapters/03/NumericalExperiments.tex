@@ -9,14 +9,15 @@ results throughout. All experiments were executed in Matlab
 9~\cite{MATLAB}. The criterion for convergence is
 $\norm*{\vec{r}^{(k)}} = \norm*{\mat{A}\vec{x}^{(k)} - \mu^{(k)}
   \vec{x}^{(k)}} < 10^{-9}$. The source codes for both classic and
-complex RQI can be found in the Appendix. Note, that the methods are
-defined slightly differently from the Algorithms given above. They
-both allow to explicitly set the initial shifts $\mu^{(0)}$ and
-$\gamma^{(0)}$ to specific values whereas in Algorithm~\ref{alg:rqi}
-and Algorithm~\ref{alg:crqi} the initial shifts are always initialised
-to the Rayleigh Quotient of the initial vector and the initial
-residual, respectively. This will become useful when investigating how
-the initial shift influences the outcome of the method.
+complex RQI can be found in Appendix~\ref{AppendixAlgorithms}. Note,
+that the methods are defined slightly differently from the Algorithms
+given above. They both allow to explicitly set the initial shifts
+$\mu^{(0)}$ and $\gamma^{(0)}$ to specific values whereas in
+Algorithm~\ref{alg:rqi} and Algorithm~\ref{alg:crqi} the initial
+shifts are always initialised to the Rayleigh Quotient of the initial
+vector and the initial residual, respectively. This will become useful
+when investigating how the initial shift influences the outcome of the
+method.
 
 All of the experiments were carried out for different matrices that
 are common for assessing eigenvalue algorithms. In particular, they
@@ -87,7 +88,7 @@ the size of the matrix.
 % Wilkinson where this matrix is used to }
 
 \paragraph{The Laplace matrix $\mat{L}$}
-This matrix arises, for instance, when discretizing the Laplace
+This matrix arises, for instance, when discretising the Laplace
 operator using a five-point stencil in the finite difference method
 (see, for example,~\cite[270--272]{demmel}). Let $m$ be an integer and
 define the $m \times m$ matrix
@@ -505,7 +506,7 @@ general require more iterations than classic RQI. However, it seems
 that is mainly the preasymptotic phase that takes more steps. As soon
 as the iterate is sufficiently good, convergence occurs in a similar
 number of steps as in classic RQI. This is confirmed in the last
-example. 
+example.
 
 
 % In the following example we use CRQI to compute eigenvalues and

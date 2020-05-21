@@ -1,7 +1,108 @@
-\chapter{Implementation of the Numerical Algorithms}\label{AppendixAlgorithms}
-\section{Matlab code of classic Rayleigh Quotient Iteration}
-\section{Matlab code of complex Rayleigh Quotient Iteration}
-\section{Sampling from a cone inside the $n$-dimensional unit sphere}
+\chapter{Matlab Sources for the  Algorithms}\label{AppendixAlgorithms}
+\begin{lstlisting}[caption={Matlab code for classic Rayleigh Quotient Iteration}]
+function [x, e,
+          iterations, eigvec_iterates,
+          eigval_iterates, residuals]
+          = classic_rqi(a, x, e, tolerance)
+
+% CLASSIC_RQI   Computes an eigenpair of the matrix 'a' using the Rayleigh Quotient iteration. The vector 'x' is the initial vector, 'e' is the initial shift. The algorithm is run until the residual norm is greater than 'tolerance'. If 'e' is set to 'inf', the Rayleigh Quotient of the initial vector is used as the initial shift. If the last argument is omitted, 'tolerance' is set to 1e-9. The first two return arugemnts store the computed eigenvector and eigenvalue, respectively. The third contains the number of iterations, the remaining arguments store the intermediate results.
+          
+    if nargin < 3
+        error('Too few arguments');
+    elseif nargin < 4
+        % if no tolerance provided, use 10^(-9)
+        tolerance = 1e-9; 
+    end
+
+    m = size(a);
+    x = x / norm(x);
+    
+    if e == inf
+       e =  x' * a * x; % Compute Rayleigh Quotient
+    end
+    
+    eigval_iterates = [e];  
+    eigvec_iterates = [x];
+    
+    res = norm((a - e*speye(m))*x);
+    residuals = [res];
+    
+    iterations = 0;
+    while res >= tolerance
+       x = (a - e * speye(m)) \ x;  
+       x = x / norm(x);                 
+       e = x' * a * x;              
+       
+       res = norm((a - e*speye(m))*x);
+       
+       eigval_iterates = [eigval_iterates, e]; 
+       eigvec_iterates = [eigvec_iterates, x]; 
+       residuals = [residuals, res];       
+       
+       iterations = iterations + 1;
+    end
+end
+\end{lstlisting}
+
+\begin{lstlisting}[caption={Matlab code for complex Rayleigh Quotient Iteration}]
+function [x, e,
+          iterations, eigvec_iterates,
+          eigval_iterates, residuals]
+          = complex_rqi(a,x,e,gamma,tolerance)
+% complex_rqi   Computes an eigenpair of the matrix 'a' using the complex Rayleigh Quotient iteration. The arguments and usage is the same as in CLASSIC_RQI, expect for the parameter 'gamma', which denotes the initial complex shift. If set to 'inf', 'gamma' will be set to the norm of the residual or the square of this value, depending on the size of the residual norm. 
+
+  if nargin < 4
+    error("Too few arguments");
+  elseif nargin < 5
+    tolerance = 1e-9;
+  end
+  m = size(a);
+  x = x / norm(x);
+    
+  if e == inf
+    e = x' * a * x;
+  end
+
+  res = norm((a - e*speye(m))*x);
+  
+  if gamma == inf
+      if res > 1
+          gamma = res;
+      else
+          gamma = res^2;
+      end
+  end
+  
+  eigval_iterates = [e];
+  eigvec_iterates = [x];
+  residuals = [res];
+  
+  iterations = 0;
+  while res >= tolerance
+    x = (a - (e + gamma*1i)*speye(m))\x;
+    x = x / norm(x);
+    e = x'*a*x;
+        
+    res = norm((a - e*speye(m))*x);
+    
+    if res >= 1
+       gamma = res;
+    else
+       gamma = res^2;
+    end
+       
+    eigval_iterates = [eigval_iterates, e]; 
+    eigvec_iterates = [eigvec_iterates, x];
+    residuals = [residuals, res];
+        
+    iterations = iterations + 1;
+  end
+  
+  x = real(x) / norm(real(x));
+  e = x'*a*x;
+  residuals(end) = norm((a - e*speye(m))*x); 
+end
+\end{lstlisting}
 
 %%% Local Variables:
 %%% mode: latex

@@ -1,10 +1,35 @@
 \chapter{Concluding Remarks}
+It goes without saying that the experiments we carried out to analyse
+the behaviour of CRQI do not replace a detailed mathematical
+analysis. Although our novel method is in essence only a slight
+modification of classic RQI, it seems unlikely that convergence
+results can be transferred easily due to the different behaviour of
+the two methods.  Nevertheless, because of the strong relation between
+the algorithms the results that we discussed in
+Chapter~\ref{chapter:rqi} could still serve as a starting point for
+future work. For instance, it could be studied to which extent the
+different results, \eg those characterising convergence
+neighbourhoods, are still valid for CRQI.
 
-It goes without saying that the numerical experiments we carried out
-to analyse the behaviour of CRQI do not replace a detailed
-mathematical analysis of the algorithm. 
-Although our novel method is a modification of classic RQI, it seems
-unlikely that the covergence results of classic RQI can be
+Although we tried to cover a variety of different problems similar to
+those that occur in real-life applications, the test matrices we used
+still represent only a small class of real-world problems. It should
+thus be further examined how the method performs in different
+applications. As a particular example we suggest the computation of
+the eigenvalues of certain self-adjoint differential operators as
+discussed in~\cite{marletta2010} and~\cite{marlettascheichl}. The
+problems examined by the authors suffer from a problem called
+\emph{spectral pollution}: the spectrum of the discretised problem
+might contain eigenvalues that are unrelated to spectral properties of
+the original problem. These eigenvalues are often so closely spaced
+that it is impossible to distinguish them from the eigenvalues of
+interest. We refer to these particular papers since the authors
+propose a similar approach to ours in that they also add a
+complex-valued perturbation to the problem with the goal to increase
+the distance between the wanted and unwanted eigenvalues. However,
+they perturb the original problem and then solve this perturbed
+problem numerically. With our approach we would discretise the
+original problem first and only then apply our method.
 
 %%% Local Variables:
 %%% mode: latex
