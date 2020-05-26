@@ -149,7 +149,7 @@ eigenvector (in this case this would be $\vec{v}_{50}$) and random
   $\gamma^{(k)} = \norm*{\vec{r}^{(k)}}$, which is the same as in
   Algorithm~\ref{alg:crqi} above. The second uses the square of the
   residual norm, the third approach is explained below. A plot of the
-  residuals norm and the iteration number for all three approaches
+  residual norms against the iteration number for all three approaches
   together with the results using classic RQI\footnote{Classic RQI is
     merely included for speed comparison. In most of the examples it
     failed to converge to the correct eigenvalue.} is given in
@@ -422,11 +422,11 @@ the size of the matrix and thus independent of the spacing of the
 eigenvalues.
 \end{example}
 
-In essence, this example showed that the idea from the previous
-section does indeed yield the desired behaviour. The method seems to
-make more use of the information incorporated in the initial
-eigenvector guess. This is precisely the purpose of the modification
-of classic RQI as it was introduced in the previous section.
+In essence, this example showsthat the idea from the previous section
+does indeed yield the desired behaviour. The method seems to make more
+use of the information incorporated in the initial eigenvector
+guess. This is precisely the purpose of the modification of classic
+RQI as it was introduced in the previous section.
 
 In the first example of this section we briefly looked at how many
 iterations CRQI requires compared to classic RQI. This is now studied

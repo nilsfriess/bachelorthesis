@@ -13,11 +13,10 @@ and its neighbours is increased. We derived bounds for the perturbed
 spectrum and saw that the distance is bigger the more accurate the
 initial eigenvector guess is. By applying RQI to this perturbed
 problem and then successively decreasing the perturbation, we defined
-CRQI, our novel method, which behaves much more predictable. This was
-illustrated by various numerical examples of which most had very
-closely spaced eigenvalues. In particular, we observed that the method
-computes the correct result once the initial error angle is below
-$45^\circ$.
+CRQI, our novel method. With various numerical examples we illustrated
+that CRQI behaves much more predictable. In particular, we observed
+that the method computes the correct result once the initial error
+angle is below $45^\circ$.
 
 It goes without saying that the experiments do not replace a detailed
 mathematical analysis. Although our novel method is in essence only a
@@ -36,19 +35,18 @@ still represent only a limited class of real-world problems. It should
 thus be further examined how the method performs in different
 applications. As a particular example we suggest the computation of
 the eigenvalues of certain self-adjoint differential operators as
-discussed in~\cite{marletta2010} and~\cite{marlettascheichl}. The
-problems examined by the authors suffer from a problem called
-\emph{spectral pollution}: the spectrum of the discretised problem
-might contain eigenvalues that are unrelated to spectral properties of
-the original problem. These eigenvalues are often so closely spaced
-that it is impossible to distinguish them from the eigenvalues of
-interest. We refer to these particular papers since the authors
-propose a similar approach to ours in that they also add a
-complex-valued perturbation to the problem with the goal to increase
-the distance between the wanted and unwanted eigenvalues. However,
-they perturb the original problem and then solve this perturbed
-problem numerically. With our approach we would discretise the
-original problem first and only then apply our method.
+discussed in~\cite{marlettascheichl}. The examples examined by the
+authors suffer from a problem called \emph{spectral pollution}: the
+spectrum of the discretised problem might contain eigenvalues that are
+unrelated to spectral properties of the original problem. These
+eigenvalues are often so closely spaced that it is impossible to
+distinguish them from the eigenvalues of interest. We refer to this
+particular paper since the authors propose a similar approach to ours
+in that they also add an imaginary-valued perturbation to the problem
+with the goal to increase the distance between the wanted and unwanted
+eigenvalues. However, they perturb the original problem and then solve
+this perturbed problem numerically. With our approach we would
+discretise the original operator first and only then apply our method.
 
 %%% Local Variables:
 %%% mode: latex
