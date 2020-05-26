@@ -10,7 +10,7 @@ As we have seen in the previous section, the first rigorous proof of
 the cubic convergence of RQI was given by Ostrowski~\cite{ostrowskiI}
 but over time a number of different, simpler proofs were presented.
 The one we give below follows closely the one given by
-Demmel~\cite[215 \psq]{demmel}.
+Demmel~\cite[215--216]{demmel}.
 
 \begin{theorem}[Cubic convergence]%
   \label{thm:rqi:cubic}
@@ -57,7 +57,7 @@ moment and change variables in RQI\footnote{Recall the notation from
 $\hat{\vec{x}} \coloneqq \mat{Q}^\tp \vec{x}$ and
 $\hat{\vec{y}} \coloneqq \mat{Q}^\tp \vec{y}$. Then
 \begin{equation*}
-  \mu^{(k)} = \mu = \rq_{\mat{A}}(\vec{x}) = \frac{
+  \mu = \rq_{\mat{A}}(\vec{x}) = \frac{
     \vec{x}^\tp \mat{A} \vec{x}
   }{
     \vec{x}^\tp \vec{x}
@@ -71,16 +71,14 @@ $\hat{\vec{y}} \coloneqq \mat{Q}^\tp \vec{y}$. Then
     \hat{\vec{x}}^\tp \hat{\vec{x}}
   } =
   \rq_{\mat{\Lambda}}(\hat{\vec{x}})
-  =
-  \rq_{\mat{\Lambda}}(\hat{\vec{x}}^{(k)})\,,
 \end{equation*}
 and
 $\mat{Q} \hat{\vec{y}}^{(k+1)} = {(\mat{A} -
   \mu^{(k)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(k)}$. Hence,
 \begin{align*}
   \hat{\vec{y}}^{(k+1)} &= \mat{Q}^\tp {(\mat{A} - \mu^{(k)}\mat{I})}^{-1}\mat{Q}\hat{\vec{x}}^{(k)} \\
-                        &= {(\mat{Q}^\tp \mat{A} \mat{Q} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)} =
-                          {(\mat{\Lambda} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)}\,,
+                        &= {(\mat{Q}^\tp \mat{A} \mat{Q} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)}\\
+                        &= {(\mat{\Lambda} - \mu^{(k)}\mat{I})}^{-1}\hat{\vec{x}}^{(k)}\,,
 \end{align*}
 where we used $\mat{Q}^\tp = \mat{Q}^{-1}$, the orthogonality of
 $\mat{Q}$. We see that running RQI with $\mat{A}$ and $\vec{x}^{(0)}$
@@ -151,7 +149,8 @@ of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
   and we see that
   $\mu^{(k)} = \lambda_1 - \eta = \lambda_1 + \mathcal{O}(\epsilon^2)$
   (note that this proves Lemma~\ref{lem:rq:quadestimate}, the
-  quadratic accuracy of the Rayleigh Quotient). We obtain
+  quadratic accuracy of the Rayleigh Quotient). We obtain \begingroup
+  \allowdisplaybreaks
   \begin{align*}
     \vec{y}^{(k+1)}&= {(\mat{\Lambda} - \mu^{(k)})}^{-1} \vec{x}^{(k)} \\
                    &= {\left(
@@ -181,13 +180,13 @@ of $\mat{A}$ are $\vec{e}_i$, the natural coordinate vectors.
                      \right)}^\tp \span \span \\
                    &\eqqcolon \frac{1 - \frac{\epsilon^2}{2}}{\eta}\, (\vec{e}_1 + \hat{\vec{d}}^{(k+1)})\,,
   \end{align*}
-  where in the first step we used that the inverse of a diagonal
-  matrix consists of the inverse of the entries on the diagonal. The
-  next step holds since $\vec{x}^{(k)} = \vec{e}_1 + \vec{d}^{(k)}$ by
-  assumption. After that we use that we can write
-  $\mu^{(k)} = \lambda_1 - \eta$ and $d^{(k)}_1 = -\epsilon^2/2$.  If
-  we denote again by $\delta$ the gap between $\lambda_1$ and the rest
-  of the spectrum, \ie
+  \endgroup where in the first step we used that the inverse of a
+  diagonal matrix consists of the inverse of the entries on the
+  diagonal. The next step holds since
+  $\vec{x}^{(k)} = \vec{e}_1 + \vec{d}^{(k)}$ by assumption. After
+  that we use that we can write $\mu^{(k)} = \lambda_1 - \eta$ and
+  $d^{(k)}_1 = -\epsilon^2/2$.  If we denote again by $\delta$ the gap
+  between $\lambda_1$ and the rest of the spectrum, \ie
   \begin{equation*}
     \delta \coloneqq \min_{j=2}^n \abs{\lambda_j - \lambda_1}\,,
   \end{equation*}
@@ -244,7 +243,7 @@ the Rayleigh Quotient together with convergence results from inverse
 iteration (since a single step of RQI is equivalent to a single step
 of inverse iteration with the Rayleigh Quotient of the current iterate
 vector chosen as the shift), see for example~\cite[208]{trefethen1997}
-or~\cite[89\psq]{boerm}.
+or~\cite[77--79]{boerm}.
 
 To conclude this section we briefly discuss some of the results
 concerning the global convergence behaviour of RQI. Essential for

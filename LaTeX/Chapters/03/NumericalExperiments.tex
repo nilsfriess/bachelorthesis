@@ -9,7 +9,7 @@ results throughout. All experiments were executed in Matlab
 9~\cite{MATLAB}. The criterion for convergence is
 $\norm*{\vec{r}^{(k)}} = \norm*{\mat{A}\vec{x}^{(k)} - \mu^{(k)}
   \vec{x}^{(k)}} < 10^{-9}$. The source codes for both classic and
-complex RQI can be found in Appendix~\ref{AppendixAlgorithms}. Note,
+complex RQI can be found in Appendix~\ref{AppendixAlgorithms}. Note
 that the methods are defined slightly differently from the Algorithms
 given above. They both allow to explicitly set the initial shifts
 $\mu^{(0)}$ and $\gamma^{(0)}$ to specific values whereas in
@@ -40,7 +40,7 @@ with all diagonal elements set to 2 and all off-diagonal elements set
 to 1. The eigenvalues of this matrix are all distinct and their exact
 values are known to be
 \begin{equation*}
-  \lambda_k = 4 \sin^2\left(\frac{\pi k}{2(n+1)} \right)
+  \lambda_k = 4 \sin^2\left(\frac{\pi k}{2(n+1)} \right)\,,
 \end{equation*}
 where $n$ denotes the order (\ie the number of rows) of the
 matrix~\cite[299--307]{wilkinson}. Thus, for every $n$, the
@@ -112,7 +112,7 @@ defined as
     & \ddots & \ddots & \ddots \\
     && -\mat{I} & \mat{T} & -\mat{I} \\
     &&& -\mat{I} & \mat{T}
-  \end{bmatrix}
+  \end{bmatrix}\,,
 \end{equation*}
 where $\mat{I}$ is the $m \times m$ identity matrix. Again, the
 eigenvalues can be computed analytically and all lie in an interval
@@ -418,7 +418,7 @@ to make CRQI fail for angles below $\pi / 4$. This substantiates the
 observation from the previous example that CRQI seems to be more
 robust when the eigenvalue is located near the centre of the
 spectrum. More imporantly, the observations seem to be independent of
-the size of the matrix and thus, independent of the spacing of the
+the size of the matrix and thus independent of the spacing of the
 eigenvalues.
 \end{example}
 
@@ -437,11 +437,10 @@ seems to not possess this property.
 \begin{example}\label{ex:its}%
   In Figure~\ref{fig:iteration_angle:mat1} we plotted the number of
   iterations against the initial error angle for classic RQI and
-  complex RQI, respectively. We also indicated whether or not the
-  computed eigenvalue was the correct one (indicated by a circle) or
-  not (indicated by a cross). The results using classic RQI are
-  slightly shifted upwards so that the results can be better
-  distinguished.
+  complex RQI, respectively. We also indicated whether the computed
+  eigenvalue was the correct one (indicated by a circle) or not
+  (indicated by a cross). The results using classic RQI are slightly
+  shifted upwards so that the results can be better distinguished.
   
   \begin{figure*}[htpb]
     \centering
@@ -488,7 +487,7 @@ seems to not possess this property.
 \end{example}
 
 We conclude this chapter with a summary of the findings. In general,
-it seems that the idea that we motivated in the last section works.
+it seems that the idea we motivated in the last section works.
 Complex RQI is much less dependent on the initial shift (\ie the
 Rayleigh Quotient of the initial vector) but rather depends on the
 initial vector which is precisely what the modification of the
@@ -497,16 +496,11 @@ as soon as the initial error angle is approximately below $45^\circ$
 the algorithm will always converge to the desired eigenpair. Since
 this behaviour did barely change throughout the different test cases,
 we conjecture that it is independent of the spacing of the
-eigenvalues. Although the method does generally require more
-iterations than classic RQI, its convergence properties are still
-appealing.
-
-Regarding the speed of the method we have seen that the method does in
-general require more iterations than classic RQI. However, it seems
-that is mainly the preasymptotic phase that takes more steps. As soon
-as the iterate is sufficiently good, convergence occurs in a similar
-number of steps as in classic RQI. This is confirmed in the last
-example.
+eigenvalues. Regarding the speed of the method we have seen that the
+method does in general require more iterations than classic
+RQI. However, it seems that it is mainly the preasymptotic phase that
+takes more steps. As soon as the iterate is sufficiently good,
+convergence occurs in a similar number of steps as in classic RQI.
 
 
 % In the following example we use CRQI to compute eigenvalues and

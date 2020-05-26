@@ -10,7 +10,7 @@ at each step.
     \rq_{\mat{A}} : \C^n \setminus \{\vec{0}\} \rightarrow \C, \qquad
     \vec{x} \mapsto \frac{\vec{x}^\herm \mat{A} \vec{x}}{\vec{x}^\herm \vec{x}}
   \end{equation*}
-  is called the \emph{Rayleigh Quotient} corresponding to the matrix
+  is called the Rayleigh Quotient corresponding to the matrix
   $\mat{A}$.\footnote{Other notations that are popular in the
     literature include $R_{\mat{A}}(\vec{x})$, $R(\mat{A}, \vec{x})$,
     $r_{\mat{A}}(\vec{x})$, $\sigma_{\mat{A}}(\vec{x})$ or
@@ -31,11 +31,11 @@ We begin by discussing some basic facts.
     $\rq_{\mat{A}}(\vec{v}) = \lambda$.
   \item
     $\rq_{\beta \mat{A}}(\alpha \vec{x}) = \beta
-    \rq_{\mat{A}}(\vec{x})$ \hfill (Homogeneity)
+    \rq_{\mat{A}}(\vec{x})$ \hfill \textup{(}Homogeneity\textup{)}
 
   \item
     $\rq_{\mat{A} - \alpha \mat{I}}(\vec{x}) = \rq_{\mat{A}}(\vec{x})
-    - \alpha$ \hfill (Translation invariance)
+    - \alpha$ \hfill \textup{(}Translation invariance\textup{)}
   \end{enumerate}
 \end{lemma}
 
@@ -107,7 +107,7 @@ We begin by discussing some basic facts.
 Although the Rayleigh Quotient might look arbitrary at first sight, it
 occurs naturally as the solution of a least squares minimisation
 problem. First note that if $(\lambda, \vec{v})$ is an eigenpair of
-$\mat{A}$ then
+$\mat{A}$, then
 \begin{equation*}
   \norm{\mat{A} \vec{v} - \lambda \vec{v}} = 0\,.
 \end{equation*}
@@ -120,7 +120,7 @@ the sense that
 This is a linear least squares problem in $\mu$ with normal equations
 (see, \eg~\cite[Theorem~6.12, p.~362]{friedberglinalg})
 \begin{equation*}
-  \left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right) \mu = \hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}
+  \left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right) \mu = \hat{\vec{v}}^\herm \mat{A} \hat{\vec{v}}\,,
 \end{equation*}
 and dividing by $\left( \hat{\vec{v}}^\herm \hat{\vec{v}} \right)$
 yields the solution
@@ -173,10 +173,10 @@ We now have a method that allows us to obtain an estimation of an
 \emph{eigenvalue} from an \emph{eigenvector}. With the Shifted Inverse
 Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for
 obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
-estimate. Rayleigh Quotient Iteration is essentially a combination of
-those two methods where each step consists of one step of Shifted
-Inverse Iteration and the computation of the Rayleigh Quotient. We
-summarise the results in Algorithm~\ref{alg:rqi}.
+estimate. RQI is essentially a combination of those two methods where
+each step consists of one step of Shifted Inverse Iteration and the
+computation of the Rayleigh Quotient. We summarise the results in
+Algorithm~\ref{alg:rqi}.
 \begin{algorithm}[htbp]
   \DontPrintSemicolon%
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
@@ -189,7 +189,7 @@ summarise the results in Algorithm~\ref{alg:rqi}.
   \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
 \end{algorithm}
 
-Note, that in the computation of the Rayleigh Quotient the division by
+Note that in the computation of the Rayleigh Quotient the division by
 ${(\vec{x}^{(k)})}^\ast \vec{x}^{(k)}$ can be omitted. The vector is
 already normalised at the previous step so that the denominator of the
 Rayleigh Quotient is equal to one.
@@ -218,7 +218,7 @@ an eigenpair we have $\vec{r}^{(k)} = \vec{0}$. For approximate
 eigenpairs we expect a small residual to imply small errors in these
 approximations.  Details on this residual-based error control can be
 found in~\cite[Section~3.2]{saad2011}
-or~\cite[Section~5.2]{boerm}. Here, we give only some important
+or~\cite[Section~4.3]{boerm}. Here, we give only some important
 results without proof. A popular result, usually referred to as the
 \emph{Bauer-Fike Theorem} (see, \eg\cite[59]{saad2011}) states that
 there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
@@ -229,13 +229,14 @@ there exists an eigenvalue $\lambda$ of $\mat{A}$ such that
 Thus, if the stopping criterion is fulfilled, we have
 $\abs*{\lambda - \mu^{(k)}} < \mathtt{tol}$.  For the eigenvector one
 can show~\cite[63]{saad2011} that the following bound holds
-\begin{equation*}
+\begin{equation}
+  \label{eq:angle:bound}
   \sin \angle(\vec{x}^{(k)}, \vec{v}) \le \frac{
     \norm{\vec{r}^{(k)}}
   }{
     \delta
   }\,,
-\end{equation*}
+\end{equation}
 where $\vec{v}$ is an eigenvector associated with $\lambda$ and
 $\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
 \ie
@@ -243,9 +244,10 @@ $\delta$ is the distance from $\mu^{(k)}$ to the rest of the spectrum,
   \delta \coloneqq \min_i\, \{ \abs*{\mu^{(k)} - \lambda_i} \ : \ \lambda_i \neq \lambda \} \,.
 \end{equation*}
 Thus, if the wanted eigenvalues and its neighbours are very close,
-$\delta$ is large and the eigenvector might not be accurate. Due to
-the cubic convergence of RQI (which we will discuss below) instead of
-stopping the iteration as soon as the criterion
+$\delta^{-1}$ and thus the right hand side of~\eqref{eq:angle:bound}
+is large and the eigenvector might not be accurate. Due to the cubic
+convergence of RQI (which we will discuss below) instead of stopping
+the iteration as soon as the criterion
 in~\eqref{eq:stopping_criterion} is fulfilled, we simply run another
 iteration. Often, the residual norm will then already be close to
 working accuracy and the eigenvector is sufficiently accurate. If more

@@ -18,7 +18,7 @@ Rayleigh~\cite[110]{rayleigh}, proposed the following iteration for
 improving an approximate eigenvector $\vec{x}^{(0)}$:
 \begin{equation}
   \label{eq:rayleigh:iteration}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I})\, \vec{x}^{(k+1)} = \vec{e}_1\,,
+  \text{``Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I})\, \vec{x}^{(k+1)} = \vec{e}_1\text{''}\,,
 \end{equation}
 where $\vec{e}_1$ denotes the first natural coordinate vector, \ie the
 first column of the identity matrix, and $\vec{x}^{(k)}$,
@@ -26,14 +26,14 @@ $\vec{x}^{(k+1)}$ denote the current and next iterate,
 respectively. In fact, Lord Rayleigh considered the generalised
 eigenvalue problem and so in his text, the iteration reads
 \begin{equation*}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{M})\, \vec{x}^{(k+1)} = \vec{e}_1\,.
+  \text{``Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{M})\, \vec{x}^{(k+1)} = \vec{e}_1\text{''}\,.
 \end{equation*}
 
 \paragraph{1949 --- \textsc{Kohn}}
 In a letter to the editor Walter Kohn~\cite{kohn} suggests the
 following iteration
 \begin{equation*}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{e}_m\,,
+  \text{``Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{e}_m\text{''}\,,
 \end{equation*}
 where $\vec{e}_m$ is \emph{any} of the natural coordinate
 vectors. Without a rigorous proof Kohn argues that
@@ -49,11 +49,11 @@ In a text communicated to the Royal Society of London Stephen
 Crandall~\cite{crandall} suggests
 \begin{equation}
   \label{eq:unnormalised:rqi}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}\,.
+  \text{``Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}\text{''}\,.
 \end{equation}
 Actually, Crandall also considered the generalised eigenproblem but
 for our comparative purposes it is sufficient to consider the case
-$\mat{M} = \mat{I}$. Note, that this algorithm is RQI without the
+$\mat{M} = \mat{I}$. Note that this algorithm is RQI without the
 normalisation step. Crandall establishes cubic convergence of the
 sequence of vector iterates and the approximate eigenvalue sequence
 $\rq_{\mat{A}}(\vec{x}^{(k)})$. His analysis is based on the
@@ -73,13 +73,11 @@ it belongs to, this implies
 \begin{equation*}
   \rq_{\mat{A}}(\vec{v}_j) = 1 + \rq_{\mat{A}}(\vec{v}_j)\,,
 \end{equation*}
-which is a contradiction.
-
-Also, Crandall establishes what is usually referred to as $r$-cubic
-convergence. This is a weaker notion of convergence than the one
-defined earlier, which is called $q$-cubic convergence
-(see~\cite[Appendix~A.1]{tapia2018} for a detailed definition of these
-notions of convergence).
+which is a contradiction. Also, Crandall establishes what is usually
+referred to as $r$-cubic convergence. This is a weaker notion of
+convergence than the one defined earlier, which is called $q$-cubic
+convergence (see~\cite[Appendix~A.1]{tapia2018} for a detailed
+definition of these notions of convergence).
 
 \paragraph{1957 -- 59 --- \textsc{Ostrowski}}
 Alexander Ostrowski published a series of six papers titled ``On the
@@ -92,7 +90,7 @@ term \emph{Rayleigh Quotient Iteration}.
 In the first paper the author suggests the iteration
 \begin{equation}
   \label{eq:rqi:ostrowski:first}
-  \text{Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \bm{\eta}\,,\quad \bm{\eta} \neq \vec{0}\,.
+  \text{``Solve}\quad (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \bm{\eta}\,,\quad \bm{\eta} \neq \vec{0}\text{''}\,.
 \end{equation}
 He rigorously establishes a \emph{quadratic} convergence rate for the
 sequence of Rayleigh Quotients $\rq_{\mat{A}}(\vec{x}^{(i)})$. He then
@@ -104,24 +102,24 @@ of~\eqref{eq:rqi:ostrowski:first} by the solution from the previous
 step
 \begin{equation}
   \label{eq:rqi:unnormalised:ostrowski}
-  (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(i)}) \mat{I}) \vec{x}^{(i+1)} = \vec{x}^{(i)}\,,
+  (\mat{A} - \rq_{\mat{A}}(\vec{x}^{(k)}) \mat{I}) \vec{x}^{(k+1)} = \vec{x}^{(k)}\,,
 \end{equation}
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
 sequence of Rayleigh Quotients
-$\mu_i \coloneqq \rq_{\mat{A}}(\vec{x}^{(i)})$, \ie
+$\mu_k \coloneqq \rq_{\mat{A}}(\vec{x}^{(k)})$, \ie
 \begin{equation}
   \label{eq:rqi:cubic}
   \frac{
-    \mu_{i+1} - \lambda
+    \mu_{k+1} - \lambda
   }{
-    {(\mu_i - \lambda)}^3
+    {(\mu_k - \lambda)}^3
   }
-  \longrightarrow \gamma \quad \text{ as } i \rightarrow \infty\,,
+  \longrightarrow M \quad \text{ as } k \rightarrow \infty\,,
 \end{equation}
-where $\lambda$ is an eigenvalue of $\mat{A}$ and $\gamma$ is a
-positive constant. Local convergence here means that $\vec{x}^{(0)}$
-is assumed to be near the eigenvector corresponding to $\lambda$.
+where $\lambda$ is an eigenvalue of $\mat{A}$ and $M$ is a positive
+constant. Local convergence means that $\vec{x}^{(0)}$ is assumed to
+be near the eigenvector corresponding to $\lambda$.
 
 Note that~\eqref{eq:rqi:unnormalised:ostrowski} is the same algorithm
 previously proposed by Crandall given in
@@ -204,40 +202,34 @@ unexpected.
     \end{equation*}
     This results in the eigenpair $(1, \vec{e}_1)$ although the
     Rayleigh Quotient of the initial shift is
+    $\rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729$.  Note,
+    however, that computing the angle between
+    $\vec{x}^{(0)}$ and the eigenvectors gives
     \begin{equation*}
-      \rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729\,.
-    \end{equation*}
-    Note, however, that computing the angle between $\vec{x}^{(0)}$
-    and the eigenvectors gives
-    \begin{equation*}
-      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.61575\,, \quad
-      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 1.57128\,, \quad
-      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 0.95504\,,
+      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.61\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 1.57\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 0.95\,,
     \end{equation*}
     that is, the angle between the initial vector and the resulting
     eigenvector is smallest.
-  \item Now take
+  \item Now take $\vec{x}^{(0)} = {\left( 0.74278,\ 0.55709,\
+        0.37139\right)}^\tp$.  The corresponding angles are
     \begin{equation*}
-      \vec{x}^{(0)} = {\left(
-          0.74278,\ 0.55709,\ 0.37139
-        \right)}^\tp\,.
+      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.73\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 0.97\,, \quad
+      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 1.19\,,
     \end{equation*}
-    The corresponding angles are
-    \begin{equation*}
-      \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.73358\,, \quad
-      \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 0.97992\,, \quad
-      \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 1.19029\,
-    \end{equation*}
-    and the initial shift is
-    $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx 1.7241$. In this case, RQI
-    converges to the eigenpair $(2, \vec{e}_2)$, \ie not the
-    eigenvector that makes the smallest angle with $\vec{x}^{(0)}$ but
-    rather the one that corresponds to the eigenvalue to which the
-    initial shift is closest.
+    and the initial shift is $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx
+    1.7241$. In this case, RQI converges to the eigenpair $(2,
+    \vec{e}_2)$, \ie not the eigenvector that makes the smallest angle
+    with
+    $\vec{x}^{(0)}$ but rather the one that corresponds to the
+    eigenvalue to which the initial shift is closest.
   \end{enumerate}
 \end{example}
 This example shows that there seems to be no obvious way how the
-computed eigenpair depends on $\vec{x}^{(0)}$ or
+computed eigenpair depends on
+$\vec{x}^{(0)}$ or
 $\rq_{\mat{A}}(\vec{x}^{(0)})$, and indeed the characterisation of the
 global convergence behaviour of RQI is not straightforward. In
 contrast, the local convergence behaviour is better
@@ -264,11 +256,11 @@ but the global convergence behaviour is possibly erratic).
 
 Recently, Rommes~\cite{rommes} derived sharper bounds for local
 convergence neighbourhoods. He compares RQI with a related algorithm,
-called the Dominant Pole Algorithm (DPA). Further, he observes that
-RQI does not take much advantage of the information in the initial
-vector $\vec{x}^{(0)}$. In other words, even if the initial vector is
-a very good approximation of the wanted eigenvector, RQI might
-fail. We will come back to this observation in the next chapter.
+called the Dominant Pole Algorithm. Further, he observes that RQI does
+not take much advantage of the information in the initial vector
+$\vec{x}^{(0)}$. In other words, even if the initial vector is a very
+good approximation of the wanted eigenvector, RQI might fail. We will
+come back to this observation in the next chapter.
 
 The task of identifying global convergence regions in terms of the
 initial vector seems to be more difficult. Parlett noted in 1980 that
@@ -288,8 +280,8 @@ factorise the matrix beforehand as was the case in inverse
 iteration. There are several obvious possibilities to reduce the cost
 such as to change the shift only occasionally. Sometimes, inverse
 iteration is run a fixed number of steps before changing the shift to
-the Rayleigh Quotient and Szyld's paper~\cite{szyld} that was
-mentioned above can also be interpreted as a method that reduces the
+the Rayleigh Quotient and Szyld's paper~\cite{szyld} that we mentioned
+above can also be interpreted as a method that reduces the
 computational cost for large problems. Another approach that was first
 studied for inverse iteration is to solve the linear system itself
 iteratively leading to an \emph{inexact shift-and-invert method}. The

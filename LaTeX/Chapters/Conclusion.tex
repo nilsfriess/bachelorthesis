@@ -1,11 +1,30 @@
 \chapter{Concluding Remarks}
-It goes without saying that the experiments we carried out to analyse
-the behaviour of CRQI do not replace a detailed mathematical
-analysis. Although our novel method is in essence only a slight
-modification of classic RQI, it seems unlikely that convergence
+In this thesis we proposed a novel shift-and-invert algorithm to
+compute an eigenpair of a real symmetric matrix. We reviewed some
+basic eigenvalue algorithms and classic RQI in the first and second
+chapter, respectively. We discussed some appealing convergence
+properties of RQI but we also saw that it seems to be difficult to
+predict its outcome in terms of the initial vector. In the third
+chapter, then, we introduced our new method which is designed to
+overcome this problem. In order to obtain a more predictable
+algorithm, we used the given eigenvector approximation to perturb the
+original problem such that the distance between the desired eigenvalue
+and its neighbours is increased. We derived bounds for the perturbed
+spectrum and saw that the distance is bigger the more accurate the
+initial eigenvector guess is. By applying RQI to this perturbed
+problem and then successively decreasing the perturbation, we defined
+CRQI, our novel method, which behaves much more predictable. This was
+illustrated by various numerical examples of which most had very
+closely spaced eigenvalues. In particular, we observed that the method
+computes the correct result once the initial error angle is below
+$45^\circ$.
+
+It goes without saying that the experiments do not replace a detailed
+mathematical analysis. Although our novel method is in essence only a
+slight modification of classic RQI, it seems unlikely that convergence
 results can be transferred easily due to the different behaviour of
 the two methods.  Nevertheless, because of the strong relation between
-the algorithms the results that we discussed in
+the algorithms, the results that we discussed in
 Chapter~\ref{chapter:rqi} could still serve as a starting point for
 future work. For instance, it could be studied to which extent the
 different results, \eg those characterising convergence
@@ -13,7 +32,7 @@ neighbourhoods, are still valid for CRQI.
 
 Although we tried to cover a variety of different problems similar to
 those that occur in real-life applications, the test matrices we used
-still represent only a small class of real-world problems. It should
+still represent only a limited class of real-world problems. It should
 thus be further examined how the method performs in different
 applications. As a particular example we suggest the computation of
 the eigenvalues of certain self-adjoint differential operators as

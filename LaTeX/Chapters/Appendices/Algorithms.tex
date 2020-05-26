@@ -5,7 +5,7 @@ function [x, e,
           eigval_iterates, residuals]
           = classic_rqi(a, x, e, tolerance)
 
-% CLASSIC_RQI   Computes an eigenpair of the matrix 'a' using the Rayleigh Quotient iteration. The vector 'x' is the initial vector, 'e' is the initial shift. The algorithm is run until the residual norm is greater than 'tolerance'. If 'e' is set to 'inf', the Rayleigh Quotient of the initial vector is used as the initial shift. If the last argument is omitted, 'tolerance' is set to 1e-9. The first two return arugemnts store the computed eigenvector and eigenvalue, respectively. The third contains the number of iterations, the remaining arguments store the intermediate results.
+% CLASSIC_RQI   Computes an eigenpair of the matrix 'a' using the Rayleigh Quotient iteration. The vector 'x' is the initial vector, 'e' is the initial shift. The algorithm is run until the residual norm is greater than 'tolerance'. If 'e' is set to 'inf', the Rayleigh Quotient of the initial vector is used as the initial shift. If the last argument is omitted, 'tolerance' is set to 1e-9. The first two return arguments store the computed eigenvector and eigenvalue, respectively. The third contains the number of iterations, the remaining arguments store the intermediate results.
           
     if nargin < 3
         error('Too few arguments');
@@ -44,7 +44,7 @@ function [x, e,
 end
 \end{lstlisting}
 
-\begin{lstlisting}[caption={Matlab code for complex Rayleigh Quotient Iteration}]
+\begin{lstlisting}[caption={Matlab code for Complex Rayleigh Quotient Iteration}]
 function [x, e,
           iterations, eigvec_iterates,
           eigval_iterates, residuals]

@@ -2,12 +2,10 @@
 \label{sec:iterative:algorithms}
 With the necessary facts from linear algebra at hand we can introduce
 some simple iterative methods for computing eigenpairs of symmetric
-matrices.
-
-We are always interested in how fast these methods produce good
-approximations of eigenvectors or eigenvalues (or both). The following
-definition provides us with a notion of the speed at which a sequence
-converges to its limit.
+matrices. We are always interested in how fast these methods produce
+good approximations of eigenvectors or eigenvalues (or both). The
+following definition provides us with a notion of the speed at which a
+sequence converges to its limit.
 
 \begin{definition}[Order of Convergence]
   Let ${(\vec{x}^{(k)})}_{k \in \N}$ be a sequence in $\C^n$ that
@@ -35,7 +33,7 @@ converges to its limit.
     for some $M > 0$. In particular, convergence with order
     \begin{itemize}
     \item $q = 2$ is called \emph{quadratic convergence},
-    \item $q = 3$ is called \emph{cubic convergence}
+    \item $q = 3$ is called \emph{cubic convergence},
     \end{itemize}
     etc.
   \end{enumerate}
@@ -206,7 +204,7 @@ Note, however, that a shift that is very close to an eigenvalue
 produces a very ill-conditioned linear system, and one might expect
 inverse iteration to fail in this case. Despite this seemingly obvious
 problem, in practice it was observed that the method produces good
-approximations. According to Parlett~\cite[84\psq]{Parlett1998}, it
+approximations. According to Parlett~\cite[84--85]{Parlett1998}, it
 was Wilkinson who elucidated why the ill-conditioning is not a problem
 in most cases. Suppose $\sigma \approx \lambda$ where $\lambda$ is an
 eigenvalue of $\mat{A}$ with corresponding eigenvector
@@ -218,9 +216,9 @@ system is solved in a backwards-stable way. For a detailed analysis of
 this problem,
 see~\cite[621--630]{wilkinson},~\cite[68--71]{Parlett1998}
 and~\cite{petersWilkinson}. This will become important again later
-when we discuss Rayleigh Quotient Iteration. There, the system that is
-solved gets increasingly ill-conditioned at each step but for the same
-reason as above, in practice this poses no problem.
+when we discuss RQI. There, the system that is solved gets
+increasingly ill-conditioned at each step but for the same reason as
+above, in practice this poses no problem.
 
 At each step in the shifted inverse iteration, better approximations
 for the target eigenvector are computed. There are different
@@ -258,15 +256,14 @@ faster/more likely to succeed in these cases. As we will see later,
 RQI is a suitable choice if we omit the last assumption, \ie for
 problems with well-separated eigenvalues. Since our novel method is
 based on RQI it is also suited for problems that fulfil the first
-three assumptions. Obviously, it is also adequate for problems with
-closely spaced eigenvalues since it is precisely designed for such
-problems.
+three assumptions. It is also adequate for problems with closely
+spaced eigenvalues since it is precisely designed for such problems.
 
-Apart from Rayleigh Quotient Iteration and our new method we do not
-discuss any other algorithms. For further discussion on the variants
-and developments of the different eigenvalue methods we refer to the
-historic survey~\cite{golub2000eigenvalue} and the references therein
-which include the classic monographs by Saad~\cite{saad2011} (that is
+Apart from RQI and our new method we do not discuss any other
+algorithms. For further discussion on the variants and developments of
+the different eigenvalue methods we refer to the historic
+survey~\cite{golub2000eigenvalue} and the references therein which
+include the classic monographs by Saad~\cite{saad2011} (that is
 concerned with large scale problems) and by Parlett~\cite{Parlett1998}
 (that considers the symmetric eigenvalue problem).
 %%% Local Variables:

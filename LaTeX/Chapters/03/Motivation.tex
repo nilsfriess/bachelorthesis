@@ -22,15 +22,13 @@ Due to the pairwise orthogonality of the eigenvectors this implies
     0 & \text{ if } j \neq k \,.
   \end{cases}
 \end{equation}
-As already mentioned previously, when using classic RQI even good
-approximations of eigenvectors can lead to convergence to the wrong
-eigenpair when the gap between the target eigenvalue and eigenvalues
-nearby is very small. We will see in
-Section~\ref{sec:crqi:experiments} that classic RQI seems to barely
-make use of the information incorporated in the initial vector.  The
-main goal of complex RQI is to fix this, \ie to alter classic RQI in
-such a way that for sufficiently good approximations of eigenvectors
-convergence to this very eigenvector is guaranteed.
+As mentioned previously, in classic RQI even good approximations of
+eigenvectors can lead to convergence to the wrong eigenpair. We will
+see in Section~\ref{sec:crqi:experiments} that classic RQI seems to
+barely make use of the information incorporated in the initial vector.
+The main goal of complex RQI is to fix this, \ie to alter classic RQI
+in such a way that for sufficiently good approximations of
+eigenvectors convergence to this very eigenvector is guaranteed.
 
 To that end, the linear system that is solved at each step in RQI is
 perturbed in such a way that the wanted eigenvalue gets
@@ -337,7 +335,7 @@ iteration. In practice, however, we observed that the final residual
 norm is still of the same order as the norm of the residual computed
 in the last iteration.
 
-Note, that although the step where the linear system is solved looks
+Note that although the step where the linear system is solved looks
 almost identical to the respective step in classic RQI, this algorithm
 is still different. The shift $\sigma^{(k)}$ is not the Rayleigh
 Quotient of the vector iterate $\vec{x}^{(k)}$ as is the case in
