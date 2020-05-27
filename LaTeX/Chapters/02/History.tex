@@ -1,9 +1,8 @@
 \section{History and Recent Developments}
 In this section we give an overview on the history of RQI. We also
 discuss recent contributions that are relevant to this thesis.  Some
-of the results, mainly the ones that are concerned with the
-convergence of RQI, are discussed in more detail in
-Section~\ref{sec:convergence}.
+of the results, mainly those concerned with the convergence of RQI,
+are discussed in more detail in Section~\ref{sec:convergence}.
 
 \subsection{Chronology of Rayleigh Quotient Iteration}
 It took about 60 years from the first mention of what is now called
@@ -107,13 +106,13 @@ step
 starting with an arbitrary non-zero vector $\vec{x}^{(0)}$. He then
 gives a rigorous proof of the local \emph{cubic} convergence of the
 sequence of Rayleigh Quotients
-$\mu_k \coloneqq \rq_{\mat{A}}(\vec{x}^{(k)})$, \ie
+$\mu^{(k)} \coloneqq \rq_{\mat{A}}(\vec{x}^{(k)})$, \ie
 \begin{equation}
   \label{eq:rqi:cubic}
   \frac{
-    \mu_{k+1} - \lambda
+    \mu^{(k+1)} - \lambda
   }{
-    {(\mu_k - \lambda)}^3
+    {(\mu^{(k)} - \lambda)}^3
   }
   \longrightarrow M \quad \text{ as } k \rightarrow \infty\,,
 \end{equation}
@@ -203,8 +202,8 @@ unexpected.
     This results in the eigenpair $(1, \vec{e}_1)$ although the
     Rayleigh Quotient of the initial shift is
     $\rq_{\mat{A}}(\vec{x}^{(0)}) = 2.000770218344729$.  Note,
-    however, that computing the angle between
-    $\vec{x}^{(0)}$ and the eigenvectors gives
+    however, that computing the angle between $\vec{x}^{(0)}$ and the
+    eigenvectors gives
     \begin{equation*}
       \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.61\,, \quad
       \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 1.57\,, \quad
@@ -212,24 +211,24 @@ unexpected.
     \end{equation*}
     that is, the angle between the initial vector and the resulting
     eigenvector is smallest.
-  \item Now take $\vec{x}^{(0)} = {\left( 0.74278,\ 0.55709,\
-        0.37139\right)}^\tp$.  The corresponding angles are
+  \item Now take
+    $\vec{x}^{(0)} = {\left( 0.74278,\ 0.55709,\ 0.37139\right)}^\tp$.
+    The corresponding angles are
     \begin{equation*}
       \angle(\vec{x}^{(0)}, \vec{e}_1) \approx 0.73\,, \quad
       \angle(\vec{x}^{(0)}, \vec{e}_2) \approx 0.97\,, \quad
       \angle(\vec{x}^{(0)}, \vec{e}_3) \approx 1.19\,,
     \end{equation*}
-    and the initial shift is $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx
-    1.7241$. In this case, RQI converges to the eigenpair $(2,
-    \vec{e}_2)$, \ie not the eigenvector that makes the smallest angle
-    with
-    $\vec{x}^{(0)}$ but rather the one that corresponds to the
-    eigenvalue to which the initial shift is closest.
+    and the initial shift is
+    $\rq_{\mat{A}}(\vec{x}^{(0)}) \approx 1.7241$. In this case, RQI
+    converges to the eigenpair $(2, \vec{e}_2)$, \ie not the
+    eigenvector that makes the smallest angle with $\vec{x}^{(0)}$ but
+    rather the one that corresponds to the eigenvalue to which the
+    initial shift is closest.
   \end{enumerate}
 \end{example}
 This example shows that there seems to be no obvious way how the
-computed eigenpair depends on
-$\vec{x}^{(0)}$ or
+computed eigenpair depends on $\vec{x}^{(0)}$ or
 $\rq_{\mat{A}}(\vec{x}^{(0)})$, and indeed the characterisation of the
 global convergence behaviour of RQI is not straightforward. In
 contrast, the local convergence behaviour is better

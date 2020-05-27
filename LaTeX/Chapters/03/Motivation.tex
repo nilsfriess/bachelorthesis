@@ -4,13 +4,13 @@ matrix $\mat{A} \in \R^{n \times n}$. Recall that since the
 eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$ of $\mat{A}$ form an
 orthonormal basis of $\R^n$ we can write every $\vec{u} \in \R^n$ as
 \[
-  \vec{u} = \sum_{i=1}^n \alpha_i \vec{v}_i
+  \vec{u} = \sum_{i=1}^n \beta_i \vec{v}_i
 \]
-for certain $\alpha_1, \dotsc, \alpha_n \in \R$. Suppose now that
+for certain $\beta_1, \dotsc, \beta_n \in \R$. Suppose now that
 $\vec{u}$ is a good approximation for one of the eigenvectors, say for
 $\vec{v}_k$. Then
 \[
-  \alpha_k \approx 1 \qquad \text{and} \qquad \alpha_j \approx 0 \
+  \beta_k \approx 1 \qquad \text{and} \qquad \beta_j \approx 0 \
   \text{ for } \ j \neq k \,.
 \]
 Due to the pairwise orthogonality of the eigenvectors this implies
@@ -70,7 +70,7 @@ the span of $\vec{u}$ approximates the orthogonal complement of the
 span of $\vec{v}_k$. Since the latter is the subspace spanned by the
 remaining eigenvectors, we expect that the eigenvectors of
 $\tilde{\mat{A}}$ are similar to those of $\mat{A}$ and that the
-eigenvalues corresponding to eigenvectors $\vec{v}_j$, $j \neq k$ to
+eigenvalues corresponding to eigenvectors $\vec{v}_j$, $j \neq k$, to
 approximately be $\lambda_j - i \gamma$. The eigenvalue corresponding
 to $\vec{v}_k$ would then be approximately equal to $\lambda_k$ since
 $\tilde{\mat{A}}\vec{v}_k \approx \mat{A}\vec{v}_k = \lambda_k
@@ -197,7 +197,7 @@ definition until later.
   \caption{Complex Rayleigh Quotient Iteration (first version)}\label{alg:crqi:first}
 \end{algorithm}
 
-As $\gamma^{(k)} \rightarrow 0$ then linear system that is solved at
+As $\gamma^{(k)} \rightarrow 0$ the linear system that is solved at
 each step becomes the same system as in classic RQI.\@ The remaining
 steps are essentially the same except that every transpose (\eg in the
 computation of the Rayleigh Quotient) has to be replaced by a complex
@@ -213,16 +213,16 @@ often requires merely three or four additional steps compared to
 classic RQI.
 
 Another problem seems to be that if $\mat{A}$ is sparse,
-$\tilde{\mat{A}}$ will in general not be sparse. In fact, the
-perturbed matrix will quite possibly posses only few, if any, zero
+$\tilde{\mat{A}}$ will in general not be. In fact, the perturbed
+matrix will quite possibly posses only few, if any, zero
 entries. Although this might seem like a serious disadvantage it will
 shortly be resolved. We will see that it is not necessary to perturb
 the matrix by $- i \gamma(\mat{I} - \vec{u}\vec{u}^\tp)$ but that it
 suffices to subtract from $\mat{A}$ the diagonal matrix
-$i \gamma \mat{I}$. The way that we introduced the method above was
-merely for motivational purposes. The resulting matrix is still
-complex symmetric but now only the diagonal entries are altered and
-sparsity is preserved. We begin with the following auxiliary result.
+$i \gamma \mat{I}$. The way we introduced the method above was merely
+for motivational purposes. The resulting matrix is still complex
+symmetric but now only the diagonal entries are altered and sparsity
+is preserved. We begin with the following auxiliary result.
 
 \begin{lemma}
   Define the matrices
@@ -233,7 +233,7 @@ sparsity is preserved. We begin with the following auxiliary result.
   and
   \begin{equation*}
     % \label{eq:rayleigh_quotient_proj}
-    \mat{C} \coloneqq { \mat{A} - i \gamma( \mat{I} - \vec{u} \vec{u}^\herm) - \mu \mat{I}} \,,
+    \mat{C} \coloneqq { \mat{A} - \mu \mat{I} - i \gamma( \mat{I} - \vec{u} \vec{u}^\herm) } \,,
   \end{equation*}
   where $\mu, \gamma > 0$ are positive real numbers. Then
   $\mat{B}^{-1} \vec{u}$ is a scalar multiple of
@@ -286,15 +286,15 @@ solving this system is equivalent to solving
 \end{equation}
 Hence, the solution of~\eqref{eq:crqi:linearsystem2} \emph{without}
 the factor $\alpha$ is a scalar multiple of the result obtained by
-solving the linear from Algorithm~\ref{alg:crqi:first}. Since the
-result gets normalised immediately after, both solutions will result
-in the same vector that is used in the next iteration. The Rayleigh
-Quotient that is computed using this vector consequently is the same
-in either of the variants.
+solving the linear system from Algorithm~\ref{alg:crqi:first}. Since
+the result gets normalised immediately after, both solutions will
+result in the same vector that is used in the next iteration. The
+Rayleigh Quotient that is computed using this vector consequently is
+the same in either of the variants.
 
 Thus, it does indeed suffice to perturb the matrix only by the
 diagonal matrix $-i \gamma^{(k)} \mat{I}$. We can collect the real
-shift $\mu^{(k)}$ and the imaginary shift $\gamma^{(k)} i$ into a
+shift $\mu^{(k)}$ and the imaginary shift $i \gamma^{(k)}$ into a
 complex-valued shift
 \begin{equation*}
   \sigma^{(k)} \coloneqq \mu^{(k)} + i\gamma^{(k)}
@@ -345,11 +345,11 @@ also not true since this matrix changes from one step to the next.
 Hence, we cannot expect that CRQI possesses the same appealing
 convergence properties as classic RQI. However, numerical examples
 suggest that convergence is still fast and often merely three or four
-additional steps are required compard to classic RQI. Moreover, we did
+additional steps are required compared to classic RQI. Moreover, we did
 not encounter an example where CRQI failed to converge to any
 eigenpair.
 
-This concludes the motivation part of this section. As mentioned in
+This concludes the motivation part of this chapter. As mentioned in
 the beginning of this thesis, our aim is not to provide a detailed
 mathematical analysis of the method. Instead, we discuss various
 numerical examples to demonstrate that the idea introduced above

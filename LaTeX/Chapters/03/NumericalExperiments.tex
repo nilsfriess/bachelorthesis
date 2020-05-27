@@ -3,10 +3,9 @@ The purpose of this section is twofold. First, we study various
 numerical examples to understand the behaviour of CRQI and demonstrate
 the good properties we already mentioned at the beginning of the
 chapter.  Second, we illustrate the erratic behaviour of classic RQI
-that we mentioned several times before. This is not done seperately
+that we mentioned several times before. This is not done separately
 but by running the same experiments for both methods and comparing the
-results throughout. All experiments were executed in Matlab
-9~\cite{MATLAB}. The criterion for convergence is
+results throughout. All experiments were executed in Matlab~9~\cite{MATLAB}. The criterion for convergence is
 $\norm*{\vec{r}^{(k)}} = \norm*{\mat{A}\vec{x}^{(k)} - \mu^{(k)}
   \vec{x}^{(k)}} < 10^{-9}$. The source codes for both classic and
 complex RQI can be found in Appendix~\ref{AppendixAlgorithms}. Note
@@ -25,9 +24,9 @@ have been used to evaluate shift-and-invert type algorithms and
 algorithms related to classic RQI, see, \eg\cite{dax2003} and the
 references therein. They are described below. Recall that we are
 particularly interested in problems with closely spaced eigenvalues
-and, except for the first two examples, all of the test matrices will
-lead to such problems. Since in three of the test problems the spacing
-even becomes closer the larger the matrix gets, we will also study the
+and, except for the first example, all of the test matrices will lead
+to such problems. Since in three of the test problems the spacing even
+becomes closer the larger the matrix gets, we will also study the
 algorithm's behaviour under increasing matrix size.
 
 \paragraph{Random matrices}
@@ -417,12 +416,12 @@ in the interior of the spectrum, however, it seemed almost impossible
 to make CRQI fail for angles below $\pi / 4$. This substantiates the
 observation from the previous example that CRQI seems to be more
 robust when the eigenvalue is located near the centre of the
-spectrum. More imporantly, the observations seem to be independent of
+spectrum. More importantly, the observations seem to be independent of
 the size of the matrix and thus independent of the spacing of the
 eigenvalues.
 \end{example}
 
-In essence, this example showsthat the idea from the previous section
+In essence, this example shows that the idea from the previous section
 does indeed yield the desired behaviour. The method seems to make more
 use of the information incorporated in the initial eigenvector
 guess. This is precisely the purpose of the modification of classic

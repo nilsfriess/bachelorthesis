@@ -1,22 +1,22 @@
 \chapter{Concluding Remarks}
 In this thesis we proposed a novel shift-and-invert algorithm to
-compute an eigenpair of a real symmetric matrix. We reviewed some
-basic eigenvalue algorithms and classic RQI in the first and second
-chapter, respectively. We discussed some appealing convergence
-properties of RQI but we also saw that it seems to be difficult to
-predict its outcome in terms of the initial vector. In the third
-chapter, then, we introduced our new method which is designed to
-overcome this problem. In order to obtain a more predictable
-algorithm, we used the given eigenvector approximation to perturb the
-original problem such that the distance between the desired eigenvalue
-and its neighbours is increased. We derived bounds for the perturbed
-spectrum and saw that the distance is bigger the more accurate the
-initial eigenvector guess is. By applying RQI to this perturbed
-problem and then successively decreasing the perturbation, we defined
-CRQI, our novel method. With various numerical examples we illustrated
-that CRQI behaves much more predictable. In particular, we observed
-that the method computes the correct result once the initial error
-angle is below $45^\circ$.
+compute an eigenpair of a real symmetric matrix. After reviewing some
+basic eigenvalue algorithms in the first chapter, we studied classic
+RQI in Chapter~\ref{chapter:rqi}. We discussed some appealing
+convergence properties of RQI but we also saw that it seems to be
+difficult to predict its outcome in terms of the initial vector. In
+the third chapter, then, we introduced our new method which is
+designed to overcome this problem. In order to obtain a more
+predictable algorithm, we used the given eigenvector approximation to
+perturb the original problem such that the distance between the
+desired eigenvalue and its neighbours is increased. We derived bounds
+for the perturbed spectrum and saw that the distance is bigger the
+more accurate the initial eigenvector guess is. By applying RQI to
+this perturbed problem and then successively decreasing the
+perturbation, we defined CRQI, our novel method. With various
+numerical examples we illustrated that CRQI behaves much more
+predictable. In particular, we observed that the method computes the
+correct result once the initial error angle is below $45^\circ$.
 
 It goes without saying that the experiments do not replace a detailed
 mathematical analysis. Although our novel method is in essence only a
@@ -45,8 +45,8 @@ particular paper since the authors propose a similar approach to ours
 in that they also add an imaginary-valued perturbation to the problem
 with the goal to increase the distance between the wanted and unwanted
 eigenvalues. However, they perturb the original problem and then solve
-this perturbed problem numerically. With our approach we would
-discretise the original operator first and only then apply our method.
+this perturbed problem numerically. With our approach, we would
+discretise the operator first and only then apply CRQI.
 
 %%% Local Variables:
 %%% mode: latex

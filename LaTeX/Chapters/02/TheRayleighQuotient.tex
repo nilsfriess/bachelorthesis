@@ -22,6 +22,7 @@ at each step.
 % \end{equation*}
 
 We begin by discussing some basic facts.
+\newpage
 \begin{lemma}%
   \label{lem:rq:properties}
   Let $\vec{x}\in \C^n \setminus \{ \vec{0} \}$,
@@ -170,13 +171,13 @@ Rayleigh Quotient is still an estimate of order one, \ie
 \end{equation*}
 
 We now have a method that allows us to obtain an estimation of an
-\emph{eigenvalue} from an \emph{eigenvector}. With the Shifted Inverse
-Iteration (Algorithm~\ref{alg:sii}) we have the converse: a method for
-obtaining an \emph{eigenvector} estimate from an \emph{eigenvalue}
-estimate. RQI is essentially a combination of those two methods where
-each step consists of one step of Shifted Inverse Iteration and the
-computation of the Rayleigh Quotient. We summarise the results in
-Algorithm~\ref{alg:rqi}.
+\emph{eigenvalue} from an \emph{eigenvector} estimate. With the
+Shifted Inverse Iteration (Algorithm~\ref{alg:sii}) we have the
+converse: a method for obtaining an \emph{eigenvector} estimate from
+an \emph{eigenvalue} estimate. RQI is essentially a combination of
+those two methods where each step consists of one step of Shifted
+Inverse Iteration and the computation of the Rayleigh Quotient. We
+summarise the results in Algorithm~\ref{alg:rqi}.
 \begin{algorithm}[htbp]
   \DontPrintSemicolon%
   \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
