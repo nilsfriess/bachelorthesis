@@ -1,0 +1,27 @@
+% master style file for zah scheme
+% by Bjoern Malte Schaefer, ITA/Heidelberg
+% Edited by Tim M. Tugendhat, ZAH/ARI, 19/10/2015
+% variation on the progressbar theme by Sylvain Bouveret <sylvain[dot]bouveret[aT]cert[DoT]fr>
+% based on LaTeX beamer by by Till Tantau <tantau@users.sourceforge.net>
+
+\ProvidesPackage{beamerthemezah}
+
+\mode<presentation>
+%%%%%%%%%%%%%%
+\usefonttheme{zah}
+\usecolortheme{zah}
+\useoutertheme{zah}
+
+%\useinnertheme{circles}
+\setbeamertemplate{itemize items}[circle]
+\setbeamertemplate{itemize item}{\raisebox{0.12ex}{$\bullet$}\hskip0.1em}
+\setbeamertemplate{itemize subitem}{\raisebox{0.12ex}{$\cdot$}\hskip0.1em}
+
+\setbeamerfont{itemize/enumerate body}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subbody}{size=\normalsize}
+\setbeamerfont{itemize/enumerate subsubbody}{size=\normalsize}
+%%%%%%%%%%%%%%
+
+\setbeamertemplate{blocks}[rounded]
+
+\mode<all>

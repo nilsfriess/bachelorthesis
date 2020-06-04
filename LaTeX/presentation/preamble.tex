@@ -1,0 +1,57 @@
+\setbeamertemplate{navigation symbols}{}
+
+\mode<presentation>
+{
+\usetheme{zah}
+\setbeamercovered{transparent}
+}
+
+\graphicspath{{figures/}}
+
+\usepackage[british]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
+
+% MATH PACKAGES
+\usepackage{mathtools}
+\usepackage{amsthm}
+\usepackage{amssymb}
+\usepackage{upgreek}
+\usepackage{bm}
+\usepackage{gensymb}
+
+% OTHER PACKAGES
+\usepackage[ruled,vlined,resetcount]{algorithm2e}
+\SetKwInput{KwData}{Input}
+\usepackage[labelformat=simple]{subcaption}
+\renewcommand\thesubfigure{(\alph{subfigure})}
+\usepackage{enumitem}
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{pdflscape}
+\usepackage{blindtext}
+\usepackage{float}
+\usepackage[framed]{matlab-prettifier}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+
+\lstset{
+  style              = Matlab-editor,
+  basicstyle         = \mlttfamily
+}
+
+\renewcommand{\thealgocf}{}
+
+%------------------------------------------------------
+%	ABBREVIATIONS
+% -----------------------------------------------------
+\newcommand{\ie}{i.\,e.,\ }
+\newcommand{\eg}{e.\,g.\ }
+\newcommand{\wrt}{w.\,r.\,t.\ }
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: "main" 
+%%% End:
+

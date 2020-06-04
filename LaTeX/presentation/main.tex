@@ -1,0 +1,110 @@
+\documentclass[mathserif]{beamer}
+
+\input{preamble}
+\input{mathsetup}
+
+\title{Using Complex Shifts in Rayleigh Quotient Iteration to Compute Close Eigenvalues}
+\author{{Nils Friess}}
+\titlegraphic{\vspace{1cm}\includegraphics[height = 0.23 \textheight]{unihei_logo_4c.eps}}
+
+\date{\today}
+
+\begin{document}
+{
+\setbeamertemplate{footline}{}
+\setbeamertemplate{headline}{} 
+\begin{frame}
+  \titlepage%
+\end{frame}
+}
+
+\newcommand{\tc}[1]{\raisebox{.5pt}{\textcircled{\raisebox{-.9pt}
+      {#1}}}} \addtocounter{framenumber}{-1}
+\begin{frame}
+  \frametitle{Contents}
+  Using Complex Shifts \hfill\only<4->{\tc{3}}\hspace*{4cm}
+  \\[2ex]
+  in Rayleigh Quotient Iteration \hfill\only<3->{\tc{2}}\hspace*{4cm}
+  \\[2ex]
+  to Compute Close Eigenvalues\only<2->{\hfill\tc{1}}\hspace*{4cm}
+\end{frame}
+
+\section{Symmetric Eigenvalue Problem}
+\begin{frame}
+  \frametitle{Symmetric Eigenvalue Problem}
+  We want to compute one eigenpair $(\lambda, \vec{v})$ of a real
+  symmetric $n \times n$ matrix $\mat{A}$
+  \begin{equation*}
+    \mat{A}\vec{v} = \lambda \vec{v}\,.
+  \end{equation*}
+  \\[4ex]
+  \uncover<2->{Assumptions}
+  \begin{enumerate}[label=(A\arabic*),leftmargin=30pt]
+  \item[(A1)]<2-> $\mat{A}$ is large and sparse.
+  \item[(A2)]<3-> A good approximation of $\vec{v}$ is available.
+  \item[(A3)]<4-> $\lambda$ lies in the interior of the spectrum.
+  \item[(A4)]<5-> The eigenvalues around $\lambda$ are closely spaced.
+  \end{enumerate}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Power method}
+  \begin{algorithm*}[H]
+    \DontPrintSemicolon
+    \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      $\vec{x}^{(k)} \gets \mat{A}\vec{x}^{(k-1)}$\;
+      Normalise $\vec{x}^{(k)}$\;
+    }
+    \caption{Power method}\label{alg:power:method}
+  \end{algorithm*}
+  \vspace*{4ex}%
+  % \renewcommand{\labelitemi}{$\bullet$}
+  \begin{itemize}
+  \item<2-> Converges to $\vec{v}_n$ under mild assumptions.
+  \item<3-> Converges linearly with rate
+    \[
+      \rho = \frac{\lambda_{n-1}}{\lambda_n}
+    \]
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Shifted Inverse Iteration}
+  \begin{algorithm*}[H]
+    \DontPrintSemicolon
+    \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
+    \For{$k = 1,2,\dotsc$ until convergence}{
+      Solve ${(\mat{A} - \mu \mat{I})}\vec{x}^{(k)} = \vec{x}^{(k-1)}$\;
+      Normalise $\vec{x}^{(k)}$\;
+    }
+    \caption{Shifted Inverse Iteration}\label{alg:sii}
+  \end{algorithm*}
+  \vspace*{4ex}%
+  % \renewcommand{\labelitemi}{$\bullet$}
+  \begin{itemize}
+  \item<2-> Converges to $\vec{v}_n$ under mild assumptions.
+  \item<3-> Converges linearly with rate
+    \[
+      \rho = \frac{\lambda_{n-1}}{\lambda_n}
+    \]
+  \end{itemize}
+\end{frame}
+
+\section{Classic RQI}
+\begin{frame}
+  \frametitle{RQI}
+  
+\end{frame}
+
+\section{Complex RQI}
+\begin{frame}
+  \frametitle{CRQI}
+  
+\end{frame}
+\end{document}
+
+%%% Local Variables:
+%%% mode: latex
+%%% TeX-master: t
+%%% End:

@@ -1,0 +1,63 @@
+% color style file for ita scheme
+% by Bjoern Malte Schaefer, ITA/Heidelberg
+% Edited by Tim M. Tugendhat, ZAH/ARI, 19/10/2015
+% variation on the progressbar theme by Sylvain Bouveret <sylvain[dot]bouveret[aT]cert[DoT]fr>
+% based on LaTeX beamer by by Till Tantau <tantau@users.sourceforge.net>
+
+\ProvidesPackage{beamercolorthemezah}
+\RequirePackage{unihdcolours}
+\selectcolormodel{rgb}
+\mode<presentation>
+
+% color definitions %
+\setbeamercolor*{normal text}{fg=black,bg=UniSand}
+\setbeamercolor*{alerted text}{fg=UniRed}
+\setbeamercolor*{example text}{fg=UniRed}
+\setbeamercolor*{structure}{fg=UniRed, bg=UniSand}
+\setbeamercolor*{author}{fg=black}
+\setbeamercolor*{institute}{fg=UniRed}
+
+\setbeamercolor*{title}{fg=black}
+
+%progressbar definitions%
+\setbeamercolor*{progressbar primary}{fg=UniRed, bg=white}
+\setbeamercolor*{progressbar secondary}{fg=UniRedOutline, bg=white}
+\setbeamercolor*{section}{fg=black, bg=black}
+
+
+% palette definitions %
+\setbeamercolor*{palette primary}{fg=black,bg=UniYellow}
+\setbeamercolor*{palette secondary}{fg=black,bg=black!25}
+\setbeamercolor*{palette tertiary}{fg=black,bg=black!30}
+\setbeamercolor*{palette quaternary}{fg=black,bg=darkgray}
+
+\setbeamercolor*{frametitle}{fg=UniSand,bg=UniRed}
+\setbeamercolor*{sidebar}{bg=UniRedOutline}
+
+\setbeamercolor*{palette sidebar primary}{fg=black}
+\setbeamercolor*{palette sidebar secondary}{fg=black}
+\setbeamercolor*{palette sidebar tertiary}{fg=black}
+\setbeamercolor*{palette sidebar quaternary}{fg=black}
+
+% enumeration
+\setbeamercolor*{item projected}{bg=UniRed,fg=UniSand}
+\setbeamercolor*{separation line}{}
+\setbeamercolor*{fine separation line}{}
+
+% itemization
+\setbeamercolor{item}{fg=UniRed,bg=UniSand}
+\setbeamercolor{subitem}{parent=item}
+\setbeamercolor{subsubitem}{parent=subitem}
+
+% block definitions %
+\setbeamertemplate{blocks}[rounded=true]
+\setbeamercolor{block title}{fg=UniRedOutline,bg=UniSand}
+\setbeamercolor{block title alerted}{fg=UniRed,bg=UniSand}
+\setbeamercolor{block title example}{fg=UniRed,bg=UniSand}
+
+\setbeamercolor{block body}{parent=normal text,use=block title,bg=block title.bg}
+\setbeamercolor{block body alerted}{parent=normal text,use=block title alerted,bg=block title alerted.bg!25!bg}
+\setbeamercolor{block body example}{parent=normal text,use=block title example,bg=block title example.bg!25!bg}
+
+\mode
+<all>
