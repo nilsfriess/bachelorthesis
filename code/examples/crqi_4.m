@@ -33,6 +33,3 @@ disp(['Init RQ: ', num2str(u'*W1*u)]);
 
 [x2, e2, its2, e_its2, x_its2, res2] = classic_rqi(W1, u, inf);
 
-
-
-

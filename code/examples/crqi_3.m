@@ -1,8 +1,8 @@
 clf;
 
-test = 5;
-size = 100;
-weight_target_max = 180;
+test = 4;
+size = 1000;
+weight_target_max = 120;
 
 y_d_min = 0.5;
 y_d_max = 0.5;
