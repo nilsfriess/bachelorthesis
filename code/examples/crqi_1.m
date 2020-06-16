@@ -1,8 +1,8 @@
 clf
 
-test = 1;
-size = 200;
-weight_target = 0;
+test = 4;
+size = 1000;
+weight_target = 20;
 
 [a,N] = test_matrix(test,size);
 
@@ -94,12 +94,12 @@ if its3 > maxits
 end
 
 % Plot residuals
-loglog(1:its1+1, res1, '-o'); hold on
-loglog(1:its2+1, res2, '-x')
-if includeV3
-    loglog(1:its3+1, res3, '-s')    
-end
-loglog(1:its4+1, res4, '-^')
+semilogy(1:its1+1, res1, '-o'); hold on
+%loglog(1:its2+1, res2, '-x')
+%if includeV3
+%    loglog(1:its3+1, res3, '-s')    
+%end
+semilogy(1:its4+1, res4, '-^')
 pbaspect([1 1 1])
 
 xlabel("Iteration"); ylabel("Residual norm");
@@ -111,23 +111,27 @@ else
     max_x = max([its1,its2,its4]);
 end
 
+max_x = max([its1, its4]);
+
 min_y = min([res1, res2, res3, res4])/100;
 max_y = max([res1, res2, res3 ,res4])*100;
 
 axis([0, max_x+2, min_y, max_y]);
 
-if includeV3
-    legend({'Classic RQI', ...
-            'Complex RQI (\gamma^{(k)} = r)', ...
-            'Complex RQI (\gamma^{(k)} = r^2)',...
-            'Complex RQI (\gamma^{(k)} adaptive)'}, ...
-            'Location', 'southwest');
-else
-    legend({'Classic RQI', ...
-            'Complex RQI (\gamma^{(k)} = r)', ...
-            'Complex RQI (\gamma^{(k)} adaptive)'}, ...
-            'Location', 'southwest');
-end
+legend({'Classic RQI', 'Complex RQI'});
+
+% if includeV3
+%     legend({'Classic RQI', ...
+%             'Complex RQI (\gamma^{(k)} = r)', ...
+%             'Complex RQI (\gamma^{(k)} = r^2)',...
+%             'Complex RQI (\gamma^{(k)} adaptive)'}, ...
+%             'Location', 'southwest');
+% else
+%     legend({'Classic RQI', ...
+%             'Complex RQI (\gamma^{(k)} = r)', ...
+%             'Complex RQI (\gamma^{(k)} adaptive)'}, ...
+%             'Location', 'southwest');
+% end
 
 
 %export_fig 'crqi_residuals.eps' -transparent

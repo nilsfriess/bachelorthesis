@@ -1,6 +1,6 @@
 \documentclass[mathserif]{beamer}
 
-\usepackage{pgfpages}
+%\usepackage{pgfpages}
 %\setbeameroption{show notes on second screen=bottom} % Both
 
 \input{preamble}
@@ -31,41 +31,23 @@
   \setbeamertemplate{headline}{}
   \begin{frame}
     \frametitle{Contents}
-    Using Complex Shifts \hfill\only<4->{\tc{3}}\hspace*{4cm}
-    \\[2ex]
-    in Rayleigh Quotient Iteration
-    \hfill\only<3->{\tc{2}}\hspace*{4cm}
-    \\[2ex]
-    to Compute Close Eigenvalues\only<2->{\hfill\tc{1}}\hspace*{4cm}
-
-
-    \note{
-      \begin{itemize}
-      \item We pick apart the title. From bottom to top: Want to
-        compute eigenvalues, so to make sure that everyone is one the
-        same page, go over some basic algorithms + define the actual
-        type of problem we are interested in (wide variety of
-        eigenvalue algorithms)
-      \item On step above we have ``in Rayleigh Quotient
-        Iteration''. RQI is a simple eigenvalue algorithm that is most
-        known for its fast convergence. It converges cubically and we
-        will later see what this exactly means.
-      \item Finally, we have ``Using complex shifts''. In this last
-        part I present a modification
-      \end{itemize}
-    }
+    \begin{itemize}\setlength\itemsep{2em}
+    \item Using Complex Shifts
+    \item in Rayleigh Quotient Iteration
+    \item to Compute Close Eigenvalues
+    \end{itemize}
   \end{frame}
 }
 
 \begin{frame}
   \begin{center}
-    \includegraphics[width=0.6\textwidth]{figures/plots/withoutCRQI}
+    \includegraphics[width=0.6\textwidth]{figures/png/withoutCRQI}
   \end{center}
 \end{frame}
 
 \begin{frame}
   \begin{center}
-    \includegraphics[width=0.6\textwidth]{figures/plots/withCRQI}
+    \includegraphics[width=0.6\textwidth]{figures/png/withCRQI}
   \end{center}
 \end{frame}
 
@@ -76,106 +58,85 @@
   \begin{equation*}
     \mat{A}\vec{v} = \lambda \vec{v}\,.
   \end{equation*}
-  % \\[4ex]
-  % \uncover<2->{Assumptions}
-  % \begin{enumerate}[label=(A\arabic*),leftmargin=30pt]
-  % \item[(A1)]<2-> $\mat{A}$ is large and sparse.
-  % \item[(A2)]<3-> A good approximation of $\vec{v}$ is available.
-  % \item[(A3)]<4-> $\lambda$ lies in the interior of the spectrum.
-  % \item[(A4)]<5-> The eigenvalues around $\lambda$ are closely
-  %   spaced.
-  % \end{enumerate}
-\end{frame}
 
-\begin{frame}
-  \frametitle{Properties}
-  \begin{itemize}
-  \item The eigenvalues $\lambda_1, \dotsc, \lambda_n$ of
-    $\mat{A}$ are real\\[3ex]
-  \item The eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$ of
-    $\mat{A}$ are real\\[3ex]
-  \item The eigenvectors form an orthogonal basis of $\R^n$
-  \end{itemize}
-  
-  % \pause %
-  % \vspace*{2ex}%
+  \vspace*{3ex}%
+  \begin{theorem}
+    \begin{itemize}[label={$\blacktriangleright$}]
+    \item The eigenvalues $\lambda_1, \dotsc, \lambda_n$ of
+      $\mat{A}$ are real.\\[1em]
+    \item The eigenvectors $\vec{v}_1, \dotsc, \vec{v}_n$ of
+      $\mat{A}$ are real.\\[1em]
+    \item The eigenvectors form an orthogonal basis of\, $\R^n$.
+    \end{itemize}
+  \end{theorem}
 \end{frame}
 
 \begin{frame}
   \begin{algorithm*}[H]
     \setstretch{1.35}%
     \DontPrintSemicolon \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
-    \For{$k = 1,2,\dotsc$ until convergence}{
-      $\vec{x}^{(k)} \gets \mat{A}\vec{x}^{(k-1)}$\; Normalise
-      $\vec{x}^{(k)}$\; }
+    \For{$k = 0,1,\dotsc$ until convergence}{
+      $\vec{x}^{(k+1)} \gets \mat{A}\vec{x}^{(k)}$\; Normalise
+      $\vec{x}^{(k+1)}$\; }
     \caption{Power method}\label{alg:power:method}
   \end{algorithm*}
-  \vspace*{4ex}%
-  \begin{itemize}
-  \item<2-> Converges linearly to $\vec{v}_n$ with rate
-    \[
-      \rho = \frac{\abs{\lambda_{n-1}}}{\abs{\lambda_n}}\,.
-    \]
-  \end{itemize}
 \end{frame}
 
 \begin{frame}
-  Eigenvalues of $\mat{A}^{-1}$ are
-  $\displaystyle \frac{1}{\lambda_i}$.
-
-  \pause%
-  \vspace*{3ex}%
-  Eigenvalues of $\mat{A} - \mu\mat{I}$ are $\lambda_i - \mu$.
-
-  \pause%
-  \vspace*{7ex}%
-  Eigenvalues of ${(\mat{A} - \mu\mat{I})}^{-1}$ are
-  $\displaystyle \frac{1}{\lambda_i - \mu}$.
+  \begin{theorem}
+    \begin{itemize}[label={$\blacktriangleright$}]
+      \setlength\itemsep{1em}
+    \item The eigenvalues of $\mat{A}^{-1}$ are
+      $\displaystyle \frac{1}{\lambda_i}$.
+    \item The eigenvalues of $\mat{A} - \mu\mat{I}$ are
+      $\lambda_i - \mu$.  \setlength\itemsep{2em}
+    \item The eigenvalues of ${(\mat{A} - \mu\mat{I})}^{-1}$ are
+      $\displaystyle \frac{1}{\lambda_i - \mu}$.
+    \end{itemize}
+  \end{theorem}
 \end{frame}
 
 \begin{frame}
   \begin{algorithm*}[H]
     \setstretch{1.35}%
     \DontPrintSemicolon \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
-    \For{$k = 1,2,\dotsc$ until convergence}{ Solve
-      ${(\mat{A} - \sigma \mat{I})}\vec{x}^{(k)} = \vec{x}^{(k-1)}$\;
-      Normalise $\vec{x}^{(k)}$\; }
-    \caption{Shifted Inverse Iteration}\label{alg:sii}
+    \For{$k = 0,1,\dotsc$ until convergence}{ Solve
+      ${(\mat{A} - \mu \mat{I})}\vec{x}^{(k+1)} = \vec{x}^{(k)}$\;
+      Normalise $\vec{x}^{(k+1)}$\; }
+    \caption{Shifted Inverse Iteration}
   \end{algorithm*}
-  \vspace*{4ex}%
-  % \renewcommand{\labelitemi}{$\bullet$}
-  \begin{itemize}
-  \item
-  \item<2-> Converges linearly to with rate
-    \[
-      \rho = \frac{\abs{\mu_1 - \sigma}}{\abs{\mu_2 - \sigma}}\,.
-    \]
-  \end{itemize}
 \end{frame}
 
 \section{Classic RQI}
+\begin{frame}
+  Rayleigh Quotient
+  \begin{equation*}
+    \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp  \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}
+    \uncover<2->{
+      = \argmin_{\mu \in \C}\norm{\mat{A}\vec{x} - \mu \vec{x}}
+    }
+  \end{equation*}
+\end{frame}
+
 \begin{frame}
   \begin{columns}[t]
     \begin{column}{0.5\textwidth}
       Eigenvector approximation from eigenvalue approximation?
       \\[4ex]
-      \uncover<2->{Shifted Inverse Iteration}
+      $\blacktriangleright$\ Shifted Inverse Iteration
     \end{column}%
     \begin{column}{0.5\textwidth}
       Eigenvalue approximation from eigenvector approximation?
       \\[4ex]
-      \uncover<3->{%
-        Rayleigh Quotient
-        \begin{equation*}
-          \rq_{\mat{A}}(\vec{x}) = \frac{\vec{x}^\tp  \mat{A} \vec{x}}{\vec{x}^\tp \vec{x}}
-        \end{equation*}
-      }
+      $\blacktriangleright$\ Rayleigh Quotient
     \end{column}
   \end{columns}
-  \visible<4->{%
+  \visible<2->{%
     % \begin{center}
     %   \includegraphics[width=0.2\textwidth]{figures/arrows}
     % \end{center}
+    
+    \vspace*{1cm}
     \begin{center}
       \begin{tikzpicture}
         \node[inner sep=0pt] at (0,0)%
@@ -187,16 +148,6 @@
 \end{frame}
 
 \begin{frame}
-  \begin{equation*}
-    \rq_{\mat{A}}(\vec{x}) = \argmin_{\mu \in \C}\norm{\mat{A}\vec{x} - \mu \vec{x}}
-  \end{equation*}
-  \\[4ex]%
-  \begin{equation*}
-    \text{Eigenpair $(\lambda, \vec{v})$:\qquad}%
-    \abs{\rq_{\mat{A}}(\vec{x}) - \lambda} = \mathcal{O}\left(\norm{\vec{x} - \vec{v}}^2\right)
-  \end{equation*}
-\end{frame}
-\begin{frame}
   \begin{columns}
     \begin{column}{0.75\textwidth}
       \begin{algorithm*}[H]
@@ -204,14 +155,15 @@
         \DontPrintSemicolon%
         \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
         $\mu^{(0)} \gets {\left(\vec{x}^{(0)}\right)}^\tp \mat{A}
-        \vec{x}^{(0)}$ \; \For{$k = 1,2, \dotsc$ until convergence}{
+        \vec{x}^{(0)}$ \;%
+        \For{$k = 0,1, \dotsc$ until convergence}{%
           Solve
-          ${\left( \mat{A} - \mu^{(k)} \mat{I}\right)} \vec{y}^{(k)} =
-          \vec{x}^{(k-1)}$ for $\vec{y}^{(k)}$\;
-          $\vec{x}^{(k)} \gets \vec{y}^{(k)} / \norm{\vec{y}^{(k)}}$\;
-          $\mu^{(k)} \gets {\left(\vec{x}^{(k)}\right)}^\tp \mat{A}
-          \vec{x}^{(k)}$ \; }
-        \caption{Rayleigh Quotient Iteration}\label{alg:rqi}
+          ${\left( \mat{A} - \mu^{(k)} \mat{I}\right)} \vec{x}^{(k+1)}
+          = \vec{x}^{(k)}$ for $\vec{x}^{(k+1)}$\; Normalise
+          $\vec{x}^{(k+1)}$\;
+          $\mu^{(k+1)} \gets {\left(\vec{x}^{(k+1)}\right)}^\tp
+          \mat{A} \vec{x}^{(k+1)}$ \; }
+        \caption{Rayleigh Quotient Iteration}
       \end{algorithm*}
     \end{column}
     \begin{column}{0.25\textwidth}
@@ -224,18 +176,12 @@
 \end{frame}
 
 \begin{frame}
-  \begin{itemize}
+  \begin{itemize}[label={$\blacktriangleright$}]
     \setlength\itemsep{2em}
-  \item Converges locally cubically
-    \begin{itemize}
-    \item<2-> $\blacktriangleright$ Correct digits triple
-    \end{itemize}
+  \item Cubic convergence
   \item Converges for almost all starting vectors
-    \begin{itemize}
-    \item<3-> $\blacktriangleright$ Impossible to fail in practice
-    \end{itemize}
   \end{itemize}
-  \vspace*{6ex} \visible<4->{
+  \vspace*{6ex} \visible<2->{
     \begin{block}{\vspace*{-3ex}}
       \begin{center}
         Convergence behaviour can be erratic
@@ -248,7 +194,7 @@
   \begin{columns}
     \begin{column}{0.4\textwidth}
       \begin{center}
-        \includegraphics[width=\textwidth]{figures/plots/withCRQI}
+        \includegraphics[width=\textwidth]{figures/png/withCRQI}
       \end{center}
     \end{column}%
     \begin{column}{0.5\textwidth}
@@ -262,59 +208,180 @@
 
 \section{Complex RQI}
 \begin{frame}
-  Idea: Perturb original problem to increase distance between
-  eigenvalues.
-  \\[4ex]
-  \uncover<2->{ Suppose $\vec{u} \approx \vec{v}_k$.
-    \begin{equation*}
-      \mat{A} \quad \longrightarrow \quad \mat{A} - i \gamma(\mat{I} - \vec{u} \vec{u}^\tp)
-    \end{equation*}
-  }
-\end{frame}
-
-\begin{frame}
-  Suppose $\vec{u} \approx \vec{v}_k$. Set
-  $\tilde{\mat{A}} = \mat{A} - i \gamma(\mat{I} - \vec{u}
-  \vec{u}^\tp)$.
-  
-  \pause%
-  \vspace*{3ex}%
-  Vector $\vec{x}$ that is almost parallel to $\vec{u}$:
+  Suppose $\vec{u} \approx \vec{v}_k$.
   \begin{equation*}
-    \tilde{\mat{A}} \vec{x} = \mat{A}\vec{x} - i \gamma (\vec{x} - \vec{u}
-    \underbrace{\vec{u}^\tp \vec{x}}_{\approx 1}) \approx \mat{A} \vec{x}\,.
+    \mat{A} \quad \longrightarrow \quad \mat{A} - i
+    \gamma(\mat{I} - \vec{u} \vec{u}^\tp) \eqqcolon \tilde{\mat{A}}
   \end{equation*}
 
-  \vspace*{3ex}%
-  Vector $\vec{y}$ that is almost perpendicular to $\vec{u}$:
-  \begin{equation*}
-    \tilde{\mat{A}} \vec{y} = \mat{A}\vec{y} - i \gamma (\vec{y} - \vec{u}
-    \underbrace{\vec{u}^\tp \vec{y}}_{\approx 0}) \approx (\mat{A} - i \gamma \mat{I})\vec{y}\,.
-  \end{equation*}
-\end{frame}
+  \vspace*{3em}%
 
-\begin{frame}
-  Eigenvectors and eigenvalues of $\tilde{\mat{A}}$:
-  \begin{align*}
-    \tilde{\mat{A}}\vec{v}_k &\approx \mat{A} \vec{v}_k = \lambda_k \vec{v}_k \\[1em]
-    \tilde{\mat{A}}\vec{v}_j &\approx (\mat{A} - i \gamma \mat{I})\vec{v}_j = (\lambda_j - i \gamma) \vec{v}_j
-  \end{align*}
+  % \begin{overprint}[\textwidth]%
+  %   \onslide<2>%
   \visible<2->{
     \begin{center}
-      \includegraphics[width=0.85\textwidth]{figures/perturbed_spectrum}
+      \includegraphics[width=\textwidth]{figures/png/perturbed_spectrum}
     \end{center}
   }
+  
+  % \onslide<3>%
+  % Eigenvalues of $\tilde{\mat{A}}$:
+  % \begin{equation*}
+  %     \tilde{\mat{A}} \vec{v}_k = \mat{A}\vec{v}_k - i \gamma (\vec{v}_k - \vec{u}
+  %     \underbrace{\vec{u}^\tp \vec{v}_k}_{\approx 1}) \approx \mat{A} \vec{v}_k = \lambda_k \vec{v}_k\,.
+  %   \end{equation*}
+
+  %   \vspace*{1em}%
+  %   \begin{align*}
+  %     \tilde{\mat{A}} \vec{v}_j = \mat{A}\vec{v}_j - i \gamma (\vec{v}_j - \vec{u}
+  %     \underbrace{\vec{u}^\tp \vec{v}_j}_{\approx 0}) &\approx (\mat{A} - i \gamma \mat{I})\vec{v}_j \\
+  %                                                     &= (\lambda_j - i\gamma\mat{I})\vec{v}_j \,.
+  %   \end{align*}
+  % \end{overprint}
+\end{frame}
+
+% \begin{frame}
+%   \vspace*{2em}
+%   \begin{center}
+%     \includegraphics[width=\textwidth]{figures/perturbed_spectrum}
+%   \end{center}
+% \end{frame}
+
+\begin{frame}
+  \begin{overprint}[\textwidth]%
+    \onslide<1>%
+    \begin{algorithm*}[H]
+      \DontPrintSemicolon%
+      \For{$k = 0,1,\dotsc$ until convergence}{%
+        Solve
+        $\left( \mat{A} - i \gamma\left(\mat{I} - \vec{u}{\vec{u}}^\tp
+          \right) - \mu^{(k)}\mat{I} \right) \vec{x}^{(k+1)} =
+        \vec{x}^{(k)}$\; Normalise $\vec{x}^{(k+1)}$\;
+        $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A}
+        \vec{x}^{(k+1)}$\; }
+      \caption{Complex RQI (first version)}
+    \end{algorithm*}
+    \onslide<2>%
+    \begin{algorithm*}[H]
+      \DontPrintSemicolon%
+      \For{$k = 0,1,\dotsc$ until convergence}{%
+        Solve
+        $\left( \mat{A} - i \gamma^{(k)}\left(\mat{I} - \vec{x}^{(k)}
+            {(\vec{x}^{(k)})}^\ast \right) - \mu^{(k)}\mat{I} \right)
+        \vec{x}^{(k+1)} = \vec{x}^{(k)}$\; Normalise
+        $\vec{x}^{(k+1)}$\;
+        $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A}
+        \vec{x}^{(k+1)}$\;
+        $\gamma^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I})
+          \vec{x}^{(k+1)}}$\; }
+      \caption{Complex RQI (first version)}
+    \end{algorithm*}
+  \end{overprint}
+\end{frame}
+
+\begin{frame}
+  \begin{theorem}
+    It suffices to use
+    \begin{equation*}
+      \tilde{\mat{A}} = \mat{A} - i \gamma^{(k)} \mat{I}
+    \end{equation*}
+    instead of
+    \begin{equation*}
+      \tilde{\mat{A}} = \mat{A} - i \gamma^{(k)} (\mat{I} - \vec{x}^{(k)} {(\vec{x}^{(k)})}^\ast)\,.
+    \end{equation*}
+  \end{theorem}
+\end{frame}
+
+\begin{frame}
+  \begin{algorithm*}[H]
+    \DontPrintSemicolon%
+    \KwData{Nonzero unit vector $\vec{x}^{(0)}$}
+    $\mu^{(0)} \gets {(\vec{x}^{(0)})}^\tp \mat{A} \vec{x}^{(0)}$\;
+    $\gamma^{(0)} \gets \norm*{(\mat{A} - \mu^{(0)}\mat{I})
+      \vec{x}^{(0)}}$\;
+    $\sigma^{(0)} \gets \mu^{(0)} + i \gamma^{(0)}$\;
+    \For{$k = 0,1,\dotsc$ until convergence}{ Solve
+      $( \mat{A} - \sigma^{(k)}\mat{I}) \vec{x}^{(k+1)} =
+      \vec{x}^{(k)}$\; Normalise $\vec{x}^{(k+1)}$\;
+      $\mu^{(k+1)} \gets {(\vec{x}^{(k+1)})}^\herm \mat{A}
+      \vec{x}^{(k+1)}$\;
+      $\gamma^{(k+1)} \gets \norm*{(\mat{A} - \mu^{(k+1)}\mat{I})
+        \vec{x}^{(k+1)}}$\;
+      $\sigma^{(k+1)} \gets \mu^{(k+1)} + i \gamma^{(k+1)}$\; }
+    $\vec{x} \gets \operatorname{Re}({\vec{x}^{(k+1)}})$\;
+    $\vec{x} \gets \vec{x} / \norm*{\vec{x}}$\;
+    $\mu \gets \vec{x}^\tp \mat{A} \vec{x}$
+    \caption{Complex Rayleigh Quotient Iteration}
+  \end{algorithm*}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \includegraphics[width=0.95\textwidth]{figures/png/angles1}
+      \end{center}
+    \end{column}%
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \includegraphics[width=0.95\textwidth]{figures/png/angles2}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \begin{center}
+    \includegraphics[width=0.7\textwidth]{figures/png/residuals}
+  \end{center}
+\end{frame}
+
+\begin{frame}
+  \begin{columns}
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \includegraphics[width=0.95\textwidth]{figures/png/its1}
+      \end{center}
+    \end{column}%
+    \begin{column}{0.5\textwidth}
+      \begin{center}
+        \includegraphics[width=0.95\textwidth]{figures/png/its2}
+      \end{center}
+    \end{column}
+  \end{columns}
+\end{frame}
+
+\begin{frame}
+  \frametitle{Summary}
+  \begin{itemize}[label={$\blacktriangleright$}]
+    \setlength\itemsep{1em}
+  \item Unpredictability of classic RQI
+  \item Complex RQI succeeds for error angles below
+    45${}^\circ$
+  \item More iterations than classic RQI but still fast
+  \end{itemize}
+  \pause%
+  \vspace*{3em}
+  \begin{itemize}[label={$\blacktriangleright$}]
+    \setlength\itemsep{1em}
+  \item Theoretical analysis
+  \item Other test problems
+  \end{itemize}
+\end{frame}
+
+\begin{frame}
+  
 \end{frame}
 
 \begin{frame}
   Write
-  $\tilde{\mat{A}} =\tilde{\mat{A}}_{(0)} + \tilde{\mat{A}}_{(1)}$
-  with
+  $\tilde{\mat{A}} = \mat{A} - i \gamma(\mat{I} - \vec{u} \vec{u}^\tp)
+  =\tilde{\mat{A}}_{(0)} + \tilde{\mat{A}}_{(1)}$ with
   \begin{align*}
     \tilde{\mat{A}}_{(0)} &\coloneqq \mat{A} - i \gamma(\mat{I}- \vec{v}_k \vec{v}_k^\tp)\\[1em]
     \tilde{\mat{A}}_{(1)} &\coloneqq i \gamma ( \vec{u} \vec{u}^\tp - \vec{v}_k\vec{v}_k^\tp)
   \end{align*}
-  \pause
+  \pause%
   \begin{theorem}
     \begin{equation*}
       \lambda_j(\tilde{\mat{A}}) =
@@ -329,18 +396,7 @@
     \end{equation*}
   \end{theorem}
 \end{frame}
-
-% \section{Classic RQI}
-% \begin{frame}
-%   \frametitle{RQI}
-  
-% \end{frame}
-
-% \section{Complex RQI}
-% \begin{frame}
-%   \frametitle{CRQI}
-  
-% \end{frame}
+ 
 \end{document}
 
 %%% Local Variables:
